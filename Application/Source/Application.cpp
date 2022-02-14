@@ -144,10 +144,10 @@ void Application::Run()
 {
 	//Main Loop
 	Scene* scene1 = new SceneAssignment2();
-	//Scene* scene2 = new SceneUI();
+	Scene* scene2 = new SceneUI();
 	Scene* scene = scene1;
 	scene1->Init();
-	//scene2->Init();
+	scene2->Init();
 
 	//Scene* scene = new SceneUI();
 	//scene->Init();
@@ -155,10 +155,10 @@ void Application::Run()
 
 	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
 	{
-		//if (IsKeyPressed(VK_F1))
-		//	scene = scene1;
-		//else if (IsKeyPressed(VK_F2))
-		//	scene = scene2;
+		if (IsKeyPressed(VK_F1))
+			scene = scene1;
+		else if (IsKeyPressed(VK_F2))
+			scene = scene2;
 
 		scene->Update(m_timer.getElapsedTime());
 		scene->Render();
@@ -170,9 +170,9 @@ void Application::Run()
 
 	} //Check if the ESC key had been pressed or if the window had been closed
 	scene1->Exit();
-	//scene2->Exit();
+	scene2->Exit();
 	delete scene1;
-	//delete scene2;
+	delete scene2;
 }
 
 void Application::Exit()

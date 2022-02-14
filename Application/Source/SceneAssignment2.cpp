@@ -13,7 +13,6 @@
 
 SceneAssignment2::SceneAssignment2()
 {
-	cgfddcd
 }
 
 SceneAssignment2::~SceneAssignment2()
