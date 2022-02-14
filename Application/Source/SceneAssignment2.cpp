@@ -13,7 +13,6 @@
 
 SceneAssignment2::SceneAssignment2()
 {
-	trwaetdfyguhbnjklm
 }
 
 SceneAssignment2::~SceneAssignment2()
