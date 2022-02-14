@@ -13,6 +13,7 @@
 
 SceneAssignment2::SceneAssignment2()
 {
+	fsgddgfsdbfsads
 }
 
 SceneAssignment2::~SceneAssignment2()
