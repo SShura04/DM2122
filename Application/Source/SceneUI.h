@@ -254,6 +254,9 @@ class SceneUI : public Scene
 		hb_HOUSE28,
 		hb_HOUSE29,
 		hb_HOUSE30,
+		hb_HOUSE31,
+		hb_HOUSE32,
+		hb_HOUSE33,
 		hb_SHOP_STRUCTURE,
 		hb_SHOP_ROOF,
 

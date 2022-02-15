@@ -471,11 +471,8 @@ void SceneUI::Init()
 	objectlist[hb_HOUSE29].setproperties(Vector3(-23, 0, -35.8), Vector3(0, 90, 0), Vector3(7, 10, 7));
 	objectlist[hb_HOUSE29].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
 	objectlist[hb_HOUSE30].setmesh(GEO_HOUSE1);
-	objectlist[hb_HOUSE30].setproperties(Vector3(-23, 0, -40), Vector3(0, 0, 0), Vector3(7, 10, 7));
+	objectlist[hb_HOUSE30].setproperties(Vector3(-13, 0, -35.4), Vector3(0, -90, 0), Vector3(7, 13, 7));
 	objectlist[hb_HOUSE30].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
-	//objectlist[hb_HOUSE31].setmesh(GEO_HOUSE1);
-	//objectlist[hb_HOUSE31].setproperties(Vector3(0, 0, -35.8), Vector3(0, 90, 0), Vector3(7, 10, 7));
-	//objectlist[hb_HOUSE31].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
 
 	//long
 	meshList[GEO_HOUSE2] = MeshBuilder::GenerateOBJMTL("modelhouse2", "OBJ//large_buildingF.obj", "OBJ//large_buildingF.mtl");
@@ -503,7 +500,12 @@ void SceneUI::Init()
 	objectlist[hb_HOUSE26].setmesh(GEO_HOUSE2);
 	objectlist[hb_HOUSE26].setproperties(Vector3(15, 0, 28.7), Vector3(0, 180, 0), Vector3(13, 10, 7));
 	objectlist[hb_HOUSE26].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
-
+	objectlist[hb_HOUSE31].setmesh(GEO_HOUSE2);
+	objectlist[hb_HOUSE31].setproperties(Vector3(-13.5, 0, -44.5), Vector3(0, 0, 0), Vector3(7, 9, 7));
+	objectlist[hb_HOUSE31].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
+	objectlist[hb_HOUSE33].setmesh(GEO_HOUSE2);
+	objectlist[hb_HOUSE33].setproperties(Vector3(-5, 0, -38), Vector3(0, -90, 0), Vector3(4, 9, 4));
+	objectlist[hb_HOUSE33].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
 
 	//skinny tall w/ stairs
 	meshList[GEO_HOUSE3] = MeshBuilder::GenerateOBJMTL("modelhouse3", "OBJ//large_buildingC.obj", "OBJ//large_buildingC.mtl");
@@ -558,6 +560,9 @@ void SceneUI::Init()
 	objectlist[hb_HOUSE27].setmesh(GEO_HOUSE5);
 	objectlist[hb_HOUSE27].setproperties(Vector3(30.8, 0, 28.7), Vector3(0, 180, 0), Vector3(7, 10, 7));
 	objectlist[hb_HOUSE27].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
+	objectlist[hb_HOUSE32].setmesh(GEO_HOUSE5);
+	objectlist[hb_HOUSE32].setproperties(Vector3(-23, 0, -41.4), Vector3(0, 90, 0), Vector3(7, 10, 7));
+	objectlist[hb_HOUSE32].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
 
 	//walls
 	//meshList[GEO_OUTERWALLS] = MeshBuilder::GenerateOBJMTL("model outerwall", "OBJ//wall_half.obj", "OBJ//wall_half.mtl");
@@ -1771,9 +1776,6 @@ void SceneUI::RenderENV()
 		modelStack.Scale(objectlist[idx].getscale().x, objectlist[idx].getscale().y, objectlist[idx].getscale().z);
 		RenderMesh(meshList[objectlist[idx].getmodel()], true);
 		modelStack.PopMatrix();
-		std::cout << objectlist[hb_HOUSE30].getposition().x << "\n";
-		std::cout << objectlist[hb_HOUSE30].getposition().y << "\n";
-		std::cout << objectlist[hb_HOUSE30].getposition().z << "\n";
 	}
 
 	if (treeplanted)

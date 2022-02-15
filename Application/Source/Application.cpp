@@ -14,6 +14,7 @@
 #include "SceneAssignment.h"
 #include "SceneAssignment2.h"
 #include "SceneUI.h"
+#include "SP2.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -143,7 +144,7 @@ void Application::Init()
 void Application::Run()
 {
 	//Main Loop
-	Scene* scene1 = new SceneAssignment2();
+	Scene* scene1 = new SP2();
 	Scene* scene2 = new SceneUI();
 	Scene* scene = scene1;
 	scene1->Init();
