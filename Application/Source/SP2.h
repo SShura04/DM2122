@@ -27,7 +27,6 @@ class SP2 : public Scene
 		GEO_FRONT,
 		GEO_BACK,
 
-
 		//houses
 		GEO_HOUSE1, //player's house
 		GEO_HOUSE2,
@@ -41,7 +40,11 @@ class SP2 : public Scene
 		//GEO_OUTERWALLS,
 
 		//others
+		GEO_CONCRETE_PAVEMENT,
+		GEO_ROAD,
+		GEO_CITY_CENTRE_FLOOR,
 
+		//hitboxes
 		GEO_HITBOX,
 		GEO_HITBOX2,
 
@@ -184,9 +187,8 @@ class SP2 : public Scene
 	};
 	enum GAME_OBJECTS //game objects
 	{
-
 		//houses
-		hb_HOUSE1, //player's house
+		hb_HOUSE1, 
 		hb_HOUSE2,
 		hb_HOUSE3,
 		hb_HOUSE4,

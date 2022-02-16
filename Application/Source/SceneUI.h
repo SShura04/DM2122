@@ -43,6 +43,7 @@ class SceneUI : public Scene
 		GEO_HOUSE2,
 		GEO_HOUSE3,
 		GEO_HOUSE4,
+		GEO_HOUSE5,
 		GEO_SHOP_STRUCTURE,
 		GEO_SHOP_ROOF,
 
