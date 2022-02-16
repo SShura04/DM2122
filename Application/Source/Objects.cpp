@@ -6,6 +6,7 @@ Objects::Objects()
 	rotation = Vector3(0, 0, 0);
 	position = Vector3(0, 0, 0);
 	scale = Vector3(1, 1, 1);
+	CollisionSize = Vector3(0, 0, 0);
 	model = 0;
 }
 

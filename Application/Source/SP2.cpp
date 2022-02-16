@@ -59,7 +59,7 @@ Vector3 SP2::CollisionCircleRect(float cx, float cy, float radius, float rx, flo
 
 Vector3 SP2::PlayerCollision(unsigned count, CameraTest camera) {
 	if (count == count) {
-		return CollisionCircleRect(camera.position.x, camera.position.z, 1.5, objectlist[count].getposition().x, objectlist[count].getposition().z, objectlist[count].gethitboxcollisionsize().x /*HitboxX*/, objectlist[count].gethitboxcollisionsize().z /*HitboxZ*/);
+		return CollisionCircleRect(camera.position.x, camera.position.z, 1.5, objectlist[count].getposition().x, objectlist[count].getposition().z, objectlist[count].gethitboxcollisionsize().x, objectlist[count].gethitboxcollisionsize().z);
 	}
 	else
 	{
@@ -500,8 +500,6 @@ void SP2::Init()
 
 	//Initialize camera settings
 	camera.Init(Vector3(-18, 2, 15), Vector3(-18, 2, 14), Vector3(0, 1, 0));
-	//camera.Init(Vector3(-18, 2, 15), Vector3(0, 2, 0), Vector3(0, 1, 0));
-
 
 	// Init VBO
 	for (int i = 0; i < NUM_GEOMETRY; ++i)
@@ -722,7 +720,6 @@ void SP2::Init()
 	//meshList[GEO_OUTERWALLS] = MeshBuilder::GenerateOBJMTL("model outerwall", "OBJ//wall_half.obj", "OBJ//wall_half.mtl");
 	//meshList[GEO_OUTERWALLS]->textureID = LoadTGA("Image//bricks.tga");
 
-
 	meshList[GEO_HITBOX] = MeshBuilder::GenerateCube("modelhitbox", Color(0, 0, 0), 1);
 	meshList[GEO_HITBOX]->textureID = LoadTGA("Image//hitbox2.tga");
 	meshList[GEO_HITBOX2] = MeshBuilder::GenerateCube("modelhitbox", Color(0, 0, 0), 1);
@@ -740,6 +737,14 @@ void SP2::Init()
 	player.Setposition(Vector3(0, 2, 0));
 	player.Setuphitbox(Vector3(1, 1.5, 1), Vector3(0, 0.5, 0));
 
+	meshList[GEO_CONCRETE_PAVEMENT] = MeshBuilder::GenerateQuad("concretepavement", Color(1, 1, 1), 1);
+	meshList[GEO_CONCRETE_PAVEMENT]->textureID = LoadTGA("Image//concreteSmooth.tga");
+
+	meshList[GEO_ROAD] = MeshBuilder::GenerateQuad("road", Color(1, 1, 1), 1);
+	meshList[GEO_ROAD]->textureID = LoadTGA("Image//asphalt.tga");
+
+	meshList[GEO_CITY_CENTRE_FLOOR] = MeshBuilder::GenerateQuad("citycentrefloor", Color(1, 1, 1), 1);
+	meshList[GEO_CITY_CENTRE_FLOOR]->textureID = LoadTGA("Image//Brick_03.tga");
 
 	Mtx44 projection;
 	projection.SetToPerspective(45.f, 4.f / 3.f, 0.1f, 10000.f);
@@ -1483,7 +1488,7 @@ void SP2::RenderENV()
 		modelStack.Rotate(objectlist[idx].getrotation().y, 0, 1, 0);
 		modelStack.Rotate(objectlist[idx].getrotation().z, 0, 0, 1);
 		modelStack.Scale(objectlist[idx].getscale().x, objectlist[idx].getscale().y, objectlist[idx].getscale().z);
-
+	
 		if (idx != hb_NPC1) {
 			RenderMesh(meshList[objectlist[idx].getmodel()], true);
 		}
@@ -1494,6 +1499,316 @@ void SP2::RenderENV()
 	}
 
 
+	//render roads + pavement
+	{
+		for (int idx = 0; idx < 50; idx++)
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(49 - (idx * 2), 0.001, 17);
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(49 - (idx * 2), 0.001, 15);
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(49 - (idx * 2), 0.001, 13);
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_ROAD], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(49 - (idx * 2), 0.001, 11);
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_ROAD], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(49 - (idx * 2), 0.001, 9);
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_ROAD], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(49 - (idx * 2), 0.001, 7);
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+		}
+		for (int idx = 0; idx < 25; idx++)
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(-21, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-19, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-17, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-15, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-13, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-11, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(17, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(19, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(19, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(21, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(23, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(25, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(27, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(29, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+		}
+		for (int idx = 0; idx < 3; idx++)
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate((idx * 2) - 9, 0.009, -42);
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate((idx * 2) - 9, 0.009, -40);
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate((idx * 2) - 9, 0.009, -38);
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate((idx * 2) - 9, 0.009, -36);
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate((idx * 2) - 9, 0.009, -34);
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate((idx * 2) - 9, 0.009, -32);
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+		}
+		for (int idx = 0; idx < 13; idx++)
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate((idx * 2) - 9, 0.009, -30);
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+		}
+		
+		for (int idx = 0; idx < 25; idx++)
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				modelStack.PushMatrix();
+				modelStack.Translate(31 - (idx * 2), 0.0009, 25 - (i * 2));
+				modelStack.Rotate(-90, 1, 0, 0);
+				modelStack.Scale(2, 2, 2);
+				RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+				modelStack.PopMatrix();
+			}
+		}
+		
+	}
+
+	//render city centre
+	for (int idx = 0; idx < 18; idx++)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(-9, 0.0009, 6 - (idx * 2));
+		modelStack.Rotate(-90, 1, 0, 0);
+		modelStack.Scale(2, 2, 2);
+		RenderMesh(meshList[GEO_CITY_CENTRE_FLOOR], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(-7, 0.0009, 6 - (idx * 2));
+		modelStack.Rotate(-90, 1, 0, 0);
+		modelStack.Scale(2, 2, 2);
+		RenderMesh(meshList[GEO_CITY_CENTRE_FLOOR], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(-5, 0.0009, 6 - (idx * 2));
+		modelStack.Rotate(-90, 1, 0, 0);
+		modelStack.Scale(2, 2, 2);
+		RenderMesh(meshList[GEO_CITY_CENTRE_FLOOR], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(-3, 0.0009, 6 - (idx * 2));
+		modelStack.Rotate(-90, 1, 0, 0);
+		modelStack.Scale(2, 2, 2);
+		RenderMesh(meshList[GEO_CITY_CENTRE_FLOOR], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(-1, 0.0009, 6 - (idx * 2));
+		modelStack.Rotate(-90, 1, 0, 0);
+		modelStack.Scale(2, 2, 2);
+		RenderMesh(meshList[GEO_CITY_CENTRE_FLOOR], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(1, 0.0009, 6 - (idx * 2));
+		modelStack.Rotate(-90, 1, 0, 0);
+		modelStack.Scale(2, 2, 2);
+		RenderMesh(meshList[GEO_CITY_CENTRE_FLOOR], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(3, 0.0009, 6 - (idx * 2));
+		modelStack.Rotate(-90, 1, 0, 0);
+		modelStack.Scale(2, 2, 2);
+		RenderMesh(meshList[GEO_CITY_CENTRE_FLOOR], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(5, 0.0009, 6 - (idx * 2));
+		modelStack.Rotate(-90, 1, 0, 0);
+		modelStack.Scale(2, 2, 2);
+		RenderMesh(meshList[GEO_CITY_CENTRE_FLOOR], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(7, 0.0009, 6 - (idx * 2));
+		modelStack.Rotate(-90, 1, 0, 0);
+		modelStack.Scale(2, 2, 2);
+		RenderMesh(meshList[GEO_CITY_CENTRE_FLOOR], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(9, 0.0009, 6 - (idx * 2));
+		modelStack.Rotate(-90, 1, 0, 0);
+		modelStack.Scale(2, 2, 2);
+		RenderMesh(meshList[GEO_CITY_CENTRE_FLOOR], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(11, 0.0009, 6 - (idx * 2));
+		modelStack.Rotate(-90, 1, 0, 0);
+		modelStack.Scale(2, 2, 2);
+		RenderMesh(meshList[GEO_CITY_CENTRE_FLOOR], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(13, 0.0009, 6 - (idx * 2));
+		modelStack.Rotate(-90, 1, 0, 0);
+		modelStack.Scale(2, 2, 2);
+		RenderMesh(meshList[GEO_CITY_CENTRE_FLOOR], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(15, 0.0009, 6 - (idx * 2));
+		modelStack.Rotate(-90, 1, 0, 0);
+		modelStack.Scale(2, 2, 2);
+		RenderMesh(meshList[GEO_CITY_CENTRE_FLOOR], true);
+		modelStack.PopMatrix();
+	}
 	//Interaction
 	if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_NPC1].getposition().x, objectlist[hb_NPC1].getposition().z) <= 8) {
 		if (DialogueBoxOpen == false) {
