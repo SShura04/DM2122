@@ -1149,71 +1149,211 @@ void SP2::UpdateENV(double dt)
 	camera.center.x = (camera.windowcenter.left + camera.windowcenter.right) * 0.5;
 	camera.center.y = (camera.windowcenter.top + camera.windowcenter.bottom) * 0.5;
 
+	//Street Scam______________________________________________________________________________________________________________________
 
-	static int ScrollingText = 0;
 	if (DialogueBoxOpen == true)
 	{
-		GameDialogueLINE = "Huh? Whayya want? I have this newest limited edition game! Care to buy it off my hands for $100?";
-		if (GameDialogueLINE[x] != '\0' and ScrollingText % 3 == 0) {
-			if (not Application::IsKeyPressed('E') and isRead == false and Dialogue == 1) {
-				if (x <16) {
-					GD_PrintLine1 += GameDialogueLINE[x];
-				}
-				if (x >= 16 and x <= 58) 
-				{
-					GD_PrintLine2 += GameDialogueLINE[x];
-				}
-				if (x >= 18) {
-					isRead = true;
-					Dialogue = 2;
-					x = 18;
-				}
-				x++;
-			}
-			if (Application::IsKeyPressed('E') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 1) {
-				GD_PrintLine1 = "Huh? Whayya want?";
-				Dialogue = 2;
-				timesincelastbuttonpress = 0;
-				x = 18;
-				isRead = true;
-			}
-			if (Application::IsKeyPressed('E') and isRead == true and timesincelastbuttonpress > 0.2 and Dialogue == 2) {
-				GD_PrintLine1 = "";
-				timesincelastbuttonpress = 0;
-				isRead = false;
-			}
-			if (not Application::IsKeyPressed('E') and isRead == false and Dialogue == 2) {
-				if (x > 18 and x <= GameDialogueLINE.length() - 1) {
-					GD_PrintLine1 += GameDialogueLINE[x];
-				}
-				if (x >= GameDialogueLINE.length() - 1) {
-					Dialogue = 3;
-					isRead = true;
-					x = 0;
-				}
-				x++;
-			}
-			if (Application::IsKeyPressed('E') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 2) {
-				isRead = true;
-				GD_PrintLine1 = " I have this newest limited edition game!";
-				GD_PrintLine2 = " Care to buy it off my hands for $100?";
-				Dialogue = 3;
-				timesincelastbuttonpress = 0;
-			}
-			if (isRead == true and Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 3) {
-				isRead = false;
-				GD_PrintLine1 = "";
-				GD_PrintLine2 = "";
-				DialogueBoxOpen = false;
-				x = 0;
-				ScrollingText = 0;
-				timesincelastbuttonpress = 0;
-				inshop = false;
-				Dialogue = 1;
-			}
+		if (Application::IsKeyPressed('E') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 1) 
+		{
+			GD_PrintLine1 = "Huh? Whayya want?";
+			Dialogue = 2;
+			timesincelastbuttonpress = 0;
 		}
-		ScrollingText++;
+		if (Application::IsKeyPressed('E') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 2)
+		{
+			GD_PrintLine1 = " I have this newest limited edition game!";
+			GD_PrintLine2 = " Care to buy it off my hands for $100?";
+			GD_PrintLine3 = "";
+			Dialogue = 3;
+			timesincelastbuttonpress = 0;
+		}
+		if (Application::IsKeyPressed('E') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 3)
+		{
+			GD_PrintLine1 = " What console is this from?";
+			GD_PrintLine2 = "";
+			GD_PrintLine3 = "";
+			Dialogue = 4;
+			timesincelastbuttonpress = 0;
+		}
+		if (Application::IsKeyPressed('E') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 4)
+		{
+			GD_PrintLine1 = "1. It is from bXob!";
+			GD_PrintLine2 = " 2. It is from Barney Bros!";
+			GD_PrintLine3 = "3.  I have no idea.";
+			Dialogue = 5;
+			timesincelastbuttonpress = 0;
+		}
+		if (Application::IsKeyPressed('1') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 5)
+		{
+			GD_PrintLine1 = " Cool! Alright, I can finally try a different game now!";
+			GD_PrintLine2 = "";
+			GD_PrintLine3 = "";
+			Dialogue = 6;
+			timesincelastbuttonpress = 0;
+		}
+		if (Application::IsKeyPressed('2') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 5)
+		{
+			GD_PrintLine1 = " Hah! That's a movie studio,";
+			GD_PrintLine2 = " no game comes from there!";
+			GD_PrintLine3 = "";
+			Dialogue = 7;
+			timesincelastbuttonpress = 0;
+		}
+		if (Application::IsKeyPressed('3') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 5)
+		{
+			GD_PrintLine1 = " Can I even trust you into buying this game?";
+			GD_PrintLine2 = "";
+			GD_PrintLine3 = "";
+			Dialogue = 7;
+			timesincelastbuttonpress = 0;
+		}
+		if (Application::IsKeyPressed('E') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 6)
+		{
+			GD_PrintLine1 = " This looks like a steal, I will take it.";
+			GD_PrintLine2 = "";
+			GD_PrintLine3 = "";
+			Dialogue = 4;
+			timesincelastbuttonpress = 0;
+		}
+		if (Application::IsKeyPressed('E') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 7)
+		{
+			GD_PrintLine1 = " You just tried to scam me right, I am calling the police.";
+			GD_PrintLine2 = "";
+			GD_PrintLine3 = "";
+			Dialogue = 4;
+			timesincelastbuttonpress = 0;
+		}
 	}
+
+	// SHOPKEEPER---------------------------------------------------------------------------------------------------------------
+	//if (DialogueBoxOpen == true)
+	//{
+	//	if (Application::IsKeyPressed('E') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 1) {
+	//		GD_PrintLine1 = "Welcome to the pawn shop!";
+	//		Dialogue = 2;
+	//		timesincelastbuttonpress = 0;
+	//	}
+	//	if (Application::IsKeyPressed('E') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 2) {
+	//		GD_PrintLine1 = "What would you like to do today?";
+	//		Dialogue = 3;
+	//		timesincelastbuttonpress = 0;
+	//	}
+	//	if (Application::IsKeyPressed('E') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 3) {
+	//		GD_PrintLine1 = "I like to pawn this exquisite ring i have here.";
+	//		Dialogue = 4;
+	//		timesincelastbuttonpress = 0;
+	//	}
+	//	if (Application::IsKeyPressed('E') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 4) {
+	//		GD_PrintLine1 = "1. It is made with multiple diamonds";
+	//		GD_PrintLine2 = "2. I found it from the garbage bin down the road";
+	//		GD_PrintLine3 = "3. It is a ring worn by the famous actor James Bonk.";
+	//		Dialogue = 5;
+	//		timesincelastbuttonpress = 0;
+	//	}
+	//	if (Application::IsKeyPressed('1') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 5)
+	//	{
+	//		GD_PrintLine1 = "Nice try, but i have checked it and its a fake ring.";
+	//		GD_PrintLine2 = "";
+	//		GD_PrintLine3 = "";
+	//		timesincelastbuttonpress = 0;
+	//		Dialogue = 6;
+	//	}
+	//	if (Application::IsKeyPressed('2') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 5)
+	//	{
+	//		GD_PrintLine1 = " Why are you even here? ";
+	//		GD_PrintLine2 = "";
+	//		GD_PrintLine3 = "";
+	//		timesincelastbuttonpress = 0;
+	//		Dialogue = 6;
+	//	}
+	//	if (Application::IsKeyPressed('3') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 5)
+	//	{
+	//		GD_PrintLine1 = "I do not know much about him,";
+	//		GD_PrintLine2 = "but I think I did see him wear this ring.";
+	//		GD_PrintLine3 = "";
+	//		timesincelastbuttonpress = 0;
+	//		Dialogue = 7;
+	//	}
+	//	if (Application::IsKeyPressed('E') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 6)
+	//	{
+	//		GD_PrintLine1 = " I am not buying that.";
+	//		GD_PrintLine2 = "";
+	//		GD_PrintLine3 = "";
+	//		timesincelastbuttonpress = 0;
+	//		Dialogue = 4;
+	//	}
+	//	if (Application::IsKeyPressed('E') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 7)
+	//	{
+	//		GD_PrintLine1 = " I could make a profit from this. Thank you for coming!";
+	//		GD_PrintLine2 = "";
+	//		GD_PrintLine3 = "";
+	//		timesincelastbuttonpress = 0;
+	//		Dialogue = 4;
+	//	}
+	//}
+
+	//CALL SCAM_____________________________________________________________________________________________________________________
+	/*if (DialogueBoxOpen == true)
+	{
+		if (Application::IsKeyPressed('E') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 1) {
+			GD_PrintLine1 = " Hello? To whom am I speaking to?";
+			Dialogue = 2;
+			timesincelastbuttonpress = 0;
+		}
+		if (Application::IsKeyPressed('E') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 2) {
+			GD_PrintLine1 = "1. NFT scam.";
+			GD_PrintLine2 = "2. Kidnapping scam.";
+			GD_PrintLine3 = "3. Bank scam.";
+			Dialogue = 3;
+			timesincelastbuttonpress = 0;
+		}
+		if (Application::IsKeyPressed('1') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 3)
+		{
+			GD_PrintLine1 = " I have some exclusive NFTs for sale at $100.";
+			GD_PrintLine2 = " Would you like to buy them?";
+			GD_PrintLine3 = "";
+			timesincelastbuttonpress = 0;
+			Dialogue = 4;
+		}
+		if (Application::IsKeyPressed('E') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 4) {
+			GD_PrintLine1 = " No thanks, I have no interest in NFTs.";
+			GD_PrintLine2 = "";
+			GD_PrintLine3 = "";
+			Dialogue = 2;
+			timesincelastbuttonpress = 0;
+		}
+		if (Application::IsKeyPressed('2') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 3)
+		{
+			GD_PrintLine1 = " I have your child with me!";
+			GD_PrintLine2 = " Give me $100 or you won’t see your child ever again! ";
+			GD_PrintLine3 = "";
+			timesincelastbuttonpress = 0;
+			Dialogue = 5;
+		}
+		if (Application::IsKeyPressed('E') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 5) {
+			GD_PrintLine1 = " What are you even talking about!";
+			GD_PrintLine2 = " I do not even have a child!";
+			GD_PrintLine3 = "";
+			Dialogue = 2;
+			timesincelastbuttonpress = 0;
+		}
+		if (Application::IsKeyPressed('3') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 3)
+		{
+			GD_PrintLine1 = " I am from the ABC bank, your card has been declined. ";
+			GD_PrintLine2 = " You need to give me $100 or else your account is forever blocked! ";
+			GD_PrintLine3 = "";
+			timesincelastbuttonpress = 0;
+			Dialogue = 6;
+		}
+		if (Application::IsKeyPressed('E') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 6) {
+			GD_PrintLine1 = " Oh my god! Alright alright I will give it to you.";
+			GD_PrintLine2 = " Please recover my account back! ";
+			GD_PrintLine3 = "";
+			Dialogue = 2;
+			timesincelastbuttonpress = 0;
+		}
+	}*/
+
 
 	if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_NPC1].getposition().x, objectlist[hb_NPC1].getposition().z) <= 8) {
 		timesincelastbuttonpress += dt;
@@ -1811,7 +1951,7 @@ void SP2::RenderENV()
 	}
 	//Interaction
 	if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_NPC1].getposition().x, objectlist[hb_NPC1].getposition().z) <= 8) {
-		if (DialogueBoxOpen == false) {
+		if (DialogueBoxOpen == false ) {
 			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to interact", Color(1, 1, 1), 5, 27, 5);
 		}
 		if (Application::IsKeyPressed('E') and DialogueBoxOpen == false and timesincelastbuttonpress > 0.2) {
@@ -1821,12 +1961,13 @@ void SP2::RenderENV()
 		}
 		if (DialogueBoxOpen == true) {
 			RenderMeshOnScreen(meshList[GEO_DIALOGUEUI], Vector3(60, 15, 1), Vector3(0, 0, 0), 40, 10);
-			RenderTextOnScreen(meshList[GEO_TEXT], "AETHER", Color(1, 1, 1), 2.7, 20.2, 13.5);
+			RenderTextOnScreen(meshList[GEO_TEXT], "SHOPKEEPER", Color(1, 1, 1), 2.7, 23.5, 13.5);
 			RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine1, Color(0, 0, 0), 3, 13.5, 10);
 			RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine2, Color(0, 0, 0), 3, 13, 7.5);
 			RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine3, Color(0, 0, 0), 3, 13.5, 5);
 			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to speed up", Color(1, 1, 1), 3, 30.2, 0.8);
 		}
+		
 	}
 
 
