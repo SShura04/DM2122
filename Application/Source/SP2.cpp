@@ -945,7 +945,7 @@ void SP2::UpdateENV(double dt)
 				}
 
 				Vector3 view = (camera.target - camera.position).Normalized();
-				for (int i = 0; i <= hb_count; ++i) {
+				for (int i = 0; i < hb_count; ++i) {
 				    Vector3 finalPos = PlayerCollision(i, camera); //ignore y
 					camera.position.x = finalPos.x;
 					camera.position.z = finalPos.z;
@@ -1146,42 +1146,65 @@ void SP2::UpdateENV(double dt)
 
 
 	static int ScrollingText = 0;
-	if (DialogueBoxOpen == true) {
-		GameDialogueLINE = "Looking for a missing young male. Has blonde hair, wears foreign clothes. Any information/assistance isgreatly welcomed.";
+	if (DialogueBoxOpen == true)
+	{
+		GameDialogueLINE = "Huh? Whayya want? I have this newest limited edition game! Care to buy it off my hands for $100?";
 		if (GameDialogueLINE[x] != '\0' and ScrollingText % 3 == 0) {
-			if (not Application::IsKeyPressed('E') and isRead == false) {
-				if (x < 56) {
+			if (not Application::IsKeyPressed('E') and isRead == false and Dialogue == 1) {
+				if (x <16) {
 					GD_PrintLine1 += GameDialogueLINE[x];
 				}
-				if (x >= 56 and x <= 102) {
+				if (x >= 16 and x <= 58) 
+				{
 					GD_PrintLine2 += GameDialogueLINE[x];
 				}
-				if (x > 102) {
-					GD_PrintLine3 += GameDialogueLINE[x];
+				if (x >= 18) {
+					isRead = true;
+					Dialogue = 2;
+					x = 18;
+				}
+				x++;
+			}
+			if (Application::IsKeyPressed('E') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 1) {
+				GD_PrintLine1 = "Huh? Whayya want?";
+				Dialogue = 2;
+				timesincelastbuttonpress = 0;
+				x = 18;
+				isRead = true;
+			}
+			if (Application::IsKeyPressed('E') and isRead == true and timesincelastbuttonpress > 0.2 and Dialogue == 2) {
+				GD_PrintLine1 = "";
+				timesincelastbuttonpress = 0;
+				isRead = false;
+			}
+			if (not Application::IsKeyPressed('E') and isRead == false and Dialogue == 2) {
+				if (x > 18 and x <= GameDialogueLINE.length() - 1) {
+					GD_PrintLine1 += GameDialogueLINE[x];
 				}
 				if (x >= GameDialogueLINE.length() - 1) {
+					Dialogue = 3;
 					isRead = true;
-					timesincelastbuttonpress = 0;
 					x = 0;
 				}
 				x++;
 			}
-			if (Application::IsKeyPressed('E') and isRead == false and timesincelastbuttonpress > 0.2) {
+			if (Application::IsKeyPressed('E') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 2) {
 				isRead = true;
-				GD_PrintLine1 = "Looking for a missing young male. Has blonde hair, wears";
-				GD_PrintLine2 = " foreign clothes. Any information/assistance is";
-				GD_PrintLine3 = "greatly welcomed.";
+				GD_PrintLine1 = " I have this newest limited edition game!";
+				GD_PrintLine2 = " Care to buy it off my hands for $100?";
+				Dialogue = 3;
 				timesincelastbuttonpress = 0;
 			}
-			if (isRead == true and Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2) {
-				SetCursorPos(camera.center.x, camera.center.y);
+			if (isRead == true and Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 3) {
 				isRead = false;
-				GD_PrintLine1 = GD_PrintLine2 = GD_PrintLine3 = "";
+				GD_PrintLine1 = "";
+				GD_PrintLine2 = "";
 				DialogueBoxOpen = false;
 				x = 0;
-				inshop = false;
 				ScrollingText = 0;
 				timesincelastbuttonpress = 0;
+				inshop = false;
+				Dialogue = 1;
 			}
 		}
 		ScrollingText++;

@@ -316,6 +316,7 @@ private:
 	int x = 0;
 	int ScrollingText;
 
+	int Dialogue = 1;
 
 	// Spacing of text
 	int textMaxWidth;
