@@ -83,3 +83,15 @@ void Objects::setmesh(unsigned newmodel)
 {
 	model = newmodel;
 }
+
+
+
+void Objects::sethitboxcollisionsize(Vector3 size)
+{
+	CollisionSize = size;
+}
+
+Vector3 Objects::gethitboxcollisionsize()
+{
+	return CollisionSize;
+}
