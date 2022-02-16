@@ -43,6 +43,8 @@ class SP2 : public Scene
 		GEO_CONCRETE_PAVEMENT,
 		GEO_ROAD,
 		GEO_CITY_CENTRE_FLOOR,
+		//GEO_BIN,
+		GEO_BENCH,
 
 		//hitboxes
 		GEO_HITBOX,
@@ -205,7 +207,7 @@ class SP2 : public Scene
 		hb_HOUSE15,
 		hb_HOUSE16,
 		hb_HOUSE17,
-		hb_HOUSE18,
+		hb_HOUSE18,  //Player House
 		hb_HOUSE19,
 		hb_HOUSE20,
 		hb_HOUSE21,
@@ -224,6 +226,16 @@ class SP2 : public Scene
 
 		//Npc
 		hb_NPC1,
+
+		//Trash
+		//hb_BIN1,
+
+		//benches
+		hb_BENCH1,
+		hb_BENCH2,
+		hb_BENCH3,
+		hb_BENCH4,
+		hb_BENCH5,
 
 		//walls
 		//hb_OUTERWALLS,

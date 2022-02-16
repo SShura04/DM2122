@@ -701,6 +701,7 @@ void SP2::Init()
 	objectlist[hb_HOUSE13].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
 	objectlist[hb_HOUSE13].sethitboxcollisionsize(Vector3(4, 0, 4));
 
+	//Player House
 	objectlist[hb_HOUSE18].setmesh(GEO_HOUSE5);
 	objectlist[hb_HOUSE18].setproperties(Vector3(19, 0, 4), Vector3(0, 180, 0), Vector3(7, 9, 6));
 	objectlist[hb_HOUSE18].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
@@ -715,6 +716,39 @@ void SP2::Init()
 	objectlist[hb_HOUSE32].setproperties(Vector3(-23, 0, -41.4), Vector3(0, 90, 0), Vector3(7, 10, 7));
 	objectlist[hb_HOUSE32].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
 	objectlist[hb_HOUSE32].sethitboxcollisionsize(Vector3(4, 0, 4));
+
+	//meshList[GEO_BIN] = MeshBuilder::GenerateOBJMTL("modeldumpster", "OBJ//Dumpster2.obj", "OBJ//Dumpster2.mtl");
+	//meshList[GEO_DIALOGUEUI]->textureID = LoadTGA("Image//DialogueBox.tga");
+	//objectlist[hb_BIN1].setmesh(GEO_BIN);
+	//objectlist[hb_BIN1].setproperties(Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(100, 100, 100));
+	//objectlist[hb_BIN1].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
+	//objectlist[hb_BIN1].sethitboxcollisionsize(Vector3(1, 0, 1));
+
+	meshList[GEO_BENCH] = MeshBuilder::GenerateOBJMTL("modelbench", "OBJ//Bench.obj", "OBJ//Bench.mtl");
+	objectlist[hb_BENCH1].setmesh(GEO_BENCH);
+	objectlist[hb_BENCH1].setproperties(Vector3(12, 0, -4), Vector3(0, -90, 0), Vector3(4.5, 4.5, 4.5));
+	objectlist[hb_BENCH1].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
+	objectlist[hb_BENCH1].sethitboxcollisionsize(Vector3(0.1, 0, 1.1));
+
+	objectlist[hb_BENCH2].setmesh(GEO_BENCH);
+	objectlist[hb_BENCH2].setproperties(Vector3(12, 0, -12), Vector3(0, -90, 0), Vector3(4.5, 4.5, 4.5));
+	objectlist[hb_BENCH2].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
+	objectlist[hb_BENCH2].sethitboxcollisionsize(Vector3(0.1, 0, 1.1));
+
+	objectlist[hb_BENCH3].setmesh(GEO_BENCH);
+	objectlist[hb_BENCH3].setproperties(Vector3(-6, 0, -15), Vector3(0, 90, 0), Vector3(4.5, 4.5, 4.5));
+	objectlist[hb_BENCH3].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
+	objectlist[hb_BENCH3].sethitboxcollisionsize(Vector3(0.1, 0, 1.1));
+
+	objectlist[hb_BENCH4].setmesh(GEO_BENCH);
+	objectlist[hb_BENCH4].setproperties(Vector3(-6, 0, 0), Vector3(0, 90, 0), Vector3(4.5, 4.5, 4.5));
+	objectlist[hb_BENCH4].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
+	objectlist[hb_BENCH4].sethitboxcollisionsize(Vector3(0.1, 0, 1.1));
+
+	objectlist[hb_BENCH5].setmesh(GEO_BENCH);
+	objectlist[hb_BENCH5].setproperties(Vector3(8, 0, -23), Vector3(0, 0, 0), Vector3(4.5, 4.5, 4.5));
+	objectlist[hb_BENCH5].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
+	objectlist[hb_BENCH5].sethitboxcollisionsize(Vector3(1.1, 0, 0.1));
 
 	//walls
 	//meshList[GEO_OUTERWALLS] = MeshBuilder::GenerateOBJMTL("model outerwall", "OBJ//wall_half.obj", "OBJ//wall_half.mtl");
