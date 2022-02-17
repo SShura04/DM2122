@@ -17,8 +17,8 @@ void CameraTest::Init(const Vector3& pos, const Vector3& target, const Vector3& 
 {
     this->position = defaultPosition = pos;
     this->target = defaultTarget = target;
-    Vector3 view = (target - position).Normalized();
-    Vector3 right = view.Cross(up);
+    view = (target - position).Normalized();
+    right = view.Cross(up);
     right.y = 0;
     right.Normalize();
     this->up = defaultUp = right.Cross(view).Normalized();
@@ -32,8 +32,8 @@ void CameraTest::Update(double dt, POINT mousepos, bool move)
     center.x = (windowcenter.left + windowcenter.right) * 0.5;
     center.y = (windowcenter.top + windowcenter.bottom) * 0.5;
 
-    Vector3 view = (target - position).Normalized();
-    Vector3 right = view.Cross(up);
+    view = (target - position).Normalized();
+    right = view.Cross(up);
     right.y = 0;
     right.Normalize();
 
@@ -44,33 +44,45 @@ void CameraTest::Update(double dt, POINT mousepos, bool move)
         if (Application::IsKeyPressed('A'))
         {
             position -= right * static_cast<float>(dt) * ZOOM_SPEED;
-            position.y = 2;
+            //position.y = 2;
             target = position + view;
         }
 
         if (Application::IsKeyPressed('D'))
         {
             position += right * static_cast<float>(dt) * ZOOM_SPEED;
-            position.y = 2;
+            //position.y = 2;
             target = position + view;
         }
 
 
         if (Application::IsKeyPressed('W'))
         {
-            Vector3 startPos = position;
             position += view * static_cast<float>(dt) * ZOOM_SPEED;
-            position.y = 2;
+            //position.y = 2;
             target = position + view;
         }
-        else if (Application::IsKeyPressed('S'))
+        if (Application::IsKeyPressed('S'))
         {
             position -= view * static_cast<float>(dt) * ZOOM_SPEED;
-            position.y = 2;
+            //position.y = 2;
             target = position + view;
         }
 
+        if (position.x >= 50) {
+            position.x = 50;
+        }
+        if (position.x <= -50) {
+            position.x = -50;
+        }
+        if (position.z >= 50) {
+            position.z = 50;
+        }
+        if (position.z <= -50) {
+            position.z = -50;
+        }
 
+        position.y = temp;
         //deal with horizontal rotation of camera
         Mtx44 rotation;
         rotation.SetToRotation(CAMERA_ROTATION_SPEEDX, 0, 1, 0);
@@ -97,3 +109,4 @@ void CameraTest::Reset()
     target = defaultTarget;
     up = defaultUp;
 }
+

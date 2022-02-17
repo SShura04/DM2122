@@ -9,30 +9,33 @@
 class CameraTest : public Camera
 {
 public:
-	//Vector3 position;
-	//Vector3 target;
-	//Vector3 up;
+    //Vector3 position;
+    //Vector3 target;
+    //Vector3 up;
 
-	Vector3 defaultPosition;
-	Vector3 defaultTarget;
-	Vector3 defaultUp;
-	RECT windowcenter;
-	POINT center;
+    Vector3 defaultPosition;
+    Vector3 defaultTarget;
+    Vector3 defaultUp;
+    RECT windowcenter;
+    POINT center;
 
-	CameraTest();
-	~CameraTest();
-	virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
-	virtual void Update(double dt, POINT mousepos, bool move);
-	virtual void Reset();
+    CameraTest();
+    ~CameraTest();
+    virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
+    virtual void Update(double dt, POINT mousepos, bool move);
+    virtual void Reset();
+    float temp = 2;
 
+    //unsigned gameobj;
+    //static const int totalobj = 9;
+    //Objects testingobj[totalobj];
 
-	//unsigned gameobj;
-	//static const int totalobj = 9;
-	//Objects testingobj[totalobj];
+    Vector3 view;
+    Vector3 up;
+    Vector3 right;
+    //Vector3 PlayerCollision(unsigned count);
+    //Vector3 CollisionCircleRect(float cx, float cy, float radius, float rx, float ry, float rw, float rh);
 
-
-	//Vector3 PlayerCollision(unsigned count);
-	//Vector3 CollisionCircleRect(float cx, float cy, float radius, float rx, float ry, float rw, float rh);
 };
 
 #endif

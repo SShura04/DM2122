@@ -43,13 +43,23 @@ class SP2 : public Scene
 		GEO_CONCRETE_PAVEMENT,
 		GEO_ROAD,
 		GEO_CITY_CENTRE_FLOOR,
-		//GEO_BIN,
+		GEO_BIN,
 		GEO_BENCH,
+
+		//furniture
+		GEO_BED,
+		GEO_DESK,
+		GEO_LAPTOP,
+		GEO_TABLE,
+		GEO_TV,
 
 		//hitboxes
 		GEO_HITBOX,
 		GEO_HITBOX2,
 
+		//garbage
+		GEO_GARBAGE,
+		
 		//text
 		GEO_TEXT_CALIBRI,
 		GEO_TEXT,
@@ -203,7 +213,7 @@ class SP2 : public Scene
 		hb_HOUSE11,
 		hb_HOUSE12,
 		hb_HOUSE13,
-		hb_HOUSE14,
+		hb_HOUSE14, //shop
 		hb_HOUSE15,
 		hb_HOUSE16,
 		hb_HOUSE17,
@@ -223,12 +233,19 @@ class SP2 : public Scene
 		hb_HOUSE31,
 		hb_HOUSE32,
 		hb_HOUSE33,
+		hb_HOUSE41, //shop insides
 
 		//Npc
 		hb_NPC1,
 
 		//Trash
-		//hb_BIN1,
+		hb_BIN1,
+		hb_BIN2,
+		hb_BIN3,
+		hb_BIN4,
+		hb_BIN5,
+		hb_BIN6,
+		hb_BIN7,
 
 		//benches
 		hb_BENCH1,
@@ -237,9 +254,24 @@ class SP2 : public Scene
 		hb_BENCH4,
 		hb_BENCH5,
 
-		//walls
-		//hb_OUTERWALLS,
 		hb_count,
+
+		//walls
+		hb_HOUSE34, //Player House inside
+
+		hb_Wall,  //collision
+		hb_Wall2, //collision
+		hb_Wall3, //collision
+		hb_Wall4, //collision
+
+		//furniture
+		hb_BED,
+		hb_DESK,
+		hb_LAPTOP,
+		hb_TABLE,
+		hb_TV,
+
+		hb_total, //total game objects
 	};
 	enum MENUBUTTON
 	{
@@ -273,7 +305,7 @@ private:
 	unsigned interact;
 	unsigned count;
 	Mesh* meshList[NUM_GEOMETRY];
-	Objects objectlist[hb_count];
+	Objects objectlist[hb_total];
 	Objects interactionhitboxes[i_count];
 	Objects player;
 	Hitbox fist1, fist2;
@@ -290,7 +322,7 @@ private:
 	bool resume, escbuttonstate, triedtoopendoor;
 	unsigned buttonhover;
 
-	float rotateAngle, gamemovementspeed, playerscore;
+	float PlayerlookAtNPCAngle = 0, PlayerandNpcRotationSpeed = 0, rotateAngle, gamemovementspeed, playerscore;
 	float timesincelastbuttonpress = 0, timesincelastpunch;
 	bool DrawAxis, InWindow, mousehidden, renderhitboxes, checkcollision, inshop, ingame, chatting;
 	HWND window; RECT rect;
@@ -320,6 +352,9 @@ private:
 	void RenderMeshOnScreen(Mesh* mesh, Vector3 size, Vector3 rotate, float x, float y);
 	void RenderMudkip(Vector3 position = Vector3(0, 8, 0), Vector3 rotation = Vector3(0, 0, 0));
 
+
+	float test = 0;
+
 	// Scrolling of text
 	bool isRead = false;
 	bool DialogueBoxOpen = false;
@@ -329,14 +364,18 @@ private:
 	std::string GD_PrintLine3;
 	int x = 0;
 	int ScrollingText;
-
 	int Dialogue = 1;
+
+	//other
+	bool isinhouse = false;
+	float rotateSkybox = 0;
 
 	// Spacing of text
 	int textMaxWidth;
 	int textSpacing[256];
 	Vector3 PlayerCollision(unsigned count, CameraTest camera);
-	Vector3 CollisionCircleRect(float cx, float cy, float radius, float rx, float ry, float rw, float rh);
+	Vector3 CollisionCircleRect(float cx, float cz, float radius, float rx, float rz, float rw, float rb);
+	Vector3 prev;
 };
 
 #endif
