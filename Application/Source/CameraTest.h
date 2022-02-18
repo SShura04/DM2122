@@ -23,9 +23,10 @@ public:
     ~CameraTest();
     virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
     virtual void Update(double dt, POINT mousepos, bool move);
+    void setposition(Vector3 newcamerapos);
     virtual void Reset();
-    float temp = 2;
-
+    float Position_Y = 2;
+    float ZOOM_SPEED = 7.f;
     //unsigned gameobj;
     //static const int totalobj = 9;
     //Objects testingobj[totalobj];

@@ -45,13 +45,23 @@ class SP2 : public Scene
 		GEO_CITY_CENTRE_FLOOR,
 		GEO_BIN,
 		GEO_BENCH,
+		GEO_LAMPPOST,
 
-		//furniture
+		//Home furniture
 		GEO_BED,
 		GEO_DESK,
 		GEO_LAPTOP,
 		GEO_TABLE,
 		GEO_TV,
+		GEO_CEILING,
+
+		//Shop furnitutre
+		GEO_SHOPPROPSHELF,
+		GEO_COUNTER,
+		GEO_TABLESHOP,
+		GEO_RADIO,
+		GEO_WASHERDRYER,
+
 
 		//hitboxes
 		GEO_HITBOX,
@@ -59,6 +69,8 @@ class SP2 : public Scene
 
 		//garbage
 		GEO_GARBAGE,
+
+		//GEO_DEBUGCUBE,
 		
 		//text
 		GEO_TEXT_CALIBRI,
@@ -78,6 +90,7 @@ class SP2 : public Scene
 		U_COLOR_TEXTURE_ENABLED,
 		U_COLOR_TEXTURE,
 		//add these enum in UNIFORM_TYPE before U_TOTAL
+		
 		//light 1
 		U_LIGHT0_POSITION,
 		U_LIGHT0_COLOR,
@@ -233,7 +246,8 @@ class SP2 : public Scene
 		hb_HOUSE31,
 		hb_HOUSE32,
 		hb_HOUSE33,
-		hb_HOUSE41, //shop insides
+		hb_HOUSE34, //Player House inside
+		hb_HOUSE35, //shop insides
 
 		//Npc
 		hb_NPC1,
@@ -254,22 +268,38 @@ class SP2 : public Scene
 		hb_BENCH4,
 		hb_BENCH5,
 
+		hb_LIGHTPOST1,
+		hb_LIGHTPOST2,
+		hb_LIGHTPOST3,
+		hb_LIGHTPOST4,
+
 		hb_count,
 
-		//walls
-		hb_HOUSE34, //Player House inside
+		hb_WallHOUSE1,  //collision            
+		hb_WallHOUSE2, //collision
+		hb_WallHOUSE3, //collision
+		hb_WallHOUSE4, //collision
 
-		hb_Wall,  //collision
-		hb_Wall2, //collision
-		hb_Wall3, //collision
-		hb_Wall4, //collision
+		hb_WallSHOP1,  
+		hb_WallSHOP2,
+		hb_WallSHOP3,
+		hb_WallSHOP4,
 
 		//furniture
+		hb_CEILINGHOUSE,
+		hb_CEILINGSHOP,
 		hb_BED,
 		hb_DESK,
 		hb_LAPTOP,
 		hb_TABLE,
 		hb_TV,
+		hb_WALLSHOP,
+		hb_SHOPSELLTABLE,
+		hb_SHOPTABLE,
+		hb_SHOPPROPTV,
+		hb_SHOPPROPSHELF,
+		hb_SHOPPROPRADIO,
+		hb_SHOPPROPWASHERDRYER,
 
 		hb_total, //total game objects
 	};
@@ -350,8 +380,6 @@ private:
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
 	void RenderMeshOnScreen(Mesh* mesh, Vector3 size, Vector3 rotate, float x, float y);
-	void RenderMudkip(Vector3 position = Vector3(0, 8, 0), Vector3 rotation = Vector3(0, 0, 0));
-
 
 	float test = 0;
 

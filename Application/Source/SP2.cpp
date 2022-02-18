@@ -298,7 +298,7 @@ void SP2::Init()
 		light[0].type = Light::LIGHT_POINT;
 		light[0].position.Set(-100, 0, 0);
 		light[0].color.Set(1, 1, 1);
-		light[0].power = 0.6f;
+		light[0].power = 0.f;
 		light[0].kC = 1.f;
 		light[0].kL = 0.1f;
 		light[0].kQ = 0.01f;
@@ -327,7 +327,7 @@ void SP2::Init()
 		light[1].type = Light::LIGHT_DIRECTIONAL;
 		light[1].position.Set(-100, 100, -100);
 		light[1].color.Set(253.0f / 255.0f, 251.0f / 255.0f, 241.0f / 255.0f);
-		light[1].power = 0.6f;
+		light[1].power = 0.f;
 		light[1].kC = 1.f;
 		light[1].kL = 0.01f;
 		light[1].kQ = 0.001f;
@@ -354,7 +354,7 @@ void SP2::Init()
 		light[2].type = Light::LIGHT_DIRECTIONAL;
 		light[2].position.Set(-100, 100, 100);
 		light[2].color.Set(253.0f / 255.0f, 251.0f / 255.0f, 241.0f / 255.0f);
-		light[2].power = 0.4f;
+		light[2].power = 0.f;
 		light[2].kC = 1.f;
 		light[2].kL = 0.01f;
 		light[2].kQ = 0.001f;
@@ -381,7 +381,7 @@ void SP2::Init()
 		light[3].type = Light::LIGHT_POINT;
 		light[3].position.Set(-109, -4.5, 22.8);
 		light[3].color.Set(1, 1, 1);
-		light[3].power = 0.8f;
+		light[3].power = 0.f;
 		light[3].kC = 1.f;
 		light[3].kL = 0.1f;
 		light[3].kQ = 0.01f;
@@ -408,7 +408,7 @@ void SP2::Init()
 		light[4].type = Light::LIGHT_POINT;
 		light[4].position.Set(-509, -4.5, 22.8);
 		light[4].color.Set(1, 1, 1);
-		light[4].power = 0.8f;
+		light[4].power = 0.f;
 		light[4].kC = 1.f;
 		light[4].kL = 0.1f;
 		light[4].kQ = 0.01f;
@@ -435,7 +435,7 @@ void SP2::Init()
 		light[5].type = Light::LIGHT_POINT;
 		light[5].position.Set(-100, 0, 0);
 		light[5].color.Set(1, 1, 1);
-		light[5].power = 0.6f;
+		light[5].power = 0.f;
 		light[5].kC = 1.f;
 		light[5].kL = 0.1f;
 		light[5].kQ = 0.01f;
@@ -459,8 +459,9 @@ void SP2::Init()
 		glUniform1f(m_parameters[U_LIGHT5_EXPONENT], light[5].exponent);
 
 		//light 7
+		//Shop Light
 		light[6].type = Light::LIGHT_POINT;
-		light[6].position.Set(-100, 0, 0);
+		light[6].position.Set(3, -18, -31);
 		light[6].color.Set(1, 1, 1);
 		light[6].power = 0.6f;
 		light[6].kC = 1.f;
@@ -486,8 +487,9 @@ void SP2::Init()
 		glUniform1f(m_parameters[U_LIGHT6_EXPONENT], light[6].exponent);
 
 		//light 8
+		//Home Light
 		light[7].type = Light::LIGHT_POINT;
-		light[7].position.Set(-100, 0, 0);
+		light[7].position.Set(19.58, -17, 3.655);
 		light[7].color.Set(1, 1, 1);
 		light[7].power = 0.6f;
 		light[7].kC = 1.f;
@@ -528,7 +530,7 @@ void SP2::Init()
 	}
 	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("Axes", 100, 100, 100);
 
-	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("sphere", Color(1, 1, 1), 10, 20, 1);
+	//meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("sphere", Color(1, 1, 1), 10, 20, 1);
 
 	//ground
 	meshList[GEO_QUAD] = MeshBuilder::GenerateQuad("quad", Color(1, 1, 1), 1.f, 8);
@@ -559,8 +561,8 @@ void SP2::Init()
 	meshList[GEO_DIALOGUEUI] = MeshBuilder::GenerateQuad("dialoguebox", Color(1, 1, 1), 1.f);
 	meshList[GEO_DIALOGUEUI]->textureID = LoadTGA("Image//DialogueBox.tga");
 
-	//meshList[GEO_GARBAGE] = MeshBuilder::GenerateQuad("garbage", Color(1, 1, 1), 1.f, 1);
-	//meshList[GEO_GARBAGE]->textureID = LoadTGA("Image//Garbage2.tga");
+	meshList[GEO_GARBAGE] = MeshBuilder::GenerateQuad("garbage", Color(1, 1, 1), 1.f, 1);
+	meshList[GEO_GARBAGE]->textureID = LoadTGA("Image//Garbage2.tga");
 
 	//houses
 	//fat tall
@@ -683,35 +685,6 @@ void SP2::Init()
 	objectlist[hb_HOUSE28].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
 	objectlist[hb_HOUSE28].sethitboxcollisionsize(Vector3(5.5, 0, 7));
 
-	//shop insides
-	objectlist[hb_HOUSE41].setproperties(Vector3(3.4, -15, -32.8), Vector3(0, 180, 0), Vector3(-6, -9, -6));
-	objectlist[hb_HOUSE41].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
-	objectlist[hb_HOUSE41].sethitboxcollisionsize(Vector3(5.5, 0, 5.5));
-
-	//---------------------------------------------------
-		// Player house replica
-	objectlist[hb_HOUSE34].setmesh(GEO_HOUSE5);
-	objectlist[hb_HOUSE34].setproperties(Vector3(19, -20, 4), Vector3(180, 180, 0), Vector3(-7, -9, -12));
-	objectlist[hb_HOUSE34].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
-	//---------------------------------------------------
-	//desk wall
-	objectlist[hb_Wall].setproperties(Vector3(23, -20, 4), Vector3(180, 180, 0), Vector3(1, 1, 1));
-	objectlist[hb_Wall].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
-	objectlist[hb_Wall].sethitboxcollisionsize(Vector3(1, 0, 18));
-	//bed wall
-	objectlist[hb_Wall2].setproperties(Vector3(15, -20, 4), Vector3(180, 180, 0), Vector3(1, 1, 1));
-	objectlist[hb_Wall2].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
-	objectlist[hb_Wall2].sethitboxcollisionsize(Vector3(1, 0, 18));
-	//windows
-	objectlist[hb_Wall3].setproperties(Vector3(19, -20, 13), Vector3(180, 180, 0), Vector3(1, 1, 1));
-	objectlist[hb_Wall3].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
-	objectlist[hb_Wall3].sethitboxcollisionsize(Vector3(3, 0, 8));
-	//back wall
-	objectlist[hb_Wall4].setproperties(Vector3(19, -20, -5), Vector3(180, 180, 0), Vector3(1, 1, 1));
-	objectlist[hb_Wall4].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
-	objectlist[hb_Wall4].sethitboxcollisionsize(Vector3(3, 0, 8));
-
-
 	//short with roof
 	meshList[GEO_HOUSE5] = MeshBuilder::GenerateOBJMTL("modelhouse5", "OBJ//small_buildingF.obj", "OBJ//small_buildingF.mtl");
 	objectlist[hb_HOUSE5].setmesh(GEO_HOUSE5);
@@ -738,6 +711,123 @@ void SP2::Init()
 	objectlist[hb_HOUSE32].setproperties(Vector3(-23, 0, -41.4), Vector3(0, 90, 0), Vector3(7, 10, 7));
 	objectlist[hb_HOUSE32].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
 	objectlist[hb_HOUSE32].sethitboxcollisionsize(Vector3(4, 0, 4));
+
+
+	// Player house replica
+	objectlist[hb_HOUSE34].setmesh(GEO_HOUSE5);
+	objectlist[hb_HOUSE34].setproperties(Vector3(19, -20, 4), Vector3(180, 180, 0), Vector3(-7, -9, -12));
+	objectlist[hb_HOUSE34].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
+	//---------------------------------------------------
+	//desk wall
+	objectlist[hb_WallHOUSE1].setproperties(Vector3(23, -20, 4), Vector3(180, 180, 0), Vector3(1, 1, 1));
+	objectlist[hb_WallHOUSE1].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
+	objectlist[hb_WallHOUSE1].sethitboxcollisionsize(Vector3(1, 0, 18));
+	//bed wall
+	objectlist[hb_WallHOUSE2].setproperties(Vector3(15, -20, 4), Vector3(180, 180, 0), Vector3(1, 1, 1));
+	objectlist[hb_WallHOUSE2].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
+	objectlist[hb_WallHOUSE2].sethitboxcollisionsize(Vector3(1, 0, 18));
+	//windows		 
+	objectlist[hb_WallHOUSE3].setproperties(Vector3(19, -20, 13), Vector3(180, 180, 0), Vector3(1, 1, 1));
+	objectlist[hb_WallHOUSE3].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
+	objectlist[hb_WallHOUSE3].sethitboxcollisionsize(Vector3(3, 0, 8));
+	//back wall		  
+	objectlist[hb_WallHOUSE4].setproperties(Vector3(19, -20, -5), Vector3(180, 180, 0), Vector3(1, 1, 1));
+	objectlist[hb_WallHOUSE4].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
+	objectlist[hb_WallHOUSE4].sethitboxcollisionsize(Vector3(3, 0, 8));
+
+	//house celings
+	meshList[GEO_CEILING] = MeshBuilder::GenerateCube("ceilinghouse", Color(0.4607843, 0.4686275, 0.5), 2.f);
+	objectlist[hb_CEILINGHOUSE].setmesh(GEO_CEILING);
+	objectlist[hb_CEILINGHOUSE].setproperties(Vector3(19, -16.3, 4), Vector3(0, -90, 0), Vector3(5, 0.1, 3));
+	objectlist[hb_CEILINGHOUSE].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
+	objectlist[hb_CEILINGHOUSE].sethitboxcollisionsize(Vector3(4, 0, 4));
+
+	//house furniture
+	meshList[GEO_BED] = MeshBuilder::GenerateOBJMTL("modelbed", "OBJ//BedSingle.obj", "OBJ//BedSingle.mtl");
+	objectlist[hb_BED].setmesh(GEO_BED);
+	objectlist[hb_BED].setproperties(Vector3(15.3, -20, 2.5), Vector3(0, 180, 0), Vector3(3, 3, 3));
+	objectlist[hb_BED].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
+	objectlist[hb_BED].sethitboxcollisionsize(Vector3(10, 0, 10));
+	meshList[GEO_DESK] = MeshBuilder::GenerateOBJMTL("modeldesk", "OBJ//Desk.obj", "OBJ//Desk.mtl");
+	objectlist[hb_DESK].setmesh(GEO_DESK);
+	objectlist[hb_DESK].setproperties(Vector3(20.6, -20, -0.5), Vector3(0, 90, 0), Vector3(4, 3, 3));
+	objectlist[hb_DESK].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
+	objectlist[hb_DESK].sethitboxcollisionsize(Vector3(1, 0, 1));
+	meshList[GEO_LAPTOP] = MeshBuilder::GenerateOBJMTL("modellaptop", "OBJ//Laptop.obj", "OBJ//Laptop.mtl");
+	objectlist[hb_LAPTOP].setmesh(GEO_LAPTOP);
+	objectlist[hb_LAPTOP].setproperties(Vector3(21, -18.85, 0), Vector3(0, 90, 0), Vector3(4, 3, 3));
+	objectlist[hb_LAPTOP].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
+	objectlist[hb_LAPTOP].sethitboxcollisionsize(Vector3(0, 0, 1));
+	meshList[GEO_TABLE] = MeshBuilder::GenerateOBJMTL("modeltable", "OBJ//tableCoffee.obj", "OBJ//tableCoffee.mtl");
+	objectlist[hb_TABLE].setmesh(GEO_TABLE);
+	objectlist[hb_TABLE].setproperties(Vector3(17, -20, 7.5), Vector3(0, 0, 0), Vector3(3, 3, 3));
+	objectlist[hb_TABLE].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
+	objectlist[hb_TABLE].sethitboxcollisionsize(Vector3(0, 0, 0));
+	meshList[GEO_TV] = MeshBuilder::GenerateOBJMTL("modeltv", "OBJ//televisionVintage.obj", "OBJ//televisionVintage.mtl");
+	objectlist[hb_TV].setmesh(GEO_TV);
+	objectlist[hb_TV].setproperties(Vector3(18, -19.3, 7.5), Vector3(0, 0, 0), Vector3(3, 3, 3));
+	objectlist[hb_TV].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
+	objectlist[hb_TV].sethitboxcollisionsize(Vector3(0, 0, 0));
+
+
+	//---------------------------------------------------
+	//shop insides
+	objectlist[hb_HOUSE35].setmesh(GEO_HOUSE4);
+	objectlist[hb_HOUSE35].setproperties(Vector3(3.4, -20, -32.8), Vector3(180, 180, 0), Vector3(-6, -9, -10));
+	objectlist[hb_HOUSE35].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
+	//---------------------------------------------------
+	//meshList[GEO_DEBUGCUBE] = MeshBuilder::GenerateCube("debugcube", Color(0.3, 0.3, 0.3), 2.f);
+	objectlist[hb_WallSHOP1].setproperties(Vector3(8, -18, -30), Vector3(0, 0, 0), Vector3(0.1, 1, 6));
+	objectlist[hb_WallSHOP1].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
+	objectlist[hb_WallSHOP1].sethitboxcollisionsize(Vector3(0.1, 0, 6));	  
+	objectlist[hb_WallSHOP2].setproperties(Vector3(-1, -18, -30), Vector3(180, 180, 0), Vector3(3.7, 1, 0.1));
+	objectlist[hb_WallSHOP2].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
+	objectlist[hb_WallSHOP2].sethitboxcollisionsize(Vector3(0.1, 0, 6));	  
+	objectlist[hb_WallSHOP3].setproperties(Vector3(4, -18, -34), Vector3(180, 180, 0), Vector3(0.1, 1, 6));
+	objectlist[hb_WallSHOP3].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
+	objectlist[hb_WallSHOP3].sethitboxcollisionsize(Vector3(10, 0, 0.1));  
+	objectlist[hb_WallSHOP4].setproperties(Vector3(2.9, -18, -26.5), Vector3(180, 180, 0), Vector3(3.7, 1, 0.1));
+	objectlist[hb_WallSHOP4].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
+	objectlist[hb_WallSHOP4].sethitboxcollisionsize(Vector3(6, 0, 0.1));
+
+	meshList[GEO_COUNTER] = MeshBuilder::GenerateOBJMTL("modelcounter", "OBJ//tableCloth.obj", "OBJ//tableCloth.mtl");
+	objectlist[hb_SHOPSELLTABLE].setmesh(GEO_COUNTER);
+	objectlist[hb_SHOPSELLTABLE].setproperties(Vector3(0, -20, -33), Vector3(0, 180, 0), Vector3(3, 4, 3));
+	objectlist[hb_SHOPSELLTABLE].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
+	objectlist[hb_SHOPSELLTABLE].sethitboxcollisionsize(Vector3(1, 0, 1));
+	meshList[GEO_TABLESHOP] = MeshBuilder::GenerateOBJMTL("modeltableshop", "OBJ//table.obj", "OBJ//table.mtl");
+	objectlist[hb_SHOPTABLE].setmesh(GEO_TABLESHOP);
+	objectlist[hb_SHOPTABLE].setproperties(Vector3(2.5, -20, -33), Vector3(0, 180, 0), Vector3(5.5, 4, 3));
+	objectlist[hb_SHOPTABLE].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
+	objectlist[hb_SHOPTABLE].sethitboxcollisionsize(Vector3(1, 0, 1));
+	objectlist[hb_SHOPPROPTV].setmesh(GEO_TV);
+	objectlist[hb_SHOPPROPTV].setproperties(Vector3(5.5, -18.7, -34), Vector3(0, 135, 0), Vector3(3, 3, 3));
+	objectlist[hb_SHOPPROPTV].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
+	objectlist[hb_SHOPPROPTV].sethitboxcollisionsize(Vector3(1, 0, 1));
+	meshList[GEO_SHOPPROPSHELF] = MeshBuilder::GenerateCube("shoppropshelf", Color(0.8962264, 0.6015712, 0.3931559), 2.f);
+	objectlist[hb_SHOPPROPSHELF].setmesh(GEO_SHOPPROPSHELF);
+	objectlist[hb_SHOPPROPSHELF].setproperties(Vector3(6.4, -18, -37), Vector3(0, 0, 0), Vector3(0.7, 0.1, 2));
+	objectlist[hb_SHOPPROPSHELF].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
+	objectlist[hb_SHOPPROPSHELF].sethitboxcollisionsize(Vector3(1, 0, 1));
+	meshList[GEO_RADIO] = MeshBuilder::GenerateOBJMTL("modelradio", "OBJ//radio.obj", "OBJ//radio.mtl");
+	objectlist[hb_SHOPPROPRADIO].setmesh(GEO_RADIO);
+	objectlist[hb_SHOPPROPRADIO].setproperties(Vector3(6, -17.9, -36), Vector3(0, 147, 0), Vector3(2, 2, 2));
+	objectlist[hb_SHOPPROPRADIO].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
+	objectlist[hb_SHOPPROPRADIO].sethitboxcollisionsize(Vector3(1, 0, 1));
+	meshList[GEO_WASHERDRYER] = MeshBuilder::GenerateOBJMTL("modelwasherdryer", "OBJ//washerDryerStacked.obj", "OBJ//washerDryerStacked.mtl");
+	objectlist[hb_SHOPPROPWASHERDRYER].setmesh(GEO_WASHERDRYER);
+	objectlist[hb_SHOPPROPWASHERDRYER].setproperties(Vector3(4, -19.9, -38), Vector3(0, 180, 0), Vector3(2, 2, 2));
+	objectlist[hb_SHOPPROPWASHERDRYER].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
+	objectlist[hb_SHOPPROPWASHERDRYER].sethitboxcollisionsize(Vector3(1, 0, 1));
+
+	objectlist[hb_CEILINGSHOP].setmesh(GEO_CEILING);
+	objectlist[hb_CEILINGSHOP].setproperties(Vector3(3.3, -16.3, -33), Vector3(0, -90, 0), Vector3(7, 0.1, 4));
+	objectlist[hb_CEILINGSHOP].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
+	objectlist[hb_CEILINGSHOP].sethitboxcollisionsize(Vector3(4, 0, 4));
+	objectlist[hb_WALLSHOP].setmesh(GEO_CEILING);
+	objectlist[hb_WALLSHOP].setproperties(Vector3(3.3, -16.3, -26.8), Vector3(180, 0, 0), Vector3(4, 1, 0.1));
+	objectlist[hb_WALLSHOP].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
+	objectlist[hb_WALLSHOP].sethitboxcollisionsize(Vector3(4, 0, 4));
 
 	//Bench
 	meshList[GEO_BENCH] = MeshBuilder::GenerateOBJMTL("modelbench", "OBJ//Bench.obj", "OBJ//Bench.mtl");
@@ -793,32 +883,11 @@ void SP2::Init()
 	objectlist[hb_BIN7].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
 	objectlist[hb_BIN7].sethitboxcollisionsize(Vector3(0, 0, 0));
 
-	//furniture
-	//meshList[GEO_BED] = MeshBuilder::GenerateOBJMTL("modelbed", "OBJ//BedSingle.obj", "OBJ//BedSingle.mtl");
-	//objectlist[hb_BED].setmesh(GEO_BED);
-	//objectlist[hb_BED].setproperties(Vector3(15.3, -20, 2.5), Vector3(0, 180, 0), Vector3(3, 3, 3));
-	//objectlist[hb_BED].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
-	//objectlist[hb_BED].sethitboxcollisionsize(Vector3(1,0,1));
-	//meshList[GEO_DESK] = MeshBuilder::GenerateOBJMTL("modeldesk", "OBJ//Desk.obj", "OBJ//Desk.mtl");
-	//objectlist[hb_DESK].setmesh(GEO_DESK);
-	//objectlist[hb_DESK].setproperties(Vector3(20.6, -20, -0.5), Vector3(0, 90, 0), Vector3(4, 3, 3));
-	//objectlist[hb_DESK].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
-	//objectlist[hb_DESK].sethitboxcollisionsize(Vector3(1, 0, 1));
-	//meshList[GEO_LAPTOP] = MeshBuilder::GenerateOBJMTL("modellaptop", "OBJ//Laptop.obj", "OBJ//Laptop.mtl");
-	//objectlist[hb_LAPTOP].setmesh(GEO_LAPTOP);
-	//objectlist[hb_LAPTOP].setproperties(Vector3(21, -18.85, 0), Vector3(0, 90, 0), Vector3(4, 3, 3));
-	//objectlist[hb_LAPTOP].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
-	//objectlist[hb_LAPTOP].sethitboxcollisionsize(Vector3(0, 0, 1));
-	//meshList[GEO_TABLE] = MeshBuilder::GenerateOBJMTL("modeltable", "OBJ//tableCoffee.obj", "OBJ//tableCoffee.mtl");
-	//objectlist[hb_TABLE].setmesh(GEO_TABLE);
-	//objectlist[hb_TABLE].setproperties(Vector3(17, -20, 7.5), Vector3(0, 0, 0), Vector3(3, 3, 3));
-	//objectlist[hb_TABLE].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
-	//objectlist[hb_TABLE].sethitboxcollisionsize(Vector3(0, 0, 0));
-	//meshList[GEO_TV] = MeshBuilder::GenerateOBJMTL("modeltv", "OBJ//televisionVintage.obj", "OBJ//televisionVintage.mtl");
-	//objectlist[hb_TV].setmesh(GEO_TV);
-	//objectlist[hb_TV].setproperties(Vector3(18, -19.3, 7.5), Vector3(0, 0, 0), Vector3(3, 3, 3));
-	//objectlist[hb_TV].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
-	//objectlist[hb_TV].sethitboxcollisionsize(Vector3(0, 0, 0));
+	meshList[GEO_LAMPPOST] = MeshBuilder::GenerateOBJMTL("modellamppost", "OBJ//washerDryerStacked.obj", "OBJ//washerDryerStacked.mtl");
+	objectlist[hb_LIGHTPOST1].setmesh(GEO_LAMPPOST);
+	objectlist[hb_LIGHTPOST1].setproperties(Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(2, 4, 2));
+	objectlist[hb_LIGHTPOST1].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
+	objectlist[hb_LIGHTPOST1].sethitboxcollisionsize(Vector3(1, 0, 1));
 
 	//walls
 	//meshList[GEO_OUTERWALLS] = MeshBuilder::GenerateOBJMTL("model outerwall", "OBJ//wall_half.obj", "OBJ//wall_half.mtl");
@@ -1067,25 +1136,16 @@ void SP2::UpdateENV(double dt)
 	Vector3 PlayertoNPCXZ = (NPCPositionXZ - PlayerXZ).Normalized();
 	Vector3 viewXZ = Vector3(camera.view.x, 0, camera.view.z);
 	//float Cal_Camangle_yaw = ((std::acos((PlayertoNPCXZ).Dot(viewXZ) / ((PlayertoNPCXZ).Length()) * (viewXZ.Length()))));
-	float RightHandrule_AngleChecker = atan2(PlayertoNPCXZ.z * viewXZ.x - PlayertoNPCXZ.x * viewXZ.z, PlayertoNPCXZ.x * viewXZ.x + PlayertoNPCXZ.z * viewXZ.z) * 180 / Math::PI;
-
-	//float Camangle_yaw = 0;
+	float RightHandrule_AngleChecker = atan2(PlayertoNPCXZ.z * viewXZ.x - PlayertoNPCXZ.x * viewXZ.z, PlayertoNPCXZ.x * viewXZ.x + PlayertoNPCXZ.z * viewXZ.z) * (180 / Math::PI);
 	float speed_yaw = 0, speed_pitch = 0;
-
-	//if (RightHandrule_AngleChecker <= 0) {
-	//	Camangle_yaw = -Cal_Camangle_yaw;
-	//}
-	//else {
-	//	Camangle_yaw = Cal_Camangle_yaw;
-	//}
-
 	if (DialogueBoxOpen == true) {
-		if (RightHandrule_AngleChecker >= 0.2) {
+		if (RightHandrule_AngleChecker > 1) {
 			speed_yaw = -(dt * 120);
 		}
-		if (RightHandrule_AngleChecker <= -0.2) {
+		if (RightHandrule_AngleChecker < -1) {
 			speed_yaw = (dt * 120);
 		}
+		cout << RightHandrule_AngleChecker << endl;
 
 		if (viewY.y <= -0.1) {
 			speed_pitch = (dt * 120);
@@ -1190,13 +1250,22 @@ void SP2::UpdateENV(double dt)
 				// Walls
 				if (camera.position.y == -18)
 				{
-					for (int i = hb_Wall; i <= hb_Wall4; ++i)
+					for (int i = hb_WallHOUSE1; i <= hb_WallHOUSE4; ++i)
 					{
 						Vector3 finalPos = PlayerCollision(i, camera); //ignore y
 						camera.position.x = finalPos.x;
 						camera.position.z = finalPos.z;
 						camera.target = camera.position + camera.view;
 					}
+
+					for (int i = hb_WallSHOP1; i <= hb_WallSHOP4; ++i)
+					{
+						Vector3 finalPos = PlayerCollision(i, camera); //ignore y
+						camera.position.x = finalPos.x;
+						camera.position.z = finalPos.z;
+						camera.target = camera.position + camera.view;
+					}
+
 				}
 
 			} //else do nothing with camera
@@ -1221,66 +1290,6 @@ void SP2::UpdateENV(double dt)
 		//fist1.sethitboxcenterdimensions(Vector3(0.3, 0.3, 0.3), fistvector);
 		//fistvector = camera.position + camera.view * (2 + playerfist1) - camera.right * 0.8 + camera.view.Cross(camera.right) * 0.7;
 		//fist2.sethitboxcenterdimensions(Vector3(0.3, 0.3, 0.3), fistvector);
-
-		if (GetAsyncKeyState(0x01) && timesincelastpunch > 0.5)
-		{
-			punch = true;
-			timesincelastpunch = 0;
-		}
-		else if (timesincelastpunch > 0.5)
-		{
-			punch = false;
-			if (playerfist1 > 0)
-				playerfist1 -= 10.f * dt;
-			if (playerfist2 > 0)
-				playerfist2 -= 10.f * dt;
-		}
-
-		//static float punchcooldown = 1;
-		//if (punch)
-		//{
-		//	if (leftpunch)
-		//	{
-		//		if (playerfist1extend)
-		//		{
-		//			playerfist1 += 10.f * dt;
-		//			if (playerfist1 > 1)
-		//			{
-		//				playerfist1extend = false;
-		//			}
-		//		}
-		//		else
-		//		{
-		//			playerfist1 -= 10.f * dt;
-		//			if (playerfist1 <= 0)
-		//			{
-		//				playerfist1extend = true;
-		//				leftpunch = false;
-		//			}
-		//		}
-		//	}
-		//	else
-		//	{
-		//		if (playerfist2extend)
-		//		{
-		//			playerfist2 += 10.f * dt;
-		//			if (playerfist2 >= 1)
-		//			{
-		//				playerfist2extend = false;
-		//			}
-		//		}
-		//		else
-		//		{
-		//			playerfist2 -= 10.f * dt;
-		//			if (playerfist2 <= 0)
-		//			{
-		//				playerfist2extend = true;
-		//				leftpunch = true;
-		//			}
-		//		}
-		//	}
-		//}
-
 
 		if (debug)
 		{
@@ -1799,14 +1808,23 @@ void SP2::UpdateENV(double dt)
 
 
 
-	if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_NPC1].getposition().x, objectlist[hb_NPC1].getposition().z) <= 8) {
-		timesincelastbuttonpress += dt;
-	}
-	else if (interactableObjectRect(player.getposition().x, player.getposition().z, objectlist[hb_HOUSE18].getposition().x - 1.8, objectlist[hb_HOUSE18].getposition().z + 3, 1.5, 1) == true) //House outside
+	if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_NPC1].getposition().x, objectlist[hb_NPC1].getposition().z) <= 8) 
 	{
 		timesincelastbuttonpress += dt;
 	}
-	else if (interactableObjectRect(player.getposition().x, player.getposition().z, objectlist[hb_HOUSE18].getposition().x - 1.8, objectlist[hb_HOUSE18].getposition().z + 5, 1.5, 1) == true and camera.position.y == -18) //House inside
+	else if (interactableObjectRect(player.getposition().x, player.getposition().z, objectlist[hb_HOUSE18].getposition().x - 1.8, objectlist[hb_HOUSE18].getposition().z + 3, 1.5, 1) == true and camera.position.y != -18)
+	{
+		timesincelastbuttonpress += dt;
+	}
+	else if (interactableObjectRect(player.getposition().x, player.getposition().z, objectlist[hb_HOUSE18].getposition().x + 2, objectlist[hb_HOUSE18].getposition().z + 3, 1.5, 1.5) == true and camera.position.y == -18)
+	{
+		timesincelastbuttonpress += dt;
+	}
+	else if (interactableObjectRect(player.getposition().x, player.getposition().z, objectlist[hb_HOUSE14].getposition().x - 0, objectlist[hb_HOUSE14].getposition().z + 3, 1.5, 1) == true and camera.position.y != -18)
+	{
+		timesincelastbuttonpress += dt;
+	}
+	else if (interactableObjectRect(player.getposition().x, player.getposition().z, objectlist[hb_HOUSE14].getposition().x + 0, objectlist[hb_HOUSE14].getposition().z + 3, 1.5, 1.5) == true and camera.position.y == -18)
 	{
 		timesincelastbuttonpress += dt;
 	}
@@ -1894,6 +1912,7 @@ void SP2::RenderENV()
 
 
 	//light 1
+	
 	if (light[0].type == Light::LIGHT_DIRECTIONAL)
 	{
 		Vector3 lightDir(light[0].position.x, light[0].position.y, light[0].position.z);
@@ -2061,8 +2080,8 @@ void SP2::RenderENV()
 	);
 	modelStack.LoadIdentity();
 
-	Position lightPosition_cameraspace = viewStack.Top() * light[0].position;
-	glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightPosition_cameraspace.x);
+	//Position lightPosition_cameraspace = viewStack.Top() * light[0].position;
+	//glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightPosition_cameraspace.x);
 
 	RenderSkybox(camerapos);
 	if (DrawAxis == true) RenderMesh(meshList[GEO_AXES], false);
@@ -2074,61 +2093,61 @@ void SP2::RenderENV()
 	modelStack.PopMatrix();
 
 	//garbage
-	//{
-	//	modelStack.PushMatrix();
-	//	modelStack.Translate(-6, 1, 2.5);
-	//	modelStack.Rotate(-90, 1, 0, 0);
-	//	modelStack.Scale(0.7, 0.7, 0.7);
-	//	RenderMesh(meshList[GEO_GARBAGE], true);
-	//	modelStack.PopMatrix();
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(-6, 1, 2.5);
+		modelStack.Rotate(-90, 1, 0, 0);
+		modelStack.Scale(0.7, 0.7, 0.7);
+		RenderMesh(meshList[GEO_GARBAGE], true);
+		modelStack.PopMatrix();
 
-	//	modelStack.PushMatrix();
-	//	modelStack.Translate(12, 1, -14);
-	//	modelStack.Rotate(-90, 1, 0, 0);
-	//	modelStack.Scale(0.7, 0.7, 0.7);
-	//	RenderMesh(meshList[GEO_GARBAGE], true);
-	//	modelStack.PopMatrix();
+		modelStack.PushMatrix();
+		modelStack.Translate(12, 1, -14);
+		modelStack.Rotate(-90, 1, 0, 0);
+		modelStack.Scale(0.7, 0.7, 0.7);
+		RenderMesh(meshList[GEO_GARBAGE], true);
+		modelStack.PopMatrix();
 
-	//	modelStack.PushMatrix();
-	//	modelStack.Translate(-6, 1, -17);
-	//	modelStack.Rotate(-90, 1, 0, 0);
-	//	modelStack.Scale(0.7, 0.7, 0.7);
-	//	RenderMesh(meshList[GEO_GARBAGE], true);
-	//	modelStack.PopMatrix();
+		modelStack.PushMatrix();
+		modelStack.Translate(-6, 1, -17);
+		modelStack.Rotate(-90, 1, 0, 0);
+		modelStack.Scale(0.7, 0.7, 0.7);
+		RenderMesh(meshList[GEO_GARBAGE], true);
+		modelStack.PopMatrix();
 
-	//	modelStack.PushMatrix();
-	//	modelStack.Translate(15.5, 1, 6);
-	//	modelStack.Rotate(-90, 1, 0, 0);
-	//	modelStack.Scale(0.7, 0.7, 0.7);
-	//	RenderMesh(meshList[GEO_GARBAGE], true);
-	//	modelStack.PopMatrix();
+		modelStack.PushMatrix();
+		modelStack.Translate(15.5, 1, 2);
+		modelStack.Rotate(-90, 1, 0, 0);
+		modelStack.Scale(0.7, 0.7, 0.7);
+		RenderMesh(meshList[GEO_GARBAGE], true);
+		modelStack.PopMatrix();
 
-	//	modelStack.PushMatrix();
-	//	modelStack.Translate(24, 1, -12.5);
-	//	modelStack.Rotate(-90, 1, 0, 0);
-	//	modelStack.Scale(0.7, 0.7, 0.7);
-	//	RenderMesh(meshList[GEO_GARBAGE], true);
-	//	modelStack.PopMatrix();
+		modelStack.PushMatrix();
+		modelStack.Translate(24, 1, -12.5);
+		modelStack.Rotate(-90, 1, 0, 0);
+		modelStack.Scale(0.7, 0.7, 0.7);
+		RenderMesh(meshList[GEO_GARBAGE], true);
+		modelStack.PopMatrix();
 
-	//	modelStack.PushMatrix();
-	//	modelStack.Translate(-19.7, 1, 0);
-	//	modelStack.Rotate(-90, 1, 0, 0);
-	//	modelStack.Scale(0.7, 0.7, 0.7);
-	//	RenderMesh(meshList[GEO_GARBAGE], true);
-	//	modelStack.PopMatrix();
+		modelStack.PushMatrix();
+		modelStack.Translate(-19.7, 1, 0);
+		modelStack.Rotate(-90, 1, 0, 0);
+		modelStack.Scale(0.7, 0.7, 0.7);
+		RenderMesh(meshList[GEO_GARBAGE], true);
+		modelStack.PopMatrix();
 
-	//	modelStack.PushMatrix();
-	//	modelStack.Translate(16.7, 1, 18);
-	//	modelStack.Rotate(-90, 1, 0, 0);
-	//	modelStack.Scale(0.7, 0.7, 0.7);
-	//	RenderMesh(meshList[GEO_GARBAGE], true);
-	//	modelStack.PopMatrix();
-	//}
+		modelStack.PushMatrix();
+		modelStack.Translate(16.7, 1, 18);
+		modelStack.Rotate(-90, 1, 0, 0);
+		modelStack.Scale(0.7, 0.7, 0.7);
+		RenderMesh(meshList[GEO_GARBAGE], true);
+		modelStack.PopMatrix();
+	}
 
 	//render objects
 	for (unsigned idx = 0; idx < hb_total; idx++) //for objects
 	{
-		if (idx != hb_Wall)
+		if (idx != hb_WallHOUSE1)
 		{
 			if (!objectlist[idx].getissetup() || objectlist[idx].getmodel() == 0)
 				continue;
@@ -2481,64 +2500,84 @@ void SP2::RenderENV()
 		}
 	}
 
-	if (interactableObjectRect(player.getposition().x, player.getposition().z, objectlist[hb_HOUSE18].getposition().x - 1.8, objectlist[hb_HOUSE18].getposition().z + 3, 1.5, 1) == true and camera.position.y != -18) {
+	if (interactableObjectRect(player.getposition().x, player.getposition().z, objectlist[hb_HOUSE18].getposition().x - 1.8, objectlist[hb_HOUSE18].getposition().z + 3, 1.5, 1) == true and camera.position.y != -18)
+	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to go home", Color(1, 1, 1), 5, 27, 5);
 		prev = Vector3(camera.position);
 		if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2)
 		{
-			camera.temp = -18;
-			camera.target = Vector3(20, -18, -10);
-			camera.position = Vector3(20.5, -18, camera.position.z);
+			camera.Position_Y = -18;/*
+			camera.target = Vector3(prev.x, -18, -10);*/
+			camera.setposition(Vector3(20.5, camera.Position_Y, camera.position.z));
 			timesincelastbuttonpress = 0;
 		}
-
 	}
-	if (interactableObjectRect(player.getposition().x, player.getposition().z, objectlist[hb_HOUSE18].getposition().x +2 , objectlist[hb_HOUSE18].getposition().z + 4, 1.5, 1) == true and camera.position.y == -18)
+
+	if (interactableObjectRect(player.getposition().x, player.getposition().z, objectlist[hb_HOUSE18].getposition().x + 0 , objectlist[hb_HOUSE18].getposition().z + 3, 1.5, 1.5) == true and camera.position.y == -18)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to leave", Color(1, 1, 1), 5, 27, 5);
 		if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2) 
 		{
-			camera.temp = 2;
-			camera.position = Vector3(17.6,2,7.25);
-			camera.target = Vector3(prev.x, prev.y, 10);
+			camera.Position_Y = 2;
+		//	camera.target = Vector3(prev.x, 2, 10);
+			camera.setposition(Vector3(17.6, camera.Position_Y, 7.25));
 			timesincelastbuttonpress = 0;
 		}
 	}
 
-	if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN1].getposition().x, objectlist[hb_BIN1].getposition().z) <= 3 && camera.position.y != -18)
+	//pick junk
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to pick junk", Color(1, 1, 1), 5, 27, 5);	
+		if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN1].getposition().x, objectlist[hb_BIN1].getposition().z) <= 3 && camera.position.y != -18)
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to pick junk", Color(1, 1, 1), 5, 27, 5);
+		}
+		if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN2].getposition().x, objectlist[hb_BIN2].getposition().z) <= 3 && camera.position.y != -18)
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to pick junk", Color(1, 1, 1), 5, 27, 5);
+		}
+		if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN3].getposition().x, objectlist[hb_BIN3].getposition().z) <= 3 && camera.position.y != -18)
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to pick junk", Color(1, 1, 1), 5, 27, 5);
+		}
+		if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN4].getposition().x, objectlist[hb_BIN4].getposition().z) <= 3 && camera.position.y != -18)
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to pick junk", Color(1, 1, 1), 5, 27, 5);
+		}
+		if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN5].getposition().x, objectlist[hb_BIN5].getposition().z) <= 3 && camera.position.y != -18)
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to pick junk", Color(1, 1, 1), 5, 27, 5);
+		}
+		if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN6].getposition().x, objectlist[hb_BIN6].getposition().z) <= 3 && camera.position.y != -18)
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to pick junk", Color(1, 1, 1), 5, 27, 5);
+		}
+		if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN7].getposition().x, objectlist[hb_BIN7].getposition().z) <= 3 && camera.position.y != -18)
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to pick junk", Color(1, 1, 1), 5, 27, 5);
+		}
 	}
-	if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN2].getposition().x, objectlist[hb_BIN2].getposition().z) <= 3 && camera.position.y != -18)
-	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to pick junk", Color(1, 1, 1), 5, 27, 5);
-	}
-	if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN3].getposition().x, objectlist[hb_BIN3].getposition().z) <= 3 && camera.position.y != -18)
-	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to pick junk", Color(1, 1, 1), 5, 27, 5);
-	}
-	if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN4].getposition().x, objectlist[hb_BIN4].getposition().z) <= 3 && camera.position.y != -18)
-	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to pick junk", Color(1, 1, 1), 5, 27, 5);
-	}
-	if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN5].getposition().x, objectlist[hb_BIN5].getposition().z) <= 3 && camera.position.y != -18)
-	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to pick junk", Color(1, 1, 1), 5, 27, 5);
-	}
-	if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN6].getposition().x, objectlist[hb_BIN6].getposition().z) <= 3 && camera.position.y != -18)
-	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to pick junk", Color(1, 1, 1), 5, 27, 5);
-	}
-	if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN7].getposition().x, objectlist[hb_BIN7].getposition().z) <= 3 && camera.position.y != -18)
-	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to pick junk", Color(1, 1, 1), 5, 27, 5);
-	}
-	if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_HOUSE14].getposition().x, objectlist[hb_HOUSE14].getposition().z) <= 5)
+	
+	if (interactableObjectRect(player.getposition().x, player.getposition().z, objectlist[hb_HOUSE14].getposition().x - 0, objectlist[hb_HOUSE14].getposition().z + 3, 1.5, 1) == true and camera.position.y != -18) 
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to enter shop", Color(1, 1, 1), 5, 27, 5);
-		if (Application::IsKeyPressed('E')) 
+		prev = Vector3(camera.position);
+		if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2)
 		{
-			player.Setposition(Vector3(1, 1, 1));
+			camera.Position_Y = -18;
+			//camera.target = Vector3(3.5, -18, -40);
+			camera.setposition(Vector3(3.5, camera.Position_Y, -27.7));
+			timesincelastbuttonpress = 0;
+		}
+	}
+	if (interactableObjectRect(player.getposition().x, player.getposition().z, objectlist[hb_HOUSE14].getposition().x + 1.5, objectlist[hb_HOUSE14].getposition().z + 4.5, 1.5, 0) == true and camera.position.y == -18)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to leave", Color(1, 1, 1), 5, 27, 5);
+		if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2)
+		{
+			camera.Position_Y = 2;
+			//camera.target = Vector3(prev.x, prev.y, 10);
+			camera.setposition(Vector3(3.3, 2, -28.55));
+			timesincelastbuttonpress = 0;
 		}
 	}
 
