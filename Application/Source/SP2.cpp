@@ -307,7 +307,7 @@ void SP2::Init()
 	rotateAngle = 0;
 
 	//Initialize camera settings
-	camera.Init(Vector3(0, 2, 1), Vector3(-18, 2, 14), Vector3(0, 1, 0));
+	camera.Init(Vector3(19.3, -18, 1.246), Vector3(19, -18, 7.8), Vector3(0, 1, 0));
 
 
 	// Init VBO
@@ -399,6 +399,10 @@ void SP2::Init()
 	meshList[GEO_STAR4_Grey]->textureID = LoadTGA("Image//4_Star_Grey.tga");
 	meshList[GEO_STAR5_Grey] = MeshBuilder::GenerateQuad("star1", Color(1, 1, 1), 1.f);
 	meshList[GEO_STAR5_Grey]->textureID = LoadTGA("Image//5_Star_Grey.tga");
+
+	//garbage
+	meshList[GEO_GARBAGE] = MeshBuilder::GenerateQuad("garbage", Color(1, 1, 1), 1.f);
+	meshList[GEO_GARBAGE]->textureID = LoadTGA("Image//garbage2.tga");
 
 	//houses
 	//fat tall
@@ -721,7 +725,7 @@ void SP2::Init()
 	objectlist[hb_BIN3].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
 	objectlist[hb_BIN3].sethitboxcollisionsize(Vector3(0, 0, 0));
 	objectlist[hb_BIN4].setmesh(GEO_BIN);
-	objectlist[hb_BIN4].setproperties(Vector3(15.5, 0, 6), Vector3(0, 0, 0), Vector3(2, 5.5, 2));
+	objectlist[hb_BIN4].setproperties(Vector3(15.5, 0, 3), Vector3(0, 0, 0), Vector3(2, 5.5, 2));
 	objectlist[hb_BIN4].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
 	objectlist[hb_BIN4].sethitboxcollisionsize(Vector3(0, 0, 0));
 	objectlist[hb_BIN5].setmesh(GEO_BIN);
@@ -1980,6 +1984,7 @@ void SP2::UpdateENV(double dt)
 				}
 				Dialogue = 4;
 				timesincelastbuttonpress = 0;
+				Stars++;
 			}
 		}
 	}
@@ -2010,7 +2015,6 @@ void SP2::UpdateENV(double dt)
 	//	}
 	//	else if (Application::IsKeyPressed('E') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 4) {
 	//		srand(time(NULL));
-
 	//		randomtext = rand() % 4 + 1;
 	//		if (randomtext == 1)
 	//		{
@@ -2144,7 +2148,6 @@ void SP2::UpdateENV(double dt)
 	//	if (Application::IsKeyPressed('E') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 10)
 	//	{
 	//		srand(time(NULL));
-
 	//		randomfail = rand() % 3 + 1;
 	//		if (randomfail == 1)
 	//		{
@@ -2178,7 +2181,6 @@ void SP2::UpdateENV(double dt)
 	//	if (Application::IsKeyPressed('E') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 11)
 	//	{
 	//		srand(time(NULL));
-
 	//		randomsuccess = rand() % 3 + 1;
 	//		if (randomsuccess == 1)
 	//		{
@@ -2455,9 +2457,9 @@ void SP2::UpdateENV(double dt)
 	}*/
 
 	//TV Dialogue
-	/*if (DialogueBoxOpen == true)
+	if (checkedtv == true)
 	{
-		if (Application::IsKeyPressed('E') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 1)
+		if (isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 1)
 		{
 			GD_PrintLine1 = " BREAKING NEWS! ABC Bank has just been robbed off $1M!";
 			GD_PrintLine2 = "  Police investigations are currently ongoing.";
@@ -2477,7 +2479,7 @@ void SP2::UpdateENV(double dt)
 		{
 			DialogueBoxOpen == false;
 		}
-	}*/
+	}
 
 	//MINIGAME DIALOGUE
 	/*if (DialogueBoxOpen == true)
@@ -2493,9 +2495,9 @@ void SP2::UpdateENV(double dt)
 	}*/
 
 	//picking up the ring dialogue
-	/*if (DialogueBoxOpen == true)
+	if (checkedbin == true)
 	{
-		if (Application::IsKeyPressed('E') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 1)
+		if (isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 1)
 		{
 			GD_PrintLine1 = " Oh a ring!";
 			GD_PrintLine2 = " I can try to convince the pawn shop to buy this from me.";
@@ -2503,11 +2505,41 @@ void SP2::UpdateENV(double dt)
 			Dialogue = 2;
 			timesincelastbuttonpress = 0;
 		}
-	}*/
-
-
+	}
 
 	if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_NPC1].getposition().x, objectlist[hb_NPC1].getposition().z) <= 5 and Stars == 0) {
+		timesincelastbuttonpress += dt;
+	}
+	else if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN1].getposition().x, objectlist[hb_BIN1].getposition().z) <= 3) 
+	{
+		timesincelastbuttonpress += dt;
+	}
+	else if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN2].getposition().x, objectlist[hb_BIN2].getposition().z) <= 3)
+	{
+		timesincelastbuttonpress += dt;
+	}
+	else if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN3].getposition().x, objectlist[hb_BIN3].getposition().z) <= 3)
+	{
+		timesincelastbuttonpress += dt;
+	}
+	else if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN3].getposition().x, objectlist[hb_BIN3].getposition().z) <= 3)
+	{
+		timesincelastbuttonpress += dt;
+	}
+	else if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN4].getposition().x, objectlist[hb_BIN4].getposition().z) <= 3)
+	{
+		timesincelastbuttonpress += dt;
+	}
+	else if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN5].getposition().x, objectlist[hb_BIN5].getposition().z) <= 3)
+	{
+		timesincelastbuttonpress += dt;
+	}
+	else if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN6].getposition().x, objectlist[hb_BIN6].getposition().z) <= 3)
+	{
+		timesincelastbuttonpress += dt;
+	}
+	else if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN7].getposition().x, objectlist[hb_BIN7].getposition().z) <= 3)
+	{
 		timesincelastbuttonpress += dt;
 	}
 	else if (interactableObjectRect(player.getposition().x, player.getposition().z, objectlist[hb_HOUSE18].getposition().x - 1.8, objectlist[hb_HOUSE18].getposition().z + 3, 1.5, 1) == true) {
@@ -2527,7 +2559,12 @@ void SP2::UpdateENV(double dt)
 	{
 		timesincelastbuttonpress += dt;
 	}
-	else {
+	else if (interactableObjectRect(player.getposition().x, player.getposition().z, objectlist[hb_TV].getposition().x, objectlist[hb_TV].getposition().z + -0.5, 1.5, 1) == true and camera.position.y == -18)
+	{
+		timesincelastbuttonpress += dt;
+	}
+	else
+	{
 		timesincelastbuttonpress = 0;
 	}
 
@@ -3042,6 +3079,58 @@ void SP2::RenderENV()
 		modelStack.PopMatrix();
 	}
 
+	//render garbage for bins
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(-6, 1, 2.5);
+		modelStack.Rotate(-90, 1, 0, 0);
+		modelStack.Scale(0.7, 0.7, 0.7);
+		RenderMesh(meshList[GEO_GARBAGE], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(12, 1, -14);
+		modelStack.Rotate(-90, 1, 0, 0);
+		modelStack.Scale(0.7, 0.7, 0.7);
+		RenderMesh(meshList[GEO_GARBAGE], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(-6, 1, -17);
+		modelStack.Rotate(-90, 1, 0, 0);
+		modelStack.Scale(0.7, 0.7, 0.7);
+		RenderMesh(meshList[GEO_GARBAGE], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(15.5, 1, 3);
+		modelStack.Rotate(-90, 1, 0, 0);
+		modelStack.Scale(0.7, 0.7, 0.7);
+		RenderMesh(meshList[GEO_GARBAGE], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(24, 1, -12.5);
+		modelStack.Rotate(-90, 1, 0, 0);
+		modelStack.Scale(0.7, 0.7, 0.7);
+		RenderMesh(meshList[GEO_GARBAGE], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(-19.7, 1, 0);
+		modelStack.Rotate(-90, 1, 0, 0);
+		modelStack.Scale(0.7, 0.7, 0.7);
+		RenderMesh(meshList[GEO_GARBAGE], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(16.7, 1, 18);
+		modelStack.Rotate(-90, 1, 0, 0);
+		modelStack.Scale(0.7, 0.7, 0.7);
+		RenderMesh(meshList[GEO_GARBAGE], true);
+		modelStack.PopMatrix();
+	}
+
 	//Interaction
 	if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_NPC1].getposition().x, objectlist[hb_NPC1].getposition().z) <= 5 and Stars == 0) {
 		if (DialogueBoxOpen == false) {
@@ -3050,7 +3139,6 @@ void SP2::RenderENV()
 		if (Application::IsKeyPressed('E') and DialogueBoxOpen == false and timesincelastbuttonpress > 0.2) {
 			DialogueBoxOpen = true;
 			timesincelastbuttonpress = 0;
-			inshop = true;
 		}
 		if (DialogueBoxOpen == true) {
 			RenderMeshOnScreen(meshList[GEO_DIALOGUEUI], Vector3(60, 15, 1), 0, 40, 10);
@@ -3095,15 +3183,11 @@ void SP2::RenderENV()
 			isClick_Wanted = false;
 		}
 	}
-
-
-
-
 	if (interactableObjectRect(player.getposition().x, player.getposition().z, objectlist[hb_HOUSE18].getposition().x - 1.8, objectlist[hb_HOUSE18].getposition().z + 3, 1.5, 1) == true and camera.position.y == -18) {
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to leave house", Color(1, 1, 1), 4, 26, 3);
 		if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2) {
 			camera.Position_Y = 2;
-			camera.setposition(Vector3(17.5, prev.y, prev.z));
+			camera.setposition(Vector3(17.5, prev.y, 7.25));
 			timesincelastbuttonpress = 0;
 		}
 	}
@@ -3139,40 +3223,179 @@ void SP2::RenderENV()
 		isClick_Minigame = false;
 	}
 
+	//tv
+	if (interactableObjectRect(player.getposition().x, player.getposition().z, objectlist[hb_TV].getposition().x, objectlist[hb_TV].getposition().z + -0.5, 1.5, 1) == true and camera.position.y == -18)
+	{
+		if (DialogueBoxOpen == false) 
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to listen", Color(1, 1, 1), 4, 28, 3);
+		}
+		if (Application::IsKeyPressed('E') and DialogueBoxOpen == false and timesincelastbuttonpress > 0.2)
+		{
+			checkedtv = true;
+			DialogueBoxOpen = true;
+			timesincelastbuttonpress = 0;
+			inshop = true;
+		}
+		if (DialogueBoxOpen == true) 
+		{
+			RenderMeshOnScreen(meshList[GEO_DIALOGUEUI], Vector3(60, 15, 1), 0, 40, 10);
+			RenderTextOnScreen(meshList[GEO_TEXT], "TELEVISION", Color(1, 1, 1), 2.7, 23.5, 13.5);
+			RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine1, Color(0, 0, 0), 3, 13.5, 10);
+			RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine2, Color(0, 0, 0), 3, 13, 7.5);
+			RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine3, Color(0, 0, 0), 3, 13.5, 5);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to speed up", Color(1, 1, 1), 3, 30.2, 0.8);
+		}
 
+	}
 
-
-
+	//sell items 
+	if (interactableObjectRect(player.getposition().x, player.getposition().z, objectlist[hb_SHOPSELLTABLE].getposition().x, objectlist[hb_SHOPSELLTABLE].getposition().z + 0.5, 1.5, 1) == true and camera.position.y == -18)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to sell items", Color(1, 1, 1), 4, 28, 3);
+	}
 
 	//pick junk
 	{
 		if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN1].getposition().x, objectlist[hb_BIN1].getposition().z) <= 3 && camera.position.y != -18)
 		{
-			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to pick junk", Color(1, 1, 1), 4, 28, 3);
+			if (DialogueBoxOpen == false)
+			{
+				RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to pick junk", Color(1, 1, 1), 4, 28, 3);
+			}
+			if (Application::IsKeyPressed('E') and DialogueBoxOpen == false and timesincelastbuttonpress > 0.2) {
+				DialogueBoxOpen = true;
+				timesincelastbuttonpress = 0;
+				checkedbin = true;
+				inshop = true;
+			}
+			if (DialogueBoxOpen == true) {
+				RenderMeshOnScreen(meshList[GEO_DIALOGUEUI], Vector3(60, 15, 1), 0, 40, 10);
+				RenderTextOnScreen(meshList[GEO_TEXT], "YOU", Color(1, 1, 1), 2.7, 23.5, 13.5);
+				RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine1, Color(0, 0, 0), 3, 13.5, 10);
+				RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine2, Color(0, 0, 0), 3, 13, 7.5);
+				RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine3, Color(0, 0, 0), 3, 13.5, 5);
+			}
 		}
 		if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN2].getposition().x, objectlist[hb_BIN2].getposition().z) <= 3 && camera.position.y != -18)
 		{
-			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to pick junk", Color(1, 1, 1), 4, 28, 3);
+			if (DialogueBoxOpen == false)
+			{
+				RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to pick junk", Color(1, 1, 1), 4, 28, 3);
+			}
+			if (Application::IsKeyPressed('E') and DialogueBoxOpen == false and timesincelastbuttonpress > 0.2) {
+				DialogueBoxOpen = true;
+				timesincelastbuttonpress = 0;
+				checkedbin = true;
+				inshop = true;
+			}
+			if (DialogueBoxOpen == true) {
+				RenderMeshOnScreen(meshList[GEO_DIALOGUEUI], Vector3(60, 15, 1), 0, 40, 10);
+				RenderTextOnScreen(meshList[GEO_TEXT], "YOU", Color(1, 1, 1), 2.7, 23.5, 13.5);
+				RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine1, Color(0, 0, 0), 3, 13.5, 10);
+				RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine2, Color(0, 0, 0), 3, 13, 7.5);
+				RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine3, Color(0, 0, 0), 3, 13.5, 5);
+			}
 		}
 		if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN3].getposition().x, objectlist[hb_BIN3].getposition().z) <= 3 && camera.position.y != -18)
 		{
-			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to pick junk", Color(1, 1, 1), 4, 28, 3);
+			if (DialogueBoxOpen == false)
+			{
+				RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to pick junk", Color(1, 1, 1), 4, 28, 3);
+			}
+			if (Application::IsKeyPressed('E') and DialogueBoxOpen == false and timesincelastbuttonpress > 0.2) {
+				DialogueBoxOpen = true;
+				timesincelastbuttonpress = 0;
+				checkedbin = true;
+				inshop = true;
+			}
+			if (DialogueBoxOpen == true) {
+				RenderMeshOnScreen(meshList[GEO_DIALOGUEUI], Vector3(60, 15, 1), 0, 40, 10);
+				RenderTextOnScreen(meshList[GEO_TEXT], "YOU", Color(1, 1, 1), 2.7, 23.5, 13.5);
+				RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine1, Color(0, 0, 0), 3, 13.5, 10);
+				RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine2, Color(0, 0, 0), 3, 13, 7.5);
+				RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine3, Color(0, 0, 0), 3, 13.5, 5);
+			}
 		}
 		if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN4].getposition().x, objectlist[hb_BIN4].getposition().z) <= 3 && camera.position.y != -18)
 		{
-			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to pick junk", Color(1, 1, 1), 4, 28, 3);
+			if (DialogueBoxOpen == false)
+			{
+				RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to pick junk", Color(1, 1, 1), 4, 28, 3);
+			}
+			if (Application::IsKeyPressed('E') and DialogueBoxOpen == false and timesincelastbuttonpress > 0.2) {
+				DialogueBoxOpen = true;
+				timesincelastbuttonpress = 0;
+				checkedbin = true;
+				inshop = true;
+			}
+			if (DialogueBoxOpen == true) {
+				RenderMeshOnScreen(meshList[GEO_DIALOGUEUI], Vector3(60, 15, 1), 0, 40, 10);
+				RenderTextOnScreen(meshList[GEO_TEXT], "YOU", Color(1, 1, 1), 2.7, 23.5, 13.5);
+				RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine1, Color(0, 0, 0), 3, 13.5, 10);
+				RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine2, Color(0, 0, 0), 3, 13, 7.5);
+				RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine3, Color(0, 0, 0), 3, 13.5, 5);
+			}
 		}
 		if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN5].getposition().x, objectlist[hb_BIN5].getposition().z) <= 3 && camera.position.y != -18)
 		{
-			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to pick junk", Color(1, 1, 1), 4, 28, 3);
+			if (DialogueBoxOpen == false)
+			{
+				RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to pick junk", Color(1, 1, 1), 4, 28, 3);
+			}
+			if (Application::IsKeyPressed('E') and DialogueBoxOpen == false and timesincelastbuttonpress > 0.2) {
+				DialogueBoxOpen = true;
+				timesincelastbuttonpress = 0;
+				checkedbin = true;
+				inshop = true;
+			}
+			if (DialogueBoxOpen == true) {
+				RenderMeshOnScreen(meshList[GEO_DIALOGUEUI], Vector3(60, 15, 1), 0, 40, 10);
+				RenderTextOnScreen(meshList[GEO_TEXT], "YOU", Color(1, 1, 1), 2.7, 23.5, 13.5);
+				RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine1, Color(0, 0, 0), 3, 13.5, 10);
+				RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine2, Color(0, 0, 0), 3, 13, 7.5);
+				RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine3, Color(0, 0, 0), 3, 13.5, 5);
+			}
 		}
 		if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN6].getposition().x, objectlist[hb_BIN6].getposition().z) <= 3 && camera.position.y != -18)
 		{
-			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to pick junk", Color(1, 1, 1), 4, 28, 3);
+			if (DialogueBoxOpen == false)
+			{
+				RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to pick junk", Color(1, 1, 1), 4, 28, 3);
+			}
+			if (Application::IsKeyPressed('E') and DialogueBoxOpen == false and timesincelastbuttonpress > 0.2) {
+				DialogueBoxOpen = true;
+				timesincelastbuttonpress = 0;
+				checkedbin = true;
+				inshop = true;
+			}
+			if (DialogueBoxOpen == true) {
+				RenderMeshOnScreen(meshList[GEO_DIALOGUEUI], Vector3(60, 15, 1), 0, 40, 10);
+				RenderTextOnScreen(meshList[GEO_TEXT], "YOU", Color(1, 1, 1), 2.7, 23.5, 13.5);
+				RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine1, Color(0, 0, 0), 3, 13.5, 10);
+				RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine2, Color(0, 0, 0), 3, 13, 7.5);
+				RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine3, Color(0, 0, 0), 3, 13.5, 5);
+			}
 		}
 		if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN7].getposition().x, objectlist[hb_BIN7].getposition().z) <= 3 && camera.position.y != -18)
 		{
-			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to pick junk", Color(1, 1, 1), 4, 28, 3);
+			if (DialogueBoxOpen == false)
+			{
+				RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to pick junk", Color(1, 1, 1), 4, 28, 3);
+			}
+			if (Application::IsKeyPressed('E') and DialogueBoxOpen == false and timesincelastbuttonpress > 0.2) {
+				DialogueBoxOpen = true;
+				timesincelastbuttonpress = 0;
+				checkedbin = true;
+				inshop = true;
+			}
+			if (DialogueBoxOpen == true) {
+				RenderMeshOnScreen(meshList[GEO_DIALOGUEUI], Vector3(60, 15, 1), 0, 40, 10);
+				RenderTextOnScreen(meshList[GEO_TEXT], "YOU", Color(1, 1, 1), 2.7, 23.5, 13.5);
+				RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine1, Color(0, 0, 0), 3, 13.5, 10);
+				RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine2, Color(0, 0, 0), 3, 13, 7.5);
+				RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine3, Color(0, 0, 0), 3, 13.5, 5);
+			}
 		}
 	}
 
@@ -3222,8 +3445,6 @@ void SP2::RenderENV()
 			timesincelastbuttonpress = 0;
 		}
 	}
-
-
 
 	if (renderhitboxes)
 	{

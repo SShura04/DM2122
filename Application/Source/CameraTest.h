@@ -24,7 +24,7 @@ public:
 	virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
 	virtual void Update(double dt, POINT mousepos, bool move);
 	virtual void Reset();
-	float Position_Y = 2;
+	float Position_Y = -18;
 	float ZOOM_SPEED = 7.f;
 	//unsigned gameobj;
 	//static const int totalobj = 9;

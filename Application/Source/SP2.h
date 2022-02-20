@@ -336,7 +336,6 @@ private:
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
 	void RenderMeshOnScreen(Mesh* mesh, Vector3 size, float rotate, float x, float y);
-	void RenderMudkip(Vector3 position = Vector3(0, 8, 0), Vector3 rotation = Vector3(0, 0, 0));
 	void EnemyMove(unsigned ObjectID, float& x, float& z, double dt, float speed);
 	float EnemyX, EnemyZ;
 
@@ -360,6 +359,9 @@ private:
 	int randomfail;
 	int failshop = 0;
 
+	bool checkedbin;
+	bool checkedtv;
+
 	//other
 	bool isinhouse = false;
 	float rotateSkybox = 0;
@@ -378,8 +380,6 @@ private:
 
 	// Money
 	int Money = 1000;
-
-
 
 	// Stars wanted
 	int Stars = 0;
