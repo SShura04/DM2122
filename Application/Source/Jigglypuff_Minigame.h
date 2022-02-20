@@ -7,8 +7,7 @@
 #include "MatrixStack.h"
 #include "Light.h"
 #include "Camera2.h"
-//
-//#include "CollectObjects.h";
+#include "CollectObjects.h";
 #include <windows.h>
 
 
@@ -139,7 +138,6 @@ private:
 	HWND window;
 	RECT rect;
 	LPPOINT mousepos;
-
 
 	void RenderSkybox();
 	unsigned m_vertexArrayID;

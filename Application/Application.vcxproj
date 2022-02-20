@@ -153,6 +153,7 @@
     <ClCompile Include="Source\Camera3.cpp" />
     <ClCompile Include="Source\Camera4.cpp" />
     <ClCompile Include="Source\CameraTest.cpp" />
+    <ClCompile Include="Source\CollectObjects.cpp" />
     <ClCompile Include="Source\Hitbox.cpp" />
     <ClCompile Include="Source\Jigglypuff_Minigame.cpp" />
     <ClCompile Include="Source\LoadOBJ.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="Source\Camera3.h" />
     <ClInclude Include="Source\Camera4.h" />
     <ClInclude Include="Source\CameraTest.h" />
+    <ClInclude Include="Source\CollectObjects.h" />
     <ClInclude Include="Source\Hitbox.h" />
     <ClInclude Include="Source\Jigglypuff_Minigame.h" />
     <ClInclude Include="Source\Light.h" />

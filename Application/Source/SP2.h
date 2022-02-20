@@ -353,6 +353,12 @@ private:
 	int DialogueIndex = 0;
 	int ScrollingText;
 	int Dialogue = 1;
+	int randomtext;
+	int randomscam;
+	int randomgreet;
+	int randomsuccess;
+	int randomfail;
+	int failshop = 0;
 
 	//other
 	bool isinhouse = false;
