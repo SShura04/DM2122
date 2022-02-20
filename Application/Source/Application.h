@@ -1,4 +1,3 @@
-
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
@@ -9,13 +8,17 @@ class Application
 public:
 	enum Gamestates
 	{
-		gs_,
+		gs_quit,
+		gs_mainmenu,
+		gs_game,
+		gs_jigglypuffgame,
 	};
 	Application();
 	~Application();
 	void Init();
 	void Run();
 	void Exit();
+	static void ChangeScene(unsigned change2scene);
 	static bool IsKeyPressed(unsigned short key);
 	static bool IsMousePressed(unsigned short key);
 	static void GetCursorPos(double* xpos, double* ypos);
@@ -23,8 +26,11 @@ public:
 	static int GetWindowHeight();
 	static unsigned m_width;
 	static unsigned m_height;
-private:
+	static unsigned GameScene;
 
+	// Minigame timer
+	static float Minigame_timer;
+private:
 	//Declare a window object
 	StopWatch m_timer;
 };

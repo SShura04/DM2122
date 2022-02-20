@@ -24,6 +24,11 @@ public:
 	static Mesh* GenerateOBJMTL(const std::string& meshName, const std::string& file_path, const std::string& mtl_path);
 	static Mesh* GenerateText(const std::string& meshName, unsigned numRow, unsigned numCol);
 
+	static Mesh* GenerateHemiSphere(const std::string& meshName, Color color, unsigned numStacks = 10, unsigned numSlices = 10, float radius = 1.f);
+	static Mesh* GeneratePyramid(const std::string& meshName, Color color, float length = 1.f);
+	static Mesh* GenerateTorus(const std::string& meshName, Color color, unsigned numStack, unsigned numSlice, float outerR, float innerR);
+	static Mesh* GenerateEyeLid(const std::string& meshName, Color color, unsigned numStacks = 10, unsigned numSlices = 10, float radius = 1.f); //Hemisphere without bottom
+	static Mesh* GenerateHalfTorus(const std::string& meshName, Color color, unsigned numStack, unsigned numSlice, float outerR, float innerR);
 };
 
 #endif

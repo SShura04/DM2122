@@ -149,10 +149,12 @@
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
+    <ClCompile Include="Source\Camera2.cpp" />
     <ClCompile Include="Source\Camera3.cpp" />
     <ClCompile Include="Source\Camera4.cpp" />
     <ClCompile Include="Source\CameraTest.cpp" />
     <ClCompile Include="Source\Hitbox.cpp" />
+    <ClCompile Include="Source\Jigglypuff_Minigame.cpp" />
     <ClCompile Include="Source\LoadOBJ.cpp" />
     <ClCompile Include="Source\LoadTGA.cpp" />
     <ClCompile Include="Source\main.cpp" />
@@ -169,10 +171,12 @@
   <ItemGroup>
     <ClInclude Include="Source\Application.h" />
     <ClInclude Include="Source\Camera.h" />
+    <ClInclude Include="Source\Camera2.h" />
     <ClInclude Include="Source\Camera3.h" />
     <ClInclude Include="Source\Camera4.h" />
     <ClInclude Include="Source\CameraTest.h" />
     <ClInclude Include="Source\Hitbox.h" />
+    <ClInclude Include="Source\Jigglypuff_Minigame.h" />
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\LoadOBJ.h" />
     <ClInclude Include="Source\LoadTGA.h" />
@@ -188,6 +192,13 @@
     <ClInclude Include="Source\SP2.h" />
     <ClInclude Include="Source\Utility.h" />
     <ClInclude Include="Source\Vertex.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Source\Alucard.projnext.death01.wav" />
+    <Media Include="Source\AlucardSmash.wav" />
+    <Media Include="Source\AlucardSwirling.wav" />
+    <Media Include="Source\AlucardUlti01.wav" />
+    <Media Include="Source\AlucardUlti02.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

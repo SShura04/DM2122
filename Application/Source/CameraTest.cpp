@@ -26,8 +26,8 @@ void CameraTest::Init(const Vector3& pos, const Vector3& target, const Vector3& 
 
 void CameraTest::Update(double dt, POINT mousepos, bool move)
 {
-    static float angley = 0; 
     static const float CAMERA_SPEED = 45.f;
+    static float angley = 0;
     GetWindowRect(GetFocus(), &windowcenter);
     center.x = (windowcenter.left + windowcenter.right) * 0.5;
     center.y = (windowcenter.top + windowcenter.bottom) * 0.5;
@@ -86,15 +86,15 @@ void CameraTest::Update(double dt, POINT mousepos, bool move)
         view = rotation * view;
         target = position + view;
         angley += CAMERA_ROTATION_SPEEDY;
-        if (angley > 80 || angley < -80)
+        if (angley > 60 || angley < -60)
         {
             if (angley < 0)
             {
-                angley = -80;
+                angley = -60;
             }
             else
             {
-                angley = 80;
+                angley = 60;
             }
             CAMERA_ROTATION_SPEEDY = 0;
         }
@@ -106,17 +106,6 @@ void CameraTest::Update(double dt, POINT mousepos, bool move)
 
         SetCursorPos(center.x, center.y);
     }
-    if (Application::IsKeyPressed('R'))
-    {
-        Reset();
-    }
-}
-
-void CameraTest::setposition(Vector3 newcamerapos)
-{
-    view = target - position;
-    position = newcamerapos;
-    target = position + view;
 }
 
 void CameraTest::Reset()
@@ -124,4 +113,11 @@ void CameraTest::Reset()
     position = defaultPosition;
     target = defaultTarget;
     up = defaultUp;
+}
+
+void CameraTest::setposition(Vector3 newcamerapos)
+{
+    view = target - position;
+    position = newcamerapos;
+    target = position + view;
 }

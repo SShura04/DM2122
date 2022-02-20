@@ -69,6 +69,12 @@
     <ClCompile Include="Source\SP2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Jigglypuff_Minigame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Camera2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -134,5 +140,28 @@
     <ClInclude Include="Source\Hitbox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Jigglypuff_Minigame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Camera2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Source\AlucardSwirling.wav">
+      <Filter>Header Files</Filter>
+    </Media>
+    <Media Include="Source\AlucardUlti01.wav">
+      <Filter>Header Files</Filter>
+    </Media>
+    <Media Include="Source\AlucardUlti02.wav">
+      <Filter>Header Files</Filter>
+    </Media>
+    <Media Include="Source\Alucard.projnext.death01.wav">
+      <Filter>Header Files</Filter>
+    </Media>
+    <Media Include="Source\AlucardSmash.wav">
+      <Filter>Header Files</Filter>
+    </Media>
   </ItemGroup>
 </Project>

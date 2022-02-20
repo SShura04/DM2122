@@ -11,10 +11,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "SceneAssignment.h"
-#include "SceneAssignment2.h"
-#include "SceneUI.h"
+//#include "SceneAssignment.h"
+//#include "SceneAssignment2.h"
+//#include "SceneUI.h"
 #include "SP2.h"
+#include "Jigglypuff_Minigame.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -24,6 +25,8 @@ const unsigned int frameTime = 1000 / FPS; // time for each frame
 
 unsigned Application::m_width;
 unsigned Application::m_height;
+unsigned Application::GameScene;
+float Application::Minigame_timer = 0;
 
 void resize_callback(GLFWwindow* window, int w, int h)
 {
@@ -138,36 +141,46 @@ void Application::Init()
 	}
 
 	glfwSetWindowSizeCallback(m_window, resize_callback);
-
+	GameScene = gs_game;
 }
 
 void Application::Run()
 {
 	//Main Loop
 	Scene* scene1 = new SP2();
-	Scene* scene2 = new SceneUI();
+	Scene* scene2 = new Sp2_Minigame();
 	Scene* scene = scene1;
 	scene1->Init();
 	scene2->Init();
 
-	//Scene* scene = new SceneUI();
-	//scene->Init();
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 
-	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
+	while (!glfwWindowShouldClose(m_window))
 	{
-		if (IsKeyPressed(VK_F1))
+		if (GameScene == gs_quit)
+			break;
+		else if (GameScene == gs_game)
+		{
+			scene->UseScene();
 			scene = scene1;
-		else if (IsKeyPressed(VK_F2))
+		}
+		else if (GameScene == gs_jigglypuffgame)
+		{
+			scene->UseScene();
 			scene = scene2;
+		}
 
-		scene->Update(m_timer.getElapsedTime());
+		bool quit = scene->Update(m_timer.getElapsedTime());
 		scene->Render();
 		//Swap buffers
 		glfwSwapBuffers(m_window);
 		//Get and organize events, like keyboard and mouse input, window resizing, etc...
 		glfwPollEvents();
 		m_timer.waitUntil(frameTime);       // Frame rate limiter. Limits each frame to a specified time in ms.   
+		if (quit)
+		{
+			break;
+		}
 
 	} //Check if the ESC key had been pressed or if the window had been closed
 	scene1->Exit();
@@ -182,4 +195,9 @@ void Application::Exit()
 	glfwDestroyWindow(m_window);
 	//Finalize and clean up GLFW
 	glfwTerminate();
+}
+
+void Application::ChangeScene(unsigned change2scene)
+{
+	GameScene = change2scene;
 }

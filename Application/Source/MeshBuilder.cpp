@@ -503,3 +503,253 @@ Mesh* MeshBuilder::GenerateText(const std::string& meshName, unsigned numRow, un
 
 	return mesh;
 }
+
+
+Mesh* MeshBuilder::GenerateHemiSphere(const std::string& meshName, Color color, unsigned numStacks, unsigned numSlices, float radius)
+{
+	Vertex v;
+	std::vector<Vertex> vertex_buffer_data;
+	std::vector<GLuint> index_buffer_data;
+
+	float degreePerStack = 90.f / numStacks;
+	float degreePerSlice = 360.f / numSlices;
+
+	unsigned startIndex;
+	//Bottom
+	startIndex = vertex_buffer_data.size();
+	for (unsigned slice = 0; slice < numSlices + 1; ++slice)
+	{
+		float theta = slice * degreePerSlice;
+		float x = radius * cosf(Math::DegreeToRadian(theta));
+		float z = radius * sinf(Math::DegreeToRadian(theta));
+
+		v.pos.Set(x, 0, z);	v.color = color; v.normal.Set(0, -1, 0);   vertex_buffer_data.push_back(v);
+		v.pos.Set(0, 0, 0);	v.color = color; v.normal.Set(0, -1, 0);   vertex_buffer_data.push_back(v);
+	}
+	for (unsigned slice = 0; slice < numSlices + 1; ++slice)
+	{
+		index_buffer_data.push_back(startIndex + slice * 2 + 0);
+		index_buffer_data.push_back(startIndex + slice * 2 + 1);
+	}
+
+	startIndex = vertex_buffer_data.size();
+
+	for (unsigned stack = 0; stack < numStacks + 1; ++stack)
+	{
+		float phi = -90.f + stack * degreePerStack;
+		for (unsigned slice = 0; slice < numSlices + 1; ++slice)
+		{
+			float theta = slice * degreePerSlice;
+			float x = radius * cosf(Math::DegreeToRadian(phi)) * cosf(Math::DegreeToRadian(theta));
+			float y = radius * sinf(Math::DegreeToRadian(phi));
+			float z = radius * cosf(Math::DegreeToRadian(phi)) * sinf(Math::DegreeToRadian(theta));
+
+			v.pos.Set(x, y, z);
+			v.color = color;
+
+			v.normal.Set(x, y, z);
+
+			vertex_buffer_data.push_back(v);
+		}
+	}
+
+	for (unsigned stack = 0; stack < numStacks; ++stack)
+	{
+		for (unsigned slice = 0; slice < numSlices + 1; ++slice)
+		{
+			index_buffer_data.push_back(startIndex + stack * (numSlices + 1) + slice);
+			index_buffer_data.push_back(startIndex + (stack + 1) * (numSlices + 1) + slice);
+		}
+	}
+
+	Mesh* mesh = new Mesh(meshName);
+
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->vertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER, vertex_buffer_data.size() * sizeof(Vertex), &vertex_buffer_data[0], GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indexBuffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_buffer_data.size() * sizeof(GLuint), &index_buffer_data[0], GL_STATIC_DRAW);
+
+	mesh->indexSize = index_buffer_data.size();
+	mesh->mode = Mesh::DRAW_TRIANGLE_STRIP;
+
+	return mesh;
+}
+
+
+
+Mesh* MeshBuilder::GeneratePyramid(const std::string& meshName, Color color, float length)
+{
+	Vertex v;
+	std::vector<Vertex> vertex_buffer_data;
+	std::vector<GLuint> index_buffer_data;
+
+	v.pos.Set(0.5f * length, -0.5f * length, 0.5f * length);	v.color = color; v.normal.Set(0, -1, 0);	vertex_buffer_data.push_back(v);
+	v.pos.Set(-0.5f * length, -0.5f * length, -0.5f * length);	v.color = color; v.normal.Set(0, -1, 0);	vertex_buffer_data.push_back(v);
+	v.pos.Set(0.5f * length, -0.5f * length, -0.5f * length);	v.color = color; v.normal.Set(0, -1, 0);	vertex_buffer_data.push_back(v);
+	v.pos.Set(0.0f * length, 0.5f * length, 0.0f * length);	    v.color = color; v.normal.Set(0, 0, -1);	vertex_buffer_data.push_back(v);
+	v.pos.Set(0.5f * length, -0.5f * length, -0.5f * length);	v.color = color; v.normal.Set(0, 0, -1);	vertex_buffer_data.push_back(v);
+	v.pos.Set(-0.5f * length, -0.5f * length, -0.5f * length);	v.color = color; v.normal.Set(0, 0, -1);	vertex_buffer_data.push_back(v);
+
+
+	v.pos.Set(-0.5f * length, -0.5f * length, -0.5f * length);	v.color = color; v.normal.Set(-1, 0, 0);	vertex_buffer_data.push_back(v);
+	v.pos.Set(-0.5f * length, -0.5f * length, 0.5f * length);	v.color = color; v.normal.Set(-1, 0, 0);	vertex_buffer_data.push_back(v);
+	v.pos.Set(0.f * length, 0.5f * length, 0.f * length);	    v.color = color; v.normal.Set(-1, 0, 0);	vertex_buffer_data.push_back(v);
+	v.pos.Set(0.5f * length, -0.5f * length, 0.5f * length);	v.color = color; v.normal.Set(-1, 0, 0);	vertex_buffer_data.push_back(v);
+	v.pos.Set(-0.5f * length, -0.5f * length, 0.5f * length);	v.color = color; v.normal.Set(-1, 0, 0);	vertex_buffer_data.push_back(v);
+	v.pos.Set(-0.5f * length, -0.5f * length, -0.5f * length);	v.color = color; v.normal.Set(-1, 0, 0);	vertex_buffer_data.push_back(v);
+
+
+	v.pos.Set(0.f * length, 0.5f * length, 0.f * length);	    v.color = color; v.normal.Set(0, 0, 1);	vertex_buffer_data.push_back(v);
+	v.pos.Set(-0.5f * length, -0.5f * length, 0.5f * length);	v.color = color; v.normal.Set(0, 0, 1);	vertex_buffer_data.push_back(v);
+	v.pos.Set(0.5f * length, -0.5f * length, 0.5f * length);	v.color = color; v.normal.Set(0, 0, 1);	vertex_buffer_data.push_back(v);
+	v.pos.Set(0.5f * length, -0.5f * length, 0.5f * length);	v.color = color; v.normal.Set(1, 0, 0);	vertex_buffer_data.push_back(v);
+	v.pos.Set(0.5f * length, -0.5f * length, -0.5f * length);	v.color = color; v.normal.Set(1, 0, 0);	vertex_buffer_data.push_back(v);
+	v.pos.Set(0.f * length, 0.5f * length, 0.f * length);	    v.color = color; v.normal.Set(1, 0, 0);	vertex_buffer_data.push_back(v);
+
+	for (unsigned i = 0; i < 36; ++i)
+	{
+		index_buffer_data.push_back(i);
+	}
+
+	Mesh* mesh = new Mesh(meshName);
+
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->vertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER, vertex_buffer_data.size() * sizeof(Vertex), &vertex_buffer_data[0], GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indexBuffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_buffer_data.size() * sizeof(GLuint), &index_buffer_data[0], GL_STATIC_DRAW);
+
+	mesh->indexSize = index_buffer_data.size();
+	mesh->mode = Mesh::DRAW_TRIANGLES;
+
+	return mesh;
+}
+
+Mesh* MeshBuilder::GenerateTorus(const std::string& meshName, Color color, unsigned numStack, unsigned numSlice, float outerR, float innerR) {
+	Vertex v;
+	std::vector<Vertex> vertex_buffer_data;
+	std::vector<unsigned> index_buffer_data;
+
+	float radianPerStack = Math::TWO_PI / numStack;
+	float radianPerSlice = Math::TWO_PI / numSlice;
+
+	float x1, z1;
+	float x2, y2, z2;
+	for (unsigned stack = 0; stack < numStack + 1; stack++) {
+		for (unsigned slice = 0; slice < numSlice + 1; slice++) {
+			z1 = outerR * cos(stack * radianPerStack); x1 = outerR * sin(stack * radianPerStack);
+			z2 = (outerR + innerR * cos(slice * radianPerSlice)) * cos(stack * radianPerStack);
+			y2 = innerR * sin(slice * radianPerSlice);
+			x2 = (outerR + innerR * cos(slice * radianPerSlice)) * sin(stack * radianPerStack);
+
+			v.pos.Set(x2, y2, z2); v.color = color; v.normal.Set(x2 - x1, y2, z2 - z1);  vertex_buffer_data.push_back(v);
+		}
+	}
+
+	for (unsigned stack = 0; stack < numStack; ++stack) {
+		for (unsigned slice = 0; slice < numSlice + 1; ++slice) {
+			index_buffer_data.push_back((numSlice + 1) * stack + slice + 0);
+			index_buffer_data.push_back((numSlice + 1) * (stack + 1) + slice + 0);
+		}
+	}
+
+	Mesh* mesh = new Mesh(meshName);
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->vertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER, vertex_buffer_data.size() * sizeof(Vertex), &vertex_buffer_data[0], GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indexBuffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_buffer_data.size() * sizeof(GLuint), &index_buffer_data[0], GL_STATIC_DRAW);
+	mesh->mode = Mesh::DRAW_TRIANGLE_STRIP;
+	mesh->indexSize = index_buffer_data.size();
+	return mesh;
+}
+
+Mesh* MeshBuilder::GenerateEyeLid(const std::string& meshName, Color color, unsigned numStacks, unsigned numSlices, float radius)
+{
+	Vertex v;
+	std::vector<Vertex> vertex_buffer_data;
+	std::vector<GLuint> index_buffer_data;
+
+	float degreePerStack = 90.f / numStacks;
+	float degreePerSlice = 360.f / numSlices;
+
+	for (unsigned stack = 0; stack < numStacks + 1; ++stack)
+	{
+		float phi = -90.f + stack * degreePerStack;
+		for (unsigned slice = 0; slice < numSlices + 1; ++slice)
+		{
+			float theta = slice * degreePerSlice;
+			float x = radius * cosf(Math::DegreeToRadian(phi)) * cosf(Math::DegreeToRadian(theta));
+			float y = radius * sinf(Math::DegreeToRadian(phi));
+			float z = radius * cosf(Math::DegreeToRadian(phi)) * sinf(Math::DegreeToRadian(theta));
+
+			v.pos.Set(x, y, z);
+			v.color = color;
+
+			v.normal.Set(x, y, z);
+
+			vertex_buffer_data.push_back(v);
+		}
+	}
+
+	for (unsigned stack = 0; stack < numStacks; ++stack)
+	{
+		for (unsigned slice = 0; slice < numSlices + 1; ++slice)
+		{
+			index_buffer_data.push_back(stack * (numSlices + 1) + slice);
+			index_buffer_data.push_back((stack + 1) * (numSlices + 1) + slice);
+		}
+	}
+
+	Mesh* mesh = new Mesh(meshName);
+
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->vertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER, vertex_buffer_data.size() * sizeof(Vertex), &vertex_buffer_data[0], GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indexBuffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_buffer_data.size() * sizeof(GLuint), &index_buffer_data[0], GL_STATIC_DRAW);
+
+	mesh->indexSize = index_buffer_data.size();
+	mesh->mode = Mesh::DRAW_TRIANGLE_STRIP;
+
+	return mesh;
+}
+
+Mesh* MeshBuilder::GenerateHalfTorus(const std::string& meshName, Color color, unsigned numStack, unsigned numSlice, float outerR, float innerR) {
+	Vertex v;
+	std::vector<Vertex> vertex_buffer_data;
+	std::vector<unsigned> index_buffer_data;
+
+	float radianPerStack = Math::PI / numStack;
+	float radianPerSlice = Math::TWO_PI / numSlice;
+	float x1, z1;
+	float x2, y2, z2;
+	unsigned startIndex;
+
+	startIndex = vertex_buffer_data.size();
+
+	for (unsigned stack = 0; stack < numStack + 1; stack++) {
+		for (unsigned slice = 0; slice < numSlice + 1; slice++) {
+			z1 = outerR * cos(stack * radianPerStack);
+			x1 = outerR * sin(stack * radianPerStack);
+			z2 = (outerR + innerR * cos(slice * radianPerSlice)) * cos(stack * radianPerStack);
+			y2 = innerR * sin(slice * radianPerSlice);
+			x2 = (outerR + innerR * cos(slice * radianPerSlice)) * sin(stack * radianPerStack);
+
+			v.pos.Set(x2, y2, z2); v.color = color; v.normal.Set(x2 - x1, y2, z2 - z1);  vertex_buffer_data.push_back(v);
+		}
+	}
+
+	for (unsigned stack = 0; stack < numStack; ++stack) {
+		for (unsigned slice = 0; slice < numSlice + 1; ++slice) {
+			index_buffer_data.push_back((numSlice + 1) * stack + slice + 0);
+			index_buffer_data.push_back((numSlice + 1) * (stack + 1) + slice + 0);
+		}
+	}
+
+	Mesh* mesh = new Mesh(meshName);
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->vertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER, vertex_buffer_data.size() * sizeof(Vertex), &vertex_buffer_data[0], GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indexBuffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_buffer_data.size() * sizeof(GLuint), &index_buffer_data[0], GL_STATIC_DRAW);
+	mesh->mode = Mesh::DRAW_TRIANGLE_STRIP;
+	mesh->indexSize = index_buffer_data.size();
+	return mesh;
+}
