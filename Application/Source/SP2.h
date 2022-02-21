@@ -345,12 +345,9 @@ private:
 	// Scrolling of text
 	bool isRead = false;
 	bool DialogueBoxOpen = false;
-	std::string GameDialogueLINE;
 	std::string GD_PrintLine1;
 	std::string GD_PrintLine2;
 	std::string GD_PrintLine3;
-	int DialogueIndex = 0;
-	int ScrollingText;
 	int Dialogue = 1;
 	int randomtext;
 	int randomscam;
@@ -359,9 +356,16 @@ private:
 	int randomfail;
 	int failshop = 0;
 
+	std::string person;
+
 	bool checkedbin;
+	bool checkingbin;
 	bool checkedtv;
+	bool checkingtv;
 	bool talkshopkeep;
+	bool ringfound;
+	int rings;
+	int ringfoundchance;
 
 	//other
 	bool isinhouse = false;
