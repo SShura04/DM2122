@@ -190,11 +190,11 @@ void Sp2_Minigame::Init()
 	m_parameters[U_NUMLIGHTS] = glGetUniformLocation(m_programID, "numLights");
 	glUseProgram(m_programID);
 
-	glUniform1i(m_parameters[U_NUMLIGHTS], 3);
+	glUniform1i(m_parameters[U_NUMLIGHTS], 2);
 
 
 	light[0].type = Light::LIGHT_POINT;
-	light[0].position.Set(-60, 35, 40.9);
+	light[0].position.Set(-60, 35, 35);
 	light[0].color.Set(1, 1, 1);
 	light[0].power = 1;
 	light[0].kC = 1.f;
@@ -274,6 +274,11 @@ void Sp2_Minigame::Init()
 	EnemyHopUp2 = true;
 	EnemyHopDown2 = false;
 	EnemyUpandDown_Translation2 = 0;
+
+	EnemyHopUp3 = true;
+	EnemyHopDown3 = false;
+	EnemyUpandDown_Translation3 = 0;
+
 	//Body color
 	BodyR = 0.95;
 	BodyG = 0.85;
@@ -342,7 +347,6 @@ void Sp2_Minigame::Init()
 	ShockwavedirectionX = 0;
 	ShockwavedirectionZ = 0;
 	DisplayShockwave = false;
-	Coins = 100;
 
 	allowJumpAttack = false;
 	jumpAttack_rotation = 0;
@@ -356,24 +360,33 @@ void Sp2_Minigame::Init()
 	EnemyPosZ = -140;
 	EnemyPosX2 = 100;
 	EnemyPosZ2 = 140;
+	EnemyPosX3 = -100;
+	EnemyPosZ3 = -140;
+
 	allowEnemyMovement = true;
 	allowEnemyMovement2 = true;
+	allowEnemyMovement3 = true;
 
 	swingbackwardEnemy = true;
 	swingforwardEnemy = false;
 	swingbackwardEnemy2 = true;
 	swingforwardEnemy2 = false;
+	swingbackwardEnemy3 = true;
+	swingforwardEnemy3 = false;
 
 	isAlive = true;
 	RotateEnemyLeftArm_Movement = RotateEnemyRightArm_Movement = RotateEnemyRightLeg_Movement = RotateEnemyLeftLeg_Movement = 0;
 	RotateEnemyLeftArm_Movement2 = RotateEnemyRightArm_Movement2 = RotateEnemyRightLeg_Movement2 = RotateEnemyLeftLeg_Movement2 = 0;
+	RotateEnemyLeftArm_Movement3 = RotateEnemyRightArm_Movement3 = RotateEnemyRightLeg_Movement3 = RotateEnemyLeftLeg_Movement3 = 0;
 
 	EnemyXSpeed = EnemyZSpeed = 0;
 	EnemyXSpeed2 = EnemyZSpeed2 = 0;
+	EnemyXSpeed3 = EnemyZSpeed3 = 0;
 
 	Health = 100;
 	EnemyHealth = 100;
 	EnemyHealth2 = 100;
+	EnemyHealth3 = 100;
 
 	isRead = false;
 	DialogueBoxOpen = false;
@@ -383,18 +396,27 @@ void Sp2_Minigame::Init()
 	ScrollingText = 0;
 	EnemyDieRotation = 0;
 	EnemyDieRotation2 = 0;
+	EnemyDieRotation3 = 0;
+
 	EarnedCoins = true;
 
+	rotateEnemyBody = 0;
 	translateY_EnemyJump = 0;
 	EnemyShockwaveScale = 0.1;
 	ShockWaveEnemyAttack = false;
 	AllowEnemyAttack = false;
+
 	translateY_EnemyJump2 = 0;
 	EnemyShockwaveScale2 = 0.1;
 	ShockWaveEnemyAttack2 = false;
 	AllowEnemyAttack2 = false;
-	rotateEnemyBody = 0;
 	rotateEnemyBody2 = 180;
+
+	translateY_EnemyJump3 = 0;
+	EnemyShockwaveScale3 = 0.1;
+	ShockWaveEnemyAttack3 = false;
+	AllowEnemyAttack3 = false;
+	rotateEnemyBody3 = 180;
 
 	test = 0.7f;
 	jump = true;
@@ -402,11 +424,16 @@ void Sp2_Minigame::Init()
 	test2 = 0.7f;
 	jump2 = true;
 	Ground2 = false;
+	test3 = 0.7f;
+	jump3 = true;
+	Ground3 = false;
 	timer_gameover = 0.f;
 	isShopUIOpen = false;
 	Diamond = 0;
 	isSufficient = true;
 	EnemyRightArm_JumpAttackRotation = 0;
+	EnemyRightArm_JumpAttackRotation2 = 0;
+	EnemyRightArm_JumpAttackRotation3 = 0;
 
 	//Initialize camera settings
 
@@ -568,7 +595,7 @@ void Sp2_Minigame::Init()
 	meshList[GEO_COINS]->material.kDiffuse.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_COINS]->material.kSpecular.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_COINS]->material.kShininess = 1.f;
-	meshList[GEO_COINS]->textureID = LoadTGA("Image//Coins.tga");
+	meshList[GEO_COINS]->textureID = LoadTGA("Image//Cash.tga");
 
 	meshList[GEO_TENTOPEN] = MeshBuilder::GenerateOBJMTL("tentopen", "OBJ//tent_detailedOpen.obj", "OBJ//tent_detailedOpen.mtl");
 	meshList[GEO_TENTCLOSE] = MeshBuilder::GenerateOBJMTL("tentclose", "OBJ//tent_detailedClosed.obj", "OBJ//tent_detailedClosed.mtl");
@@ -689,21 +716,18 @@ Vector3 Sp2_Minigame::PlayerCollision(unsigned count, float Px, float Pz) {
 		return CollisionCircleRect(Px, Pz, 5, 0, 150, 10, 10);
 	}
 	else if (count == 11) {
-		return CollisionCircleRect(Px, Pz, 5, -130, -130, 10, 10);
-	}
-	else if (count == 12) {
 		return CollisionCircleRect(Px, Pz, 5, 130, -130, 10, 10);
 	}
-	else if (count == 13) {
+	else if (count == 12) {
 		return CollisionCircleRect(Px, Pz, 5, -130, 30, 10, 10);
 	}
-	else if (count == 14) {
+	else if (count == 13) {
 		return CollisionCircleRect(Px, Pz, 5, 10, -50, 25, 25);
 	}
-	else if (count == 15) {
+	else if (count == 14) {
 		return CollisionCircleRect(Px, Pz, 5, -100, 155, 15, 15);
 	}
-	else if (count == 16) {
+	else if (count == 15) {
 		return CollisionCircleRect(Px, Pz, 5, -30, 70, 45, 8);
 	}
 	else {
@@ -788,18 +812,22 @@ void Sp2_Minigame::UpdateENV(double dt)
 	camera_posVert = Vector3(camera2.position.x, camera2.position.y, camera2.position.z);
 	point_pos = Vector3(EnemyPosX, 20, EnemyPosZ); // E1
 	point_pos2 = Vector3(EnemyPosX2, 20, EnemyPosZ2); // E2
+	point_pos3 = Vector3(EnemyPosX3, 20, EnemyPosZ3); // E2
 
 	pitchVert = (camera_posVert - point_pos).Normalized();
 	pitchVert2 = (camera_posVert - point_pos2).Normalized();
+	pitchVert3 = (camera_posVert - point_pos3).Normalized();
 
 	look = (camera_posHori - point_pos).Normalized();
 	look2 = (camera_posHori - point_pos2).Normalized();
+	look3 = (camera_posHori - point_pos3).Normalized();
 
 	angleHori = (180.f / Math::PI) * (std::acos(look.Dot(target) / (look.Length()) * (target.Length())));
 	angleVert = (180.f / Math::PI) * (std::acos(look.Dot(pitchVert) / (look.Length()) * (pitchVert.Length())));
 	angleHori2 = (180.f / Math::PI) * (std::acos(look2.Dot(target) / (look2.Length()) * (target.Length())));
 	angleVert2 = (180.f / Math::PI) * (std::acos(look2.Dot(pitchVert2) / (look2.Length()) * (pitchVert2.Length())));
-
+	angleHori3 = (180.f / Math::PI) * (std::acos(look3.Dot(target) / (look3.Length()) * (target.Length())));
+	angleVert3 = (180.f / Math::PI) * (std::acos(look3.Dot(pitchVert3) / (look3.Length()) * (pitchVert3.Length())));
 
 	float totalObj = 17;
 	static float time_eyelid = 0.f;
@@ -888,7 +916,6 @@ void Sp2_Minigame::UpdateENV(double dt)
 			ShockwavedirectionZ = 15;
 			DisplayShockwave = false;
 
-			allowEnemyMovement = true;
 			open = false;
 			close = true;
 			Health = 100;
@@ -911,23 +938,42 @@ void Sp2_Minigame::UpdateENV(double dt)
 			EnemyPosZ = -140;
 			EnemyPosX2 = 100;
 			EnemyPosZ2 = 140;
+			EnemyPosX3 = -100;
+			EnemyPosZ3 = -140;
 
 			EnemyShockwaveScale = 0.1;
 			EnemyShockwaveScale2 = 0.1;
+			EnemyShockwaveScale3 = 0.1;
+
 			rotateEnemyBody2 = 180;
+			rotateEnemyBody3 = 0;
+			allowEnemyMovement = true;
 			allowEnemyMovement2 = true;
+			allowEnemyMovement3 = true;
+
 			EnemyHealth2 = 100;
 			EnemyDieRotation2 = 0;
+
+			EnemyHealth3 = 100;
+			EnemyDieRotation3 = 0;
+
 			test2 = 0.7f;
 			jump2 = true;
+			test3 = 0.7f;
+			jump3 = true;
 			Ground2 = false;
+			Ground3 = false;
 			Diamond = 0;
 			EarnedCoins = true;
 			EnemyViewAngle = 0;
 			EnemyViewAngle2 = 0;
+			EnemyViewAngle3 = 0;
 			triggerEnemy = false;
 			triggerEnemy2 = false;
+			triggerEnemy3 = false;
 			EnemyRightArm_JumpAttackRotation = 0;
+			EnemyRightArm_JumpAttackRotation2 = 0;
+			EnemyRightArm_JumpAttackRotation3 = 0;
 
 			EnemyHopUp = true;
 			EnemyHopDown = false;
@@ -935,6 +981,9 @@ void Sp2_Minigame::UpdateENV(double dt)
 			EnemyHopUp2 = true;
 			EnemyHopDown2 = false;
 			EnemyUpandDown_Translation2 = 0;
+			EnemyHopUp3 = true;
+			EnemyHopDown3 = false;
+			EnemyUpandDown_Translation3 = 0;
 
 			min = 2, sec = 60;
 			Application::Minigame_timer = 60;
@@ -1281,6 +1330,7 @@ void Sp2_Minigame::UpdateENV(double dt)
 				HopDown = false;
 			}
 		}
+
 		if (allowMovement == false) {
 			if (RotateRightArm_Movement >= 0) {
 				RotateRightArm_Movement -= (float)(80 * dt);
@@ -1333,6 +1383,25 @@ void Sp2_Minigame::UpdateENV(double dt)
 		if (EnemyHealth2 <= 0) {
 			EnemyUpandDown_Translation2 = 0;
 		}
+
+		if (EnemyHopUp3 == true and EnemyHopDown3 == false) {
+			EnemyUpandDown_Translation3 += (float)(4 * dt);
+		}
+		if (EnemyHopDown3 == true and EnemyHopUp3 == false) {
+			EnemyUpandDown_Translation3 -= (float)(4 * dt);
+		}
+		if (EnemyUpandDown_Translation3 >= 0.7 and EnemyHopUp3 == true and EnemyHopDown3 == false) {
+			EnemyHopUp3 = false;
+			EnemyHopDown3 = true;
+		}
+		if (EnemyUpandDown_Translation3 <= -0.7 and EnemyHopUp3 == false and EnemyHopDown3 == true) {
+			EnemyHopUp3 = true;
+			EnemyHopDown3 = false;
+		}
+		if (EnemyHealth3 <= 0) {
+			EnemyUpandDown_Translation3 = 0;
+		}
+
 
 		if (isDemon == true) {
 			if (HopUp_FIRE == true and HopDown_FIRE == false) {
@@ -1803,8 +1872,12 @@ void Sp2_Minigame::UpdateENV(double dt)
 		}
 
 
+
 		// Demon Movement
 		static float time_detect = 0;
+		static bool ismaximumdistance = false;
+		static float distancetravelled;
+
 		distancetravelled = DistanceParameter(EnemyPosX, EnemyPosZ, 100, -140);
 		EnemyXSpeed = (float)(15 * dt);
 		EnemyZSpeed = (float)(15 * dt);
@@ -1983,7 +2056,7 @@ void Sp2_Minigame::UpdateENV(double dt)
 		distancetravelled2 = DistanceParameter(EnemyPosX2, EnemyPosZ2, 100, 140);
 		EnemyXSpeed2 = (float)(15 * dt);
 		EnemyZSpeed2 = (float)(15 * dt);
-		if (EnemyDetectPlayer(translateX, translateZ, EnemyPosX2, EnemyPosZ2) == true and ismaximumdistance == false and triggerEnemy2 == false) {
+		if (EnemyDetectPlayer(translateX, translateZ, EnemyPosX2, EnemyPosZ2) == true and ismaximumdistance2 == false and triggerEnemy2 == false) {
 			triggerEnemy2 = true;
 		}
 		if (distancetravelled2 > 100 and ismaximumdistance2 == false) {
@@ -1994,13 +2067,13 @@ void Sp2_Minigame::UpdateENV(double dt)
 			Vector3 Player = Vector3(translateX, 0, translateZ);
 			Vector3 EnemytoOGPos = (Vector3(100, 0, 140) - EnemyPosition).Normalized();
 			Vector3 target = Vector3(0, 0, 1);
-			angle = (180.f / Math::PI) * (std::acos(EnemytoOGPos.Dot(target) / (EnemytoOGPos.Length()) * (target.Length())));
+			angle2 = (180.f / Math::PI) * (std::acos(EnemytoOGPos.Dot(target) / (EnemytoOGPos.Length()) * (target.Length())));
 
 			if (EnemytoOGPos.x > 0) {
-				EnemyViewAngle2 = angle;
+				EnemyViewAngle2 = angle2;
 			}
 			else {
-				EnemyViewAngle2 = -angle;
+				EnemyViewAngle2 = -angle2;
 			}
 
 			if (EnemyPosX2 >= 100) {
@@ -2073,7 +2146,7 @@ void Sp2_Minigame::UpdateENV(double dt)
 					if (EnemyPosZ2 > translateZ) {
 						EnemyPosZ2 -= EnemyZSpeed2;
 					}
-					else if (EnemyPosZ < translateZ) {
+					else if (EnemyPosZ2 < translateZ) {
 						EnemyPosZ2 += EnemyZSpeed2;
 					}
 					else {
@@ -2111,7 +2184,7 @@ void Sp2_Minigame::UpdateENV(double dt)
 				}
 			}
 			else {
-				if (allowEnemyMovement == true) {
+				if (allowEnemyMovement2 == true) {
 					if (RotateEnemyRightArm_Movement2 >= 0) {
 						RotateEnemyRightArm_Movement2 -= (float)(80 * dt);
 					}
@@ -2149,6 +2222,190 @@ void Sp2_Minigame::UpdateENV(double dt)
 				EnemyZSpeed2 = 0;
 			}
 		}
+
+
+
+
+
+
+
+		// Demon3 Movement
+		static bool ismaximumdistance3 = false;
+		static float distancetravelled3;
+		static float time_detect3 = 0;
+		distancetravelled3 = DistanceParameter(EnemyPosX3, EnemyPosX3, -100, -140);
+		EnemyXSpeed3 = (float)(15 * dt);
+		EnemyZSpeed3 = (float)(15 * dt);
+		if (EnemyDetectPlayer(translateX, translateZ, EnemyPosX3, EnemyPosZ3) == true and ismaximumdistance3 == false and triggerEnemy3 == false) {
+			triggerEnemy3 = true;
+		}
+		if (distancetravelled3 > 100 and ismaximumdistance3 == false) {
+			ismaximumdistance3 = true;
+		}
+		if (ismaximumdistance3 == true and EnemyHealth3 > 0) {
+			Vector3 EnemyPosition = Vector3(EnemyPosX3, 0, EnemyPosZ3);
+			Vector3 Player = Vector3(translateX, 0, translateZ);
+			Vector3 EnemytoOGPos = (Vector3(-100, 0, -140) - EnemyPosition).Normalized();
+			Vector3 target = Vector3(0, 0, 1);
+			angle3 = (180.f / Math::PI) * (std::acos(EnemytoOGPos.Dot(target) / (EnemytoOGPos.Length()) * (target.Length())));
+
+			if (EnemytoOGPos.x > 0) {
+				EnemyViewAngle3 = angle3;
+			}
+			else {
+				EnemyViewAngle3 = -angle3;
+			}
+
+			if (EnemyPosX3 >= 100) {
+				EnemyPosX3 -= EnemyXSpeed3;
+				rotateEnemyBody3 = -90;
+			}
+			if (EnemyPosX3 <= 100) {
+				EnemyPosX3 += EnemyXSpeed3;
+				rotateEnemyBody3 = -90;
+			}
+			if (EnemyPosZ3 >= 140) {
+				EnemyPosZ3 -= EnemyZSpeed3;
+				rotateEnemyBody3 = 180;
+			}
+			if (EnemyPosZ3 <= 140) {
+				EnemyPosZ3 += EnemyZSpeed3;
+				rotateEnemyBody3 = 0;
+			}
+		}
+		if (distancetravelled3 <= 0.5 and ismaximumdistance3 == true and time_detect3 <= 2 and EnemyHealth3 > 0) {
+			if (RotateEnemyRightArm_Movement3 >= 0) {
+				RotateEnemyRightArm_Movement3 -= (float)(80 * dt);
+			}
+			if (RotateEnemyRightArm_Movement3 <= 0) {
+				RotateEnemyRightArm_Movement3 += (float)(80 * dt);
+			}
+			if (RotateEnemyLeftArm_Movement3 <= 0) {
+				RotateEnemyLeftArm_Movement3 += (float)(80 * dt);
+			}
+			if (RotateEnemyLeftArm_Movement3 >= 0) {
+				RotateEnemyLeftArm_Movement3 -= (float)(80 * dt);
+			}
+			RotateEnemyLeftLeg_Movement3 = 0;
+			RotateEnemyRightLeg_Movement3 = 0;
+			time_detect3 += dt;
+			rotateEnemyBody3 = 0;
+			if (time_detect3 <= 0.5) {
+				EnemyHealth3 = 100;
+			}
+		}
+		if (time_detect3 >= 2) {
+			time_detect3 = 0;
+			ismaximumdistance3 = false;
+		}
+		if (triggerEnemy3 == true and allowEnemyMovement3 == true) {
+			if (ismaximumdistance3 == false) {
+				Vector3 EnemyPosition = Vector3(EnemyPosX3, 0, EnemyPosZ3);
+				Vector3 Player = Vector3(translateX, 0, translateZ);
+				Vector3 distanceVector = (Player - EnemyPosition);
+				Vector3 target = Vector3(0, 0, 1);
+				angle3 = (180.f / Math::PI) * (std::acos(distanceVector.Dot(target) / (distanceVector.Length()) * (target.Length())));
+
+				if (distanceVector.x > 0) {
+					EnemyViewAngle3 = angle3;
+				}
+				else {
+					EnemyViewAngle3 = -angle3;
+				}
+
+				if (distanceVector.Length() >= 30) {
+					if (EnemyPosX3 > translateX) {
+						EnemyPosX3 -= EnemyXSpeed3;
+					}
+					else if (EnemyPosX3 < translateX) {
+						EnemyPosX3 += EnemyXSpeed3;
+					}
+					else {
+						EnemyXSpeed3 = 0;
+					}
+					if (EnemyPosZ3 > translateZ) {
+						EnemyPosZ3 -= EnemyZSpeed3;
+					}
+					else if (EnemyPosZ3 < translateZ) {
+						EnemyPosZ3 += EnemyZSpeed3;
+					}
+					else {
+						EnemyZSpeed3 = 0;
+					}
+				}
+				else {
+					EnemyXSpeed3 = 0;
+					EnemyZSpeed3 = 0;
+				}
+
+				if (EnemyXSpeed3 == 0 and EnemyZSpeed3 == 0) {
+					AllowEnemyAttack3 = true;
+				}
+				else {
+					AllowEnemyAttack3 = false;
+				}
+			}
+			if (EnemyXSpeed3 != 0 or EnemyZSpeed3 != 0) {
+				if (swingforwardEnemy3 == true and swingbackwardEnemy3 == false) {
+					RotateEnemyLeftArm_Movement3 = RotateEnemyRightArm_Movement3 = RotateEnemyLeftLeg_Movement3 = RotateEnemyRightLeg_Movement3 += (float)(60 * dt);
+				}
+
+				if (swingbackwardEnemy3 == true and swingforwardEnemy3 == false) {
+					RotateEnemyLeftArm_Movement3 = RotateEnemyRightArm_Movement3 = RotateEnemyLeftLeg_Movement3 = RotateEnemyRightLeg_Movement3 -= (float)(60 * dt);
+				}
+
+				if (RotateEnemyLeftArm_Movement3 >= 25 and RotateEnemyRightArm_Movement3 >= 25 and RotateEnemyLeftLeg_Movement3 >= 25 and RotateEnemyRightLeg_Movement3 >= 25 and swingforwardEnemy3 == true and swingbackwardEnemy3 == false) {
+					swingforwardEnemy3 = false;
+					swingbackwardEnemy3 = true;
+				}
+				if (RotateEnemyLeftArm_Movement3 <= -25 and RotateEnemyRightArm_Movement3 <= -25 and RotateEnemyLeftLeg_Movement3 <= -25 and RotateEnemyRightLeg_Movement3 <= -25 and swingforwardEnemy3 == false and swingbackwardEnemy3 == true) {
+					swingforwardEnemy3 = true;
+					swingbackwardEnemy3 = false;
+				}
+			}
+			else {
+				if (allowEnemyMovement3 == true) {
+					if (RotateEnemyRightArm_Movement3 >= 0) {
+						RotateEnemyRightArm_Movement3 -= (float)(80 * dt);
+					}
+					if (RotateEnemyRightArm_Movement3 <= 0) {
+						RotateEnemyRightArm_Movement3 += (float)(80 * dt);
+					}
+					if (RotateEnemyLeftArm_Movement3 <= 0) {
+						RotateEnemyLeftArm_Movement3 += (float)(80 * dt);
+					}
+					if (RotateEnemyLeftArm_Movement3 >= 0) {
+						RotateEnemyLeftArm_Movement3 -= (float)(80 * dt);
+					}
+					RotateEnemyLeftLeg_Movement3 = 0;
+					RotateEnemyRightLeg_Movement3 = 0;
+				}
+			}
+		}
+		else {
+			if (allowEnemyMovement3 == true) {
+				if (RotateEnemyRightArm_Movement3 >= 0) {
+					RotateEnemyRightArm_Movement3 -= (float)(80 * dt);
+				}								
+				if (RotateEnemyRightArm_Movement3 <= 0) {
+					RotateEnemyRightArm_Movement3 += (float)(80 * dt);
+				}
+				if (RotateEnemyLeftArm_Movement3 <= 0) {
+					RotateEnemyLeftArm_Movement3 += (float)(80 * dt);
+				}							   
+				if (RotateEnemyLeftArm_Movement3 >= 0) {
+					RotateEnemyLeftArm_Movement3 -= (float)(80 * dt);
+				}
+				RotateEnemyLeftLeg_Movement3 = 0;
+				RotateEnemyRightLeg_Movement3 = 0;
+				EnemyXSpeed3 = 0;
+				EnemyZSpeed3 = 0;
+			}
+		}
+
+
+
+
 
 
 		if (Health > 0) {
@@ -2209,6 +2466,26 @@ void Sp2_Minigame::UpdateENV(double dt)
 		}
 		if (RotateEnemyLeftArm_Movement2 >= 0) {
 			RotateEnemyLeftArm_Movement2 -= (float)(80 * dt);
+		}
+
+		if (RotateEnemyRightArm_Movement3 >= 0) {
+			RotateEnemyRightArm_Movement3 -= (float)(80 * dt);
+		}
+		if (RotateEnemyRightArm_Movement3 <= 0) {
+			RotateEnemyRightArm_Movement3 += (float)(80 * dt);
+		}
+		if (RotateEnemyLeftArm_Movement3 <= 0) {
+			RotateEnemyLeftArm_Movement3 += (float)(80 * dt);
+		}
+		if (RotateEnemyLeftArm_Movement3 >= 0) {
+			RotateEnemyLeftArm_Movement3 -= (float)(80 * dt);
+		}
+		if (EarnedCoins == true) {
+			Application::Cash -= 100;
+			if (Application::Cash < 0) {
+				Application::Cash = 0;
+			}
+			EarnedCoins = false;
 		}
 		RotateRightArm_SwingSword = 0;
 		rotateAngle = 0;
@@ -2336,7 +2613,7 @@ void Sp2_Minigame::UpdateENV(double dt)
 
 	if (EnemyHealth <= 0 and allowEnemyMovement == false) {
 		if (EarnedCoins == true and Diamond != 10) {
-			Coins += rand() % 5 + 10;
+			Application::Cash += rand() % 5 + 10;
 			EarnedCoins = false;
 		}
 		if (RotateEnemyRightArm_Movement >= -50) {
@@ -2361,7 +2638,7 @@ void Sp2_Minigame::UpdateENV(double dt)
 
 	if (EnemyHealth2 <= 0 and allowEnemyMovement2 == false) {
 		if (EarnedCoins == true and Diamond != 10) {
-			Coins += rand() % 5 + 10;
+			Application::Cash += rand() % 5 + 10;
 			EarnedCoins = false;
 		}
 		if (RotateEnemyRightArm_Movement2 >= -50) {
@@ -2384,8 +2661,35 @@ void Sp2_Minigame::UpdateENV(double dt)
 		RotateEnemyRightLeg_Movement2 = 0;
 	}
 
+	if (EnemyHealth3 <= 0 and allowEnemyMovement3 == false) {
+		if (EarnedCoins == true and Diamond != 10) {
+			Application::Cash += rand() % 5 + 10;
+			EarnedCoins = false;
+		}
+		if (RotateEnemyRightArm_Movement3 >= -50) {
+			RotateEnemyRightArm_Movement3 -= (float)(80 * dt);
+		}
+		if (RotateEnemyRightArm_Movement3 <= -50) {
+			RotateEnemyRightArm_Movement3 += (float)(80 * dt);
+		}
+		if (RotateEnemyLeftArm_Movement3 <= 50) {
+			RotateEnemyLeftArm_Movement3 += (float)(80 * dt);
+		}
+		if (RotateEnemyLeftArm_Movement3 >= 50) {
+			RotateEnemyLeftArm_Movement3 -= (float)(80 * dt);
+		}
+		if (EnemyDieRotation3 >= -80) {
+			EnemyDieRotation3 -= (float)(80 * dt);
+		}
+		triggerEnemy3 = false;
+		RotateEnemyLeftLeg_Movement3 = 0;
+		RotateEnemyRightLeg_Movement3 = 0;
+	}
+
+
 	static float time_EnemyRespawn = 0.f;
 	static float time_EnemyRespawn2 = 0.f;
+	static float time_EnemyRespawn3 = 0.f;
 
 	if (EnemyHealth <= 0 and Diamond < 10) {
 		time_EnemyRespawn += dt;
@@ -2417,15 +2721,32 @@ void Sp2_Minigame::UpdateENV(double dt)
 		EnemyShockwaveScale2 = 0.1;
 	}
 
+	if (EnemyHealth3 <= 0 and Diamond < 10) {
+		time_EnemyRespawn3 += dt;
+	}
+	if (EnemyHealth3 <= 0 and time_EnemyRespawn3 >= 10) {
+		allowEnemyMovement3 = true;
+		time_EnemyRespawn3 = 0;
+		EnemyHealth3 = 100;
+		EnemyDieRotation3 = 0;
+		EarnedCoins = true;
+		EnemyPosX3 = -100;
+		EnemyPosZ3 = -140;
+		EnemyViewAngle3 = 0;
+		EnemyShockwaveScale3 = 0.1;
+	}
+
 
 	if (Diamond >= 10) {
 		EnemyHealth = 0;
 		EnemyHealth2 = 0;
+		EnemyHealth3 = 0;
+
 		time_EnemyRespawn = 0;
 		time_EnemyRespawn2 = 0;
-
-		if (timer_gameover > 0.5 and EarnedCoins == true) {
-			Coins += 100;
+		time_EnemyRespawn3 = 0;
+		if (EarnedCoins == true) {
+			Application::Cash += 250;
 			EarnedCoins = false;
 		}
 	}
@@ -2478,11 +2799,11 @@ void Sp2_Minigame::UpdateENV(double dt)
 			if (translateY_EnemyJump >= 0) {
 				translateY_EnemyJump -= (float)(55 * dt);
 			}
-			if (translateY_EnemyJump <= 0) {
-				translateY_EnemyJump += (float)(55 * dt);
-			}
 			if (EnemyRightArm_JumpAttackRotation <= 0) {
 				EnemyRightArm_JumpAttackRotation += (float)(200 * dt);
+			}
+			if (EnemyRightArm_JumpAttackRotation >= 0) {
+				EnemyRightArm_JumpAttackRotation -= (float)(200 * dt);
 			}
 			if (translateY_EnemyJump <= 0 and jump == false and Ground == true) {
 				jump = true;
@@ -2516,15 +2837,21 @@ void Sp2_Minigame::UpdateENV(double dt)
 		}
 	}
 
-
+	// Enemy 2 Attack
 	if (EnemyHealth2 > 0 and isAlive == true) {
 		if (AllowEnemyAttack2 == true) {
 			if (test2 >= 0.7) {
 				if (jump2 == true and Ground2 == false) {
 					translateY_EnemyJump2 += (float)(55 * dt);
+					if (EnemyRightArm_JumpAttackRotation2 >= -40) {
+						EnemyRightArm_JumpAttackRotation2 -= (float)(200 * dt);
+					}
 				}
 				if (jump2 == false and Ground2 == true) {
 					translateY_EnemyJump2 -= (float)(55 * dt);
+					if (EnemyRightArm_JumpAttackRotation2 <= 0) {
+						EnemyRightArm_JumpAttackRotation2 += (float)(200 * dt);
+					}
 				}
 				if (translateY_EnemyJump2 >= 15 and jump2 == true and Ground2 == false) {
 					jump2 = false;
@@ -2543,7 +2870,12 @@ void Sp2_Minigame::UpdateENV(double dt)
 			if (translateY_EnemyJump2 >= 0) {
 				translateY_EnemyJump2 -= (float)(55 * dt);
 			}
-
+			if (EnemyRightArm_JumpAttackRotation2 <= 0) {
+				EnemyRightArm_JumpAttackRotation2 += (float)(200 * dt);
+			}									
+			if (EnemyRightArm_JumpAttackRotation2 >= 0) {
+				EnemyRightArm_JumpAttackRotation2 -= (float)(200 * dt);
+			}
 			if (translateY_EnemyJump2 <= 0 and jump2 == false and Ground2 == true) {
 				jump2 = true;
 				Ground2 = false;
@@ -2560,7 +2892,7 @@ void Sp2_Minigame::UpdateENV(double dt)
 	if (ShockWaveEnemyAttack2 == true) {
 		EnemyShockwaveScale2 += (15 * dt);
 		static bool temp2 = false;
-		if (isInHitbox(translateX, translateZ, EnemyPosX2, EnemyPosZ2, EnemyShockwaveScale2 * 6) == true and temp2 == false and translatebodyY_Jump <= 0) {
+		if (isInHitbox(translateX, translateZ, EnemyPosX2, EnemyPosZ2, EnemyShockwaveScale2 * 6) == true and temp2 == false and translatebodyY_Jump <= 1) {
 			Health -= 1;
 			temp2 = true;
 		}
@@ -2572,6 +2904,85 @@ void Sp2_Minigame::UpdateENV(double dt)
 			ShockWaveEnemyAttack2 = false;
 		}
 	}
+
+
+
+	// Enemy 3 Jump Attack
+	if (EnemyHealth3 > 0 and isAlive == true) {
+		if (AllowEnemyAttack3 == true) {
+			if (test3 >= 0.7) {
+				if (jump3 == true and Ground3 == false) {
+					translateY_EnemyJump3 += (float)(55 * dt);
+					if (EnemyRightArm_JumpAttackRotation3 >= -40) {
+						EnemyRightArm_JumpAttackRotation3 -= (float)(200 * dt);
+					}
+				}
+				if (jump3 == false and Ground3 == true) {
+					translateY_EnemyJump3 -= (float)(55 * dt);
+					if (EnemyRightArm_JumpAttackRotation3 <= 0) {
+						EnemyRightArm_JumpAttackRotation3 += (float)(200 * dt);
+					}
+				}
+				if (translateY_EnemyJump3 >= 15 and jump3 == true and Ground3 == false) {
+					jump3 = false;
+					Ground3 = true;
+				}
+				if (translateY_EnemyJump3 <= 0 and jump3 == false and Ground3 == true) {
+					jump3 = true;
+					Ground3 = false;
+					ShockWaveEnemyAttack3 = true;
+					test3 = 0;
+				}
+			}
+			test3 += dt;
+		}
+		else {
+			if (translateY_EnemyJump3 >= 0) {
+				translateY_EnemyJump3 -= (float)(55 * dt);
+			}
+			if (translateY_EnemyJump3 <= 0) {
+				translateY_EnemyJump3 += (float)(55 * dt);
+			}
+			if (EnemyRightArm_JumpAttackRotation3 <= 0) {
+				EnemyRightArm_JumpAttackRotation3 += (float)(200 * dt);
+			}
+			if (EnemyRightArm_JumpAttackRotation3 >= 0) {
+				EnemyRightArm_JumpAttackRotation3 -= (float)(200 * dt);
+			}
+			if (translateY_EnemyJump3 <= 0 and jump3 == false and Ground3 == true) {
+				jump3 = true;
+				Ground3 = false;
+				test3 = 0;
+				ShockWaveEnemyAttack3 = true;
+			}
+		}
+	}
+	else {
+		translateY_EnemyJump3 = 0;
+		AllowEnemyAttack3 = false;
+		if (EnemyRightArm_JumpAttackRotation3 <= 0) {
+			EnemyRightArm_JumpAttackRotation3 += (float)(200 * dt);
+		}
+	}
+
+	if (ShockWaveEnemyAttack3 == true) {
+		EnemyShockwaveScale3 += (15 * dt);
+		static bool temp3 = false;
+		if (isInHitbox(translateX, translateZ, EnemyPosX3, EnemyPosZ3, EnemyShockwaveScale3 * 6) == true and temp3 == false and translatebodyY_Jump <= 1) {
+			Health -= 1;
+			temp3 = true;
+		}
+		else {
+			temp3 = false;
+		}
+		if (EnemyShockwaveScale3 >= 15) {
+			EnemyShockwaveScale3 = 0.1;
+			ShockWaveEnemyAttack3 = false;
+		}
+	}
+
+
+
 
 
 
@@ -3069,15 +3480,6 @@ void Sp2_Minigame::Render()
 	modelStack.PushMatrix();
 	{
 		modelStack.Translate(0, -4, 150);
-		modelStack.Rotate(0, 0, 1, 0);
-		modelStack.Scale(50, 60, 50);
-		RenderMesh(meshList[GEO_PALMTREES], true);
-	}
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	{
-		modelStack.Translate(-130, -4, -130);
 		modelStack.Rotate(0, 0, 1, 0);
 		modelStack.Scale(50, 60, 50);
 		RenderMesh(meshList[GEO_PALMTREES], true);
@@ -3726,6 +4128,7 @@ void Sp2_Minigame::Render()
 		modelStack.PushMatrix();
 		{
 			modelStack.Rotate(RotateEnemyRightArm_Movement2, 0, 1, 0); // Moving right arms
+			modelStack.Rotate(EnemyRightArm_JumpAttackRotation2, 0, 0, 1);
 			modelStack.Translate(-6.5, -1, 3.5);
 			modelStack.Rotate(45, 0, 1, 0);
 			modelStack.Scale(3, 1, 0.5);
@@ -3739,6 +4142,7 @@ void Sp2_Minigame::Render()
 		modelStack.PushMatrix();
 		{
 			modelStack.Rotate(RotateEnemyLeftArm_Movement2, 0, 1, 0); // Moving left arms
+			modelStack.Rotate(-EnemyRightArm_JumpAttackRotation2, 0, 0, 1);
 			modelStack.Translate(6.5, -1, 3.5);
 			modelStack.Rotate(-45, 0, 1, 0);
 			modelStack.Scale(3, 1, 0.5);
@@ -3783,6 +4187,288 @@ void Sp2_Minigame::Render()
 	modelStack.PopMatrix();
 
 
+
+
+
+	//Demon Jigglypuff3
+	modelStack.PushMatrix();
+	{
+		if (EnemyXSpeed3 > 0 or EnemyZSpeed3 > 0) {
+			modelStack.Translate(0, EnemyUpandDown_Translation3, 0);
+		}
+		modelStack.Translate(EnemyPosX3, 5.5 + translateY_EnemyJump3, EnemyPosZ3);
+		modelStack.Rotate(EnemyViewAngle3, 0, 1, 0);
+
+		modelStack.Rotate(EnemyDieRotation3, 1, 0, 0);
+
+		//hair
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(0.1, 6, 3.5);
+
+			modelStack.PushMatrix();
+			{
+				modelStack.Translate(-0.3, 0.3, -1);
+				modelStack.Rotate(0, 1, 0, 0);
+				modelStack.Rotate(0, 0, 0, 1);
+				modelStack.Scale(2.6, 2.6, 2.6);
+				meshList[GEO_SPHERE]->material.kAmbient.Set(1 * 0.7, 0, 0);
+				meshList[GEO_SPHERE]->material.kDiffuse.Set(1, 0, 0);
+				RenderMesh(meshList[GEO_SPHERE], true);
+			}
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			{
+				modelStack.Translate(0.3, -0.6, 1.1);
+				modelStack.Rotate(0, 1, 0, 0);
+				modelStack.Rotate(0, 0, 0, 1);
+				modelStack.Scale(1.5, 1.5, 1.5);
+				meshList[GEO_SPHERE]->material.kAmbient.Set(1 * 0.7, 0, 0);
+				meshList[GEO_SPHERE]->material.kDiffuse.Set(1, 0, 0);
+				RenderMesh(meshList[GEO_SPHERE], true);
+			}
+			modelStack.PopMatrix();
+
+			modelStack.Rotate(20, 1, 0, 0);
+			modelStack.Rotate(-20, 0, 0, 1);
+			modelStack.Scale(0.7, 0.7, 0.7);
+			meshList[GEO_TORUS]->material.kAmbient.Set(1 * 0.7, 0, 0);
+			meshList[GEO_TORUS]->material.kDiffuse.Set(1, 0, 0);
+			RenderMesh(meshList[GEO_TORUS], true);
+		}
+		modelStack.PopMatrix();
+
+		//Eyes left mirror
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(1.8, 2, 3.55);
+			{
+				// Left eyelid
+				modelStack.PushMatrix();
+				{
+					modelStack.Translate(0.6, 0.8, 1.2);
+					// -300 to -100
+					modelStack.Rotate(-300, 1, 0, 0);
+					modelStack.Scale(3, 3, 3);
+					meshList[GEO_EYELID]->material.kAmbient.Set(1 * 0.7, 0, 0);
+					meshList[GEO_EYELID]->material.kDiffuse.Set(1, 0, 0);
+					RenderMesh(meshList[GEO_EYELID], true);
+				}
+				modelStack.PopMatrix();
+
+				// Dark Cyan Pupil
+				modelStack.PushMatrix();
+				{
+					modelStack.Translate(0.65, 0.73, 1.5);
+
+					// Pupil eyes reflection
+					modelStack.PushMatrix();
+					{
+						modelStack.Translate(0.1, 1.1, 1.2);
+						modelStack.Rotate(0, 0, 1, 0);
+						modelStack.Scale(1, 1, 1);
+						meshList[GEO_SPHERE]->material.kAmbient.Set(1, 0, 0);
+						meshList[GEO_SPHERE]->material.kDiffuse.Set(1, 0, 0);
+						RenderMesh(meshList[GEO_SPHERE], true);
+					}
+					modelStack.PopMatrix();
+
+					modelStack.Rotate(0, 0, 1, 0);
+					modelStack.Scale(2.55, 2.55, 2.55);
+					meshList[GEO_SPHERE]->material.kAmbient.Set(1 * 0.25, 0, 0);
+					meshList[GEO_SPHERE]->material.kDiffuse.Set(1, 0, 0);
+					RenderMesh(meshList[GEO_SPHERE], true);
+				}
+				modelStack.PopMatrix();
+			}
+			modelStack.Rotate(0, 0, 1, 0);
+			modelStack.Scale(4, 4, 4);
+			meshList[GEO_SPHERE]->material.kAmbient.Set(0, 0, 0);
+			meshList[GEO_SPHERE]->material.kDiffuse.Set(0, 0, 0);
+			RenderMesh(meshList[GEO_SPHERE], true);
+		}
+		modelStack.PopMatrix();
+
+		//Eyes right mirror
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(-1.8, 2, 3.55);
+			{
+				// Eye lid
+				modelStack.PushMatrix();
+				{
+					modelStack.Translate(-0.6, 0.8, 1.2);
+					modelStack.Rotate(-300, 1, 0, 0);
+					modelStack.Scale(3, 3, 3);
+					meshList[GEO_EYELID]->material.kAmbient.Set(1 * 0.7, 0, 0);
+					meshList[GEO_EYELID]->material.kDiffuse.Set(1, 0, 0);
+					RenderMesh(meshList[GEO_EYELID], true);
+				}
+				modelStack.PopMatrix();
+
+				// Dark Cyan Pupil
+				modelStack.PushMatrix();
+				{
+					modelStack.Translate(-0.65, 0.73, 1.5);
+					// Pupil eyes reflection
+					modelStack.PushMatrix();
+					{
+						modelStack.Translate(-0.1, 1.1, 1.2);
+						modelStack.Rotate(0, 0, 1, 0);
+						modelStack.Scale(1, 1, 1);
+						meshList[GEO_SPHERE]->material.kAmbient.Set(1, 0, 0);
+						meshList[GEO_SPHERE]->material.kDiffuse.Set(1, 0, 0);
+						RenderMesh(meshList[GEO_SPHERE], true);
+					}
+					modelStack.PopMatrix();
+					modelStack.Rotate(0, 0, 1, 0);
+					modelStack.Scale(2.55, 2.55, 2.55);
+					meshList[GEO_SPHERE]->material.kAmbient.Set(1 * 0.25, 0, 0);
+					meshList[GEO_SPHERE]->material.kDiffuse.Set(1, 0, 0);
+					RenderMesh(meshList[GEO_SPHERE], true);
+				}
+				modelStack.PopMatrix();
+			}
+			modelStack.Rotate(0, 0, 1, 0);
+			modelStack.Scale(4, 4, 4);
+			meshList[GEO_SPHERE]->material.kAmbient.Set(0, 0, 0);
+			meshList[GEO_SPHERE]->material.kDiffuse.Set(0, 0, 0);
+			RenderMesh(meshList[GEO_SPHERE], true);
+		}
+		modelStack.PopMatrix();
+
+		//Mouth
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(0, 1, 7.68);
+			modelStack.Translate(0, -1.5, 0.25);
+			modelStack.Rotate(-180, 1, 0, 0);
+
+			modelStack.Scale(1.8, 2.1, 0.3);
+			meshList[GEO_MOUTH]->material.kAmbient.Set(0.4 * 0.7, 0, 0);
+			meshList[GEO_MOUTH]->material.kDiffuse.Set(0.4, 0, 0);
+			RenderMesh(meshList[GEO_MOUTH], true);
+		}
+		modelStack.PopMatrix();
+
+		//Right ear
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(6.8, 5.8, 0);
+			{
+				modelStack.PushMatrix();
+				{
+					modelStack.Translate(-0.3, -0.3, 0.41);
+					modelStack.Rotate(-5, 1, 0, 0);
+					modelStack.Rotate(-38, 0, 0, 1);
+					modelStack.Scale(4.1, 5, 1);
+					meshList[GEO_PYRAMID]->material.kAmbient.Set(0, 0, 0);
+					meshList[GEO_PYRAMID]->material.kDiffuse.Set(0, 0, 0);
+					RenderMesh(meshList[GEO_PYRAMID], true);
+				}
+				modelStack.PopMatrix();
+			}
+			modelStack.Rotate(-40, 0, 0, 1);
+			modelStack.Scale(7, 7, 2);
+			meshList[GEO_PYRAMID]->material.kAmbient.Set(1 * 0.7, 0, 0);
+			meshList[GEO_PYRAMID]->material.kDiffuse.Set(1, 0, 0);
+			RenderMesh(meshList[GEO_PYRAMID], true);
+		}
+		modelStack.PopMatrix();
+
+		//Left ear
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(-6.8, 5.8, 0);
+			{
+				modelStack.PushMatrix();
+				{
+					modelStack.Translate(0.3, -0.3, 0.41);
+					modelStack.Rotate(-5, 1, 0, 0);
+					modelStack.Rotate(38, 0, 0, 1);
+					modelStack.Scale(4.1, 5, 1);
+					meshList[GEO_PYRAMID]->material.kAmbient.Set(0, 0, 0);
+					meshList[GEO_PYRAMID]->material.kDiffuse.Set(0, 0, 0);
+					RenderMesh(meshList[GEO_PYRAMID], true);
+				}
+				modelStack.PopMatrix();
+			}
+			modelStack.Rotate(40, 0, 0, 1);
+			modelStack.Scale(7, 7, 2);
+			meshList[GEO_PYRAMID]->material.kAmbient.Set(1 * 0.7, 0, 0);
+			meshList[GEO_PYRAMID]->material.kDiffuse.Set(1, 0, 0);
+			RenderMesh(meshList[GEO_PYRAMID], true);
+		}
+		modelStack.PopMatrix();
+
+		//Right arm
+		modelStack.PushMatrix();
+		{
+			modelStack.Rotate(RotateEnemyRightArm_Movement3, 0, 1, 0); // Moving right arms
+			modelStack.Rotate(EnemyRightArm_JumpAttackRotation3, 0, 0, 1);
+			modelStack.Translate(-6.5, -1, 3.5);
+			modelStack.Rotate(45, 0, 1, 0);
+			modelStack.Scale(3, 1, 0.5);
+			meshList[GEO_SPHERE]->material.kAmbient.Set(1 * 0.7, 0, 0);
+			meshList[GEO_SPHERE]->material.kDiffuse.Set(1, 0, 0);
+			RenderMesh(meshList[GEO_SPHERE], true);
+		}
+		modelStack.PopMatrix();
+
+		//Left arm
+		modelStack.PushMatrix();
+		{
+			modelStack.Rotate(RotateEnemyLeftArm_Movement3, 0, 1, 0); // Moving left arms
+			modelStack.Rotate(-EnemyRightArm_JumpAttackRotation3, 0, 0, 1);
+			modelStack.Translate(6.5, -1, 3.5);
+			modelStack.Rotate(-45, 0, 1, 0);
+			modelStack.Scale(3, 1, 0.5);
+			meshList[GEO_SPHERE]->material.kAmbient.Set(1 * 0.7, 0, 0);
+			meshList[GEO_SPHERE]->material.kDiffuse.Set(1, 0, 0);
+			RenderMesh(meshList[GEO_SPHERE], true);
+		}
+		modelStack.PopMatrix();
+
+		//Right Leg
+		modelStack.PushMatrix();
+		{
+			modelStack.Rotate(-RotateEnemyRightLeg_Movement3, 1, 0, 0); // Moving right leg
+			modelStack.Translate(4.1, -8, 2);
+			modelStack.Rotate(35, 0, 1, 0);
+			modelStack.Scale(2, 0.8, 3);
+			meshList[GEO_SPHERE]->material.kAmbient.Set(1 * 0.7, 0, 0);
+			meshList[GEO_SPHERE]->material.kDiffuse.Set(1, 0, 0);
+			RenderMesh(meshList[GEO_SPHERE], true);
+		}
+		modelStack.PopMatrix();
+
+		//Left Leg
+		modelStack.PushMatrix();
+		{
+			modelStack.Rotate(RotateEnemyLeftLeg_Movement3, 1, 0, 0); // Moving left leg
+			modelStack.Translate(-4.1, -8, 2);
+			modelStack.Rotate(-35, 0, 1, 0);
+			modelStack.Scale(2, 0.8, 3);
+			meshList[GEO_SPHERE]->material.kAmbient.Set(1 * 0.7, 0, 0);
+			meshList[GEO_SPHERE]->material.kDiffuse.Set(1, 0, 0);
+			RenderMesh(meshList[GEO_SPHERE], true);
+		}
+		modelStack.PopMatrix();
+
+		modelStack.Rotate(rotateBody, 0, 1, 0);
+		modelStack.Scale(8, 8, 8);
+		meshList[GEO_SPHERE]->material.kAmbient.Set(1 * 0.7, 0, 0);
+		meshList[GEO_SPHERE]->material.kDiffuse.Set(1, 0, 0);
+		RenderMesh(meshList[GEO_SPHERE], true);
+	}
+	modelStack.PopMatrix();
+
+
+
+
+
+
 	if (ShockWaveEnemyAttack == true) {
 		modelStack.PushMatrix();
 		{
@@ -3807,6 +4493,19 @@ void Sp2_Minigame::Render()
 		}
 		modelStack.PopMatrix();
 	}
+	if (ShockWaveEnemyAttack3 == true) {
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(EnemyPosX3, -1, EnemyPosZ3);
+			modelStack.Rotate(0, 0, 1, 0);
+			modelStack.Scale(EnemyShockwaveScale3, 1, EnemyShockwaveScale3);
+			meshList[GEO_TORUS]->material.kAmbient.Set(1 * 0.4, 0.27 * 0.4, 0);
+			meshList[GEO_TORUS]->material.kDiffuse.Set(1, 0.27, 0);
+			RenderMesh(meshList[GEO_TORUS], true);
+		}
+		modelStack.PopMatrix();
+	}
+
 
 
 
@@ -4393,6 +5092,45 @@ void Sp2_Minigame::Render()
 	}
 
 
+
+
+
+	if (isInHitbox(translateX + ShockwavedirectionX, translateZ + ShockwavedirectionZ, EnemyPosX3, EnemyPosZ3, 30) == true and air == false and ground == true and EnemyHealth3 > 0 and allowAttack == false and allowJumpAttack == true and translatebodyY_Jump <= 0 and ShockwaveScale <= 1) {
+		EnemyHealth3 -= 20;
+		if (allowUltimateAttack == true) {
+			Health += 10;
+		}
+	}
+
+	if (isInHitbox(translateX + ShockwavedirectionX, translateZ + ShockwavedirectionZ, EnemyPosX3, EnemyPosZ3, 20) == true and EnemyHealth3 > 0 and allowAttack == true and allowJumpAttack == false and RotateRightArm_SwingSword >= 50) {
+		EnemyHealth3 -= 10;
+		if (allowUltimateAttack == true) {
+			Health += 20;
+		}
+	}
+
+	if (isInHitbox(translateX, translateZ, EnemyPosX3, EnemyPosZ3, 30) == true and EnemyHealth3 > 0 and allowAttack == false and allowJumpAttack == false and allowSpinattack == true and rotateBodySpinAttack >= 455) {
+		EnemyHealth3 -= 20;
+		if (allowUltimateAttack == true) {
+			Health += 20;
+		}
+	}
+
+	static bool at3 = false;
+
+	if (isInHitbox(translateX + translateFusionWaveX, translateZ + translateFusionWaveZ, EnemyPosX3, EnemyPosZ3, 20) == true and at3 == false and allowAttack == false and EnemyHealth3 > 0 and allowFusionWaveTransverse == true) {
+		EnemyHealth3 -= 3;
+		if (allowFusionWaveTransverse == true) {
+			Health += 20;
+		}
+		at3 = true;
+	}
+	else {
+		at3 = false;
+	}
+
+
+
 	if (Health > 100) {
 		Health = 100;
 	}
@@ -4403,6 +5141,7 @@ void Sp2_Minigame::Render()
 	modelStack.Scale(5, 5, 5);
 	RenderMesh(meshList[GEO_PAPER], true);
 	modelStack.PopMatrix();
+
 
 	if (EnemyHealth > 80) {
 		modelStack.PushMatrix();
@@ -4779,6 +5518,196 @@ void Sp2_Minigame::Render()
 	}
 
 
+
+	if (EnemyHealth3 > 80) {
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(EnemyPosX3, 20, EnemyPosZ3);
+			if (look3.x > 0) {
+				modelStack.Rotate(angleHori3, 0, 1, 0);
+			}
+			else {
+				modelStack.Rotate(-angleHori3, 0, 1, 0);
+			}
+
+			modelStack.Rotate(-angleVert3, 1, 0, 0);
+			{
+				modelStack.PushMatrix();
+				modelStack.Translate(-6.8, 0, 0.1);
+				modelStack.Rotate(0, 0, 1, 0);
+				modelStack.Scale(4, 2.5, 0);
+				RenderMesh(meshList[GEO_HEALTHBAR], false);
+				modelStack.PopMatrix();
+
+				modelStack.PushMatrix();
+				modelStack.Translate(-3.8, 0, 0.1);
+				modelStack.Scale(4, 2.5, 0);
+				RenderMesh(meshList[GEO_HEALTHBAR], false);
+				modelStack.PopMatrix();
+
+				modelStack.PushMatrix();
+				modelStack.Translate(0, 0, 0.1);
+				modelStack.Scale(4, 2.5, 0);
+				RenderMesh(meshList[GEO_HEALTHBAR], false);
+				modelStack.PopMatrix();
+
+				modelStack.PushMatrix();
+				modelStack.Translate(3.8, 0, 0.1);
+				modelStack.Scale(4, 2.5, 0);
+				RenderMesh(meshList[GEO_HEALTHBAR], false);
+				modelStack.PopMatrix();
+
+				modelStack.PushMatrix();
+				modelStack.Translate(6.8, 0, 0.1);
+				modelStack.Scale(4, 2.5, 0);
+				RenderMesh(meshList[GEO_HEALTHBAR], false);
+				modelStack.PopMatrix();
+			}
+			modelStack.Scale(19, 3.2, 1);
+			RenderMesh(meshList[GEO_HEALTHBACKGROUND], false);
+		}
+		modelStack.PopMatrix();
+	}
+
+	else if (EnemyHealth3 > 60 and EnemyHealth3 <= 80) {
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(EnemyPosX3, 20, EnemyPosZ3);
+			if (look3.x > 0) {
+				modelStack.Rotate(angleHori3, 0, 1, 0);
+			}
+			else {
+				modelStack.Rotate(-angleHori3, 0, 1, 0);
+			}
+			modelStack.Rotate(-angleVert3, 1, 0, 0);
+			{
+				modelStack.PushMatrix();
+				modelStack.Translate(-6.8, 0, 0.1);
+				modelStack.Rotate(0, 0, 1, 0);
+				modelStack.Scale(4, 2.5, 0);
+				RenderMesh(meshList[GEO_HEALTHBAR], false);
+				modelStack.PopMatrix();
+
+				modelStack.PushMatrix();
+				modelStack.Translate(-3.8, 0, 0.1);
+				modelStack.Scale(4, 2.5, 0);
+				RenderMesh(meshList[GEO_HEALTHBAR], false);
+				modelStack.PopMatrix();
+
+				modelStack.PushMatrix();
+				modelStack.Translate(0, 0, 0.1);
+				modelStack.Scale(4, 2.5, 0);
+				RenderMesh(meshList[GEO_HEALTHBAR], false);
+				modelStack.PopMatrix();
+
+				modelStack.PushMatrix();
+				modelStack.Translate(3.8, 0, 0.1);
+				modelStack.Scale(4, 2.5, 0);
+				RenderMesh(meshList[GEO_HEALTHBAR], false);
+				modelStack.PopMatrix();
+			}
+			modelStack.Scale(19, 3.2, 1);
+			RenderMesh(meshList[GEO_HEALTHBACKGROUND], false);
+		}
+		modelStack.PopMatrix();
+	}
+	else if (EnemyHealth3 > 40 and EnemyHealth3 <= 60) {
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(EnemyPosX3, 20, EnemyPosZ3);
+			if (look3.x > 0) {
+				modelStack.Rotate(angleHori3, 0, 1, 0);
+			}
+			else {
+				modelStack.Rotate(-angleHori3, 0, 1, 0);
+			}
+			modelStack.Rotate(-angleVert3, 1, 0, 0);
+			{
+				modelStack.PushMatrix();
+				modelStack.Translate(-6.8, 0, 0.1);
+				modelStack.Rotate(0, 0, 1, 0);
+				modelStack.Scale(4, 2.5, 0);
+				RenderMesh(meshList[GEO_HEALTHBAR], false);
+				modelStack.PopMatrix();
+
+				modelStack.PushMatrix();
+				modelStack.Translate(-3.8, 0, 0.1);
+				modelStack.Scale(4, 2.5, 0);
+				RenderMesh(meshList[GEO_HEALTHBAR], false);
+				modelStack.PopMatrix();
+
+				modelStack.PushMatrix();
+				modelStack.Translate(0, 0, 0.1);
+				modelStack.Scale(4, 2.5, 0);
+				RenderMesh(meshList[GEO_HEALTHBAR], false);
+				modelStack.PopMatrix();
+			}
+			modelStack.Scale(19, 3.2, 1);
+			RenderMesh(meshList[GEO_HEALTHBACKGROUND], false);
+		}
+		modelStack.PopMatrix();
+	}
+	else if (EnemyHealth3 > 20 and EnemyHealth3 <= 40) {
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(EnemyPosX3, 20, EnemyPosZ3);
+			if (look2.x > 0) {
+				modelStack.Rotate(angleHori3, 0, 1, 0);
+			}
+			else {
+				modelStack.Rotate(-angleHori3, 0, 1, 0);
+			}
+			modelStack.Rotate(-angleVert3, 1, 0, 0);
+			{
+				modelStack.PushMatrix();
+				modelStack.Translate(-6.8, 0, 0.1);
+				modelStack.Rotate(0, 0, 1, 0);
+				modelStack.Scale(4, 2.5, 0);
+				RenderMesh(meshList[GEO_HEALTHBAR], false);
+				modelStack.PopMatrix();
+
+				modelStack.PushMatrix();
+				modelStack.Translate(-3.8, 0, 0.1);
+				modelStack.Scale(4, 2.5, 0);
+				RenderMesh(meshList[GEO_HEALTHBAR], false);
+				modelStack.PopMatrix();
+			}
+			modelStack.Scale(19, 3.2, 1);
+			RenderMesh(meshList[GEO_HEALTHBACKGROUND], false);
+		}
+		modelStack.PopMatrix();
+	}
+	else if (EnemyHealth3 > 0 and EnemyHealth3 <= 20) {
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(EnemyPosX3, 20, EnemyPosZ3);
+			if (look2.x > 0) {
+				modelStack.Rotate(angleHori3, 0, 1, 0);
+			}
+			else {
+				modelStack.Rotate(-angleHori3, 0, 1, 0);
+			}
+			modelStack.Rotate(-angleVert3, 1, 0, 0);
+			{
+				modelStack.PushMatrix();
+				modelStack.Translate(-6.8, 0, 0.1);
+				modelStack.Rotate(0, 0, 1, 0);
+				modelStack.Scale(4, 2.5, 0);
+				RenderMesh(meshList[GEO_HEALTHBAR], false);
+				modelStack.PopMatrix();
+			}
+			modelStack.Scale(19, 3.2, 1);
+			RenderMesh(meshList[GEO_HEALTHBACKGROUND], false);
+		}
+		modelStack.PopMatrix();
+	}
+	else {
+		allowEnemyMovement3 = false;
+	}
+
+
+
+
 	if (isAlive == true and timer_gameover < 1.5 and DialogueBoxOpen == false) {
 		RenderImageOnScreen(meshList[GEO_ALUSKILLS], Color(1, 1, 1), 0, 29, 8, 0, 40, 8);
 		RenderTextOnScreen(meshList[GEO_TEXT], "X               Z                E", Color(1, 1, 1), 3.5, 29.5, 1);
@@ -4923,15 +5852,15 @@ void Sp2_Minigame::Render()
 		}
 	}
 
-	RenderTextOnScreen(meshList[GEO_TEXT], to_string(Coins), Color(1, 1, 0), 3.3, 5, 48.8);
-	RenderImageOnScreen(meshList[GEO_COINS], Color(1, 1, 1), 0, 5, 5, 0, 2.5, 50.4);
+	RenderTextOnScreen(meshList[GEO_TEXT], "$" + to_string(Application::Cash), Color(0, 0.9, 0), 3.3, 5.5, 48.9);
+	RenderImageOnScreen(meshList[GEO_COINS], Color(1, 1, 1), 0, 5, 5, 0, 2.5, 50.5);
 	RenderImageOnScreen(meshList[GEO_DIAMONDIMAGE], Color(1, 1, 1), 0, 3.5, 3.3, 0, 2.5, 46);
 	RenderTextOnScreen(meshList[GEO_TEXT], to_string(Diamond) + "/10", Color(1, 1, 1), 3.3, 5, 44.4);
 
 	if (isAlive == false and timer_gameover > 1.5) {
 		RenderImageOnScreen(meshList[GEO_GAMEOVER], Color(1, 1, 1), 0, 80, 60, 0, 40, 30);
 		RenderImageOnScreen(meshList[GEO_GAMEOVERTEXT], Color(1, 1, 1), 0, 60, 10, 0, 40, 50);
-
+		RenderTextOnScreen(meshList[GEO_TEXT], "-$100 Cash", Color(1, 1, 1), 6, 31, 39);
 		if (timer_Retry > 1) {
 			RenderImageOnScreen(meshList[GEO_RETRY], Color(1, 1, 1), 0, 21, 9, 0, 40, 10);
 		}
@@ -4941,7 +5870,7 @@ void Sp2_Minigame::Render()
 	if (isAlive == true and timer_gameover > 1.5 and Diamond >= 10) {
 		RenderImageOnScreen(meshList[GEO_VICTORY], Color(1, 1, 1), 0, 80, 60, 0, 40, 30);
 		RenderImageOnScreen(meshList[GEO_VICTORYTEXT], Color(1, 1, 1), 0, 60, 10, 0, 40, 50);
-		RenderTextOnScreen(meshList[GEO_TEXT], "+100 Coins", Color(1, 1, 1), 6, 31, 39);
+		RenderTextOnScreen(meshList[GEO_TEXT], "+$250 Cash", Color(1, 1, 1), 6, 31, 39);
 		if (timer_Retry > 1) {
 			RenderImageOnScreen(meshList[GEO_RETRY], Color(1, 1, 1), 0, 21, 9, 0, 40, 10);
 		}

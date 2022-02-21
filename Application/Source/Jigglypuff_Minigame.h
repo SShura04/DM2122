@@ -7,6 +7,7 @@
 #include "MatrixStack.h"
 #include "Light.h"
 #include "Camera2.h"
+
 #include "CollectObjects.h";
 #include <windows.h>
 
@@ -139,6 +140,7 @@ private:
 	RECT rect;
 	LPPOINT mousepos;
 
+
 	void RenderSkybox();
 	unsigned m_vertexArrayID;
 	Mesh* meshList[NUM_GEOMETRY];
@@ -247,7 +249,6 @@ private:
 	int ScrollingText;
 
 	bool is1stPersonCam;
-	int Coins;
 	bool EarnedCoins;
 	float buttonsincelastpress;
 
@@ -275,11 +276,10 @@ private:
 	int textMaxWidth;
 	int textSpacing[256];
 
-
+	// Demon
 	float test;
 	bool jump;
 	bool Ground;
-	// Demon
 	float rotateEnemyBody;
 	float EnemyXSpeed, EnemyZSpeed;
 	bool allowEnemyMovement;
@@ -320,6 +320,29 @@ private:
 
 
 
+	float test3;
+	bool jump3;
+	bool Ground3;
+	float rotateEnemyBody3;
+	float EnemyXSpeed3, EnemyZSpeed3;
+	bool allowEnemyMovement3;
+	bool swingforwardEnemy3;
+	bool swingbackwardEnemy3;
+	float EnemyPosX3, EnemyPosZ3;
+	float RotateEnemyLeftArm_Movement3;
+	float RotateEnemyRightArm_Movement3;
+	float RotateEnemyLeftLeg_Movement3;
+	float RotateEnemyRightLeg_Movement3;
+	bool AllowEnemyAttack3;
+	bool ShockWaveEnemyAttack3;
+	float translateY_EnemyJump3;
+	float EnemyShockwaveScale3;
+	float EnemyDieRotation3;
+	float EnemyHealth3;
+
+
+
+
 
 	bool move = true;
 
@@ -335,29 +358,30 @@ private:
 	int Diamond;
 	std::string PurchaseText;
 
-	float angle, angle2;
-	bool ismaximumdistance = false;
-	float distancetravelled;
-	float EnemyViewAngle, EnemyViewAngle2;
-	bool triggerEnemy = false, triggerEnemy2 = false;
-	float EnemyRightArm_JumpAttackRotation;
-	bool EnemyHopUp, EnemyHopDown, EnemyHopUp2, EnemyHopDown2;
-	float EnemyUpandDown_Translation;
-	float EnemyUpandDown_Translation2;
+	float angle, angle2, angle3;
+	float EnemyViewAngle, EnemyViewAngle2, EnemyViewAngle3;
+	bool triggerEnemy = false, triggerEnemy2 = false, triggerEnemy3 = false;
+	float EnemyRightArm_JumpAttackRotation, EnemyRightArm_JumpAttackRotation2, EnemyRightArm_JumpAttackRotation3;
+	bool EnemyHopUp, EnemyHopDown, EnemyHopUp2, EnemyHopDown2, EnemyHopUp3, EnemyHopDown3;
+	float EnemyUpandDown_Translation, EnemyUpandDown_Translation2, EnemyUpandDown_Translation3;
+
+
 
 	CollectObjects* Diamonds[10];
 	Camera2 camera2;
 
-	Vector3 look, look2;
+	Vector3 look, look2, look3;
 	Vector3 camera_posHori;
 	Vector3 camera_posVert;
-	Vector3 pitchVert, pitchVert2;
-	Vector3 point_pos, point_pos2;
+	Vector3 pitchVert, pitchVert2, pitchVert3;
+	Vector3 point_pos, point_pos2, point_pos3;
 	Vector3 target = Vector3(0, 0, 1);
 	float angleHori;
 	float angleVert;
 	float angleHori2;
 	float angleVert2;
+	float angleHori3;
+	float angleVert3;
 
 	float min = 2, sec = 60;
 
