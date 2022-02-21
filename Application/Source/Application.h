@@ -30,9 +30,6 @@ public:
 
 	// Minigame timer
 	static float Minigame_timer;
-
-	// Cash
-	static int Cash;
 private:
 	//Declare a window object
 	StopWatch m_timer;
