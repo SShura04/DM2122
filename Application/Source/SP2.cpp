@@ -1126,12 +1126,6 @@ void SP2::UpdateENV(double dt)
 		EnemyMove(hb_POLICE, EnemyX, EnemyZ, dt, speed_police);
 	}
 
-
-
-
-
-
-
 	//calculate the fps
 	Vector3 tempplayerpos = camerapos;
 	fps = 1.f / dt;
@@ -1542,7 +1536,7 @@ void SP2::UpdateENV(double dt)
 					}
 					if (randomsuccess == 2)
 					{
-						GD_PrintLine1 = "You’ve convinced me, I’ll take it.";
+						GD_PrintLine1 = "You've convinced me, I'll take it.";
 						GD_PrintLine2 = "";
 						GD_PrintLine3 = "";
 					}
@@ -3411,7 +3405,7 @@ void SP2::RenderENV()
 			RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine1, Color(0, 0, 0), 3, 14, 10);
 			RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine2, Color(0, 0, 0), 3, 14, 7.5);
 			RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine3, Color(0, 0, 0), 3, 14, 5);
-			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to speed up", Color(1, 1, 1), 3, 30.2, 0.8);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Try to scam people.", Color(1, 1, 1), 3, 30.2, 0.8);
 		}
 	}
 
@@ -3462,20 +3456,27 @@ void SP2::RenderENV()
 	// Laptop
 	if (interactableObjectRect(player.getposition().x, player.getposition().z, objectlist[hb_WallDesk].getposition().x, objectlist[hb_WallDesk].getposition().z, 1, 1.9) == true and camera.position.y == -18) {
 		if (isClick_Minigame == false) {
+			RenderTextOnScreen(meshList[GEO_TEXT], "Entry Cost: $100", Color(1, 1, 1), 4, 31, 7);
 			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to play minigame", Color(1, 1, 1), 4, 26, 3);
 		}
-		if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and (int)Application::Minigame_timer == 0) {
+		if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and (int)Application::Minigame_timer == 0 and Application::Cash >= 100) {
+			Application::Cash -= 100;
 			Application::ChangeScene(Application::gs_jigglypuffgame);
 			ShowCursor(true);
 			timesincelastbuttonpress = 0;
 		}
-		if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and (int)Application::Minigame_timer != 0) {
+		if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and ((int)Application::Minigame_timer != 0 or Application::Cash < 100)) {
 			isClick_Minigame = true;
 			timesincelastbuttonpress = 0;
 		}
 
 		if (isClick_Minigame == true) {
-			RenderTextOnScreen(meshList[GEO_TEXT], "Minigame Cooldown in: " + to_string((int)Application::Minigame_timer) + "s", Color(1, 1, 1), 4, 25, 3);
+			if ((int)Application::Minigame_timer != 0) {
+				RenderTextOnScreen(meshList[GEO_TEXT], "Minigame Cooldown in: " + to_string((int)Application::Minigame_timer) + "s", Color(1, 1, 1), 4, 26, 3);
+			}
+			if (Application::Cash < 100 and (int)Application::Minigame_timer == 0) {
+				RenderTextOnScreen(meshList[GEO_TEXT], "Sorry, insufficient cash! Get a Job LOL!", Color(1, 1, 1), 4, 24, 3);
+			}
 			if (timer_click_Minigame >= 1) {
 				timer_click_Minigame = 0;
 				isClick_Minigame = false;
@@ -3702,12 +3703,24 @@ void SP2::RenderENV()
 	//sell items 
 	if (interactableObjectRect(player.getposition().x, player.getposition().z, objectlist[hb_SHOPSELLTABLE].getposition().x, objectlist[hb_SHOPSELLTABLE].getposition().z + 0.5, 1.5, 1) == true and camera.position.y == -18)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to sell items", Color(1, 1, 1), 4, 28, 3); 
-		if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2)
+		if (DialogueBoxOpen == false) 
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to sell items", Color(1, 1, 1), 4, 28, 3);
+		}
+		if (Application::IsKeyPressed('E') and DialogueBoxOpen == false and timesincelastbuttonpress > 0.2) 
 		{
 			talkshopkeep = true;
 			DialogueBoxOpen = true;
 			timesincelastbuttonpress = 0;
+			inshop = true;
+		}
+		if (DialogueBoxOpen == true) {
+			RenderMeshOnScreen(meshList[GEO_DIALOGUEUI], Vector3(60, 15, 1), 0, 40, 10);
+			RenderTextOnScreen(meshList[GEO_TEXT], person, Color(1, 1, 1), 2.7, 23.5, 13.5);
+			RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine1, Color(0, 0, 0), 3, 14, 10);
+			RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine2, Color(0, 0, 0), 3, 14, 7.5);
+			RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine3, Color(0, 0, 0), 3, 14, 5);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Try to scam people.", Color(1, 1, 1), 3, 30.2, 0.8);
 		}
 	}
 
@@ -3774,7 +3787,7 @@ void SP2::RenderENV()
 	
 	//Cash 
 	RenderMeshOnScreen(meshList[GEO_CASH], Vector3(5, 5, 5), 0, 4, 55);
-	RenderTextOnScreen(meshList[GEO_TEXT], "$" + to_string(Money), Color(0, 0.9, 0), 4, 7, 53);
+	RenderTextOnScreen(meshList[GEO_TEXT], "$" + to_string(Application::Cash), Color(0, 0.9, 0), 4, 7, 53);
 
 	RenderTextOnScreen(meshList[GEO_TEXT], "Rings:" + to_string(rings), Color(1, 1, 1), 4, 4, 48);
 

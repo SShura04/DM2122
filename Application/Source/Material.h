@@ -26,7 +26,7 @@ struct Material
 	Component kSpecular;
 	float kShininess;
 	unsigned size;
-	Material() :kAmbient(0.3f, 0.3f, 0.3f), kDiffuse(0.6f, 0.6f, 0.6f), kSpecular(0.3f, 0.3f, 0.3f), kShininess(1.f)
+	Material() :kAmbient(0.1f, 0.1f, 0.1f), kDiffuse(0.6f, 0.6f, 0.6f), kSpecular(0.3f, 0.3f, 0.3f), kShininess(1.f)
 	{
 		size = 0;
 	}

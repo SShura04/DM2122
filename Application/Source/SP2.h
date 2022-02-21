@@ -382,10 +382,6 @@ private:
 
 	Vector3 prev;
 
-
-	// Money
-	int Money = 1000;
-
 	// Stars wanted
 	int Stars = 0;
 	float timer_blinking = 0;
