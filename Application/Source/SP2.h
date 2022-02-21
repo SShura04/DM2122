@@ -358,10 +358,6 @@ private:
 
 	std::string person;
 
-	bool checkedbin;
-	bool checkingbin;
-	bool checkedtv;
-	bool checkingtv;
 	bool talkshopkeep;
 	bool ringfound;
 	int rings;

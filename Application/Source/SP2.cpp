@@ -2116,10 +2116,10 @@ void SP2::UpdateENV(double dt)
 				Dialogue = 1;
 				timesincelastbuttonpress = 0;
 				DialogueBoxOpen = false;
-				checkedtv = true;
 				inshop = false;
 			}
 		}
+		
 		//Pick rings
 		//Bin 1
 		else if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN1].getposition().x, objectlist[hb_BIN1].getposition().z) <= 3)
@@ -2140,6 +2140,17 @@ void SP2::UpdateENV(double dt)
 				GD_PrintLine3 = "";
 				Dialogue = 2;
 				timesincelastbuttonpress = 0;
+			}
+			if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 2)
+			{
+				SetCursorPos(camera.center.x, camera.center.y);
+				GD_PrintLine1 = "";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				Dialogue = 1;
+				timesincelastbuttonpress = 0;
+				DialogueBoxOpen = false;
+				inshop = false;
 			}
 		}
 
@@ -2163,6 +2174,17 @@ void SP2::UpdateENV(double dt)
 				Dialogue = 2;
 				timesincelastbuttonpress = 0;
 			}
+			if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 2)
+			{
+				SetCursorPos(camera.center.x, camera.center.y);
+				GD_PrintLine1 = "";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				Dialogue = 1;
+				timesincelastbuttonpress = 0;
+				DialogueBoxOpen = false;
+				inshop = false;
+			}
 		}
 
 		//Bin 3
@@ -2184,6 +2206,17 @@ void SP2::UpdateENV(double dt)
 				GD_PrintLine3 = "";
 				Dialogue = 2;
 				timesincelastbuttonpress = 0;
+			}
+			if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 2)
+			{
+				SetCursorPos(camera.center.x, camera.center.y);
+				GD_PrintLine1 = "";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				Dialogue = 1;
+				timesincelastbuttonpress = 0;
+				DialogueBoxOpen = false;
+				inshop = false;
 			}
 		}
 
@@ -2207,6 +2240,17 @@ void SP2::UpdateENV(double dt)
 				Dialogue = 2;
 				timesincelastbuttonpress = 0;
 			}
+			if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 2)
+			{
+				SetCursorPos(camera.center.x, camera.center.y);
+				GD_PrintLine1 = "";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				Dialogue = 1;
+				timesincelastbuttonpress = 0;
+				DialogueBoxOpen = false;
+				inshop = false;
+			}
 		}
 
 		//Bin 5
@@ -2228,6 +2272,17 @@ void SP2::UpdateENV(double dt)
 				GD_PrintLine3 = "";
 				Dialogue = 2;
 				timesincelastbuttonpress = 0;
+			}
+			if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 2)
+			{
+				SetCursorPos(camera.center.x, camera.center.y);
+				GD_PrintLine1 = "";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				Dialogue = 1;
+				timesincelastbuttonpress = 0;
+				DialogueBoxOpen = false;
+				inshop = false;
 			}
 		}
 
@@ -2251,6 +2306,17 @@ void SP2::UpdateENV(double dt)
 				Dialogue = 2;
 				timesincelastbuttonpress = 0;
 			}
+			if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 2)
+			{
+				SetCursorPos(camera.center.x, camera.center.y);
+				GD_PrintLine1 = "";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				Dialogue = 1;
+				timesincelastbuttonpress = 0;
+				DialogueBoxOpen = false;
+				inshop = false;
+			}
 		}
 
 		//Bin 7
@@ -2272,6 +2338,17 @@ void SP2::UpdateENV(double dt)
 				GD_PrintLine3 = "";
 				Dialogue = 2;
 				timesincelastbuttonpress = 0;
+			}
+			if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 2)
+			{
+				SetCursorPos(camera.center.x, camera.center.y);
+				GD_PrintLine1 = "";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				Dialogue = 1;
+				timesincelastbuttonpress = 0;
+				DialogueBoxOpen = false;
+				inshop = false;
 			}
 		}
 		// SHOPKEEPER
@@ -3513,6 +3590,7 @@ void SP2::RenderENV()
 		}
 
 	}
+	
 	//pick junk
 	{
 		if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN1].getposition().x, objectlist[hb_BIN1].getposition().z) <= 3 && camera.position.y != -18)
@@ -3524,7 +3602,6 @@ void SP2::RenderENV()
 			if (Application::IsKeyPressed('E') and DialogueBoxOpen == false and timesincelastbuttonpress > 0.2) {
 				DialogueBoxOpen = true;
 				timesincelastbuttonpress = 0;
-				checkedbin = true;
 				inshop = true;
 				ringfoundchance = rand() % 10 + 1;
 			}
@@ -3545,7 +3622,6 @@ void SP2::RenderENV()
 			if (Application::IsKeyPressed('E') and DialogueBoxOpen == false and timesincelastbuttonpress > 0.2) {
 				DialogueBoxOpen = true;
 				timesincelastbuttonpress = 0;
-				checkedbin = true;
 				inshop = true;
 				ringfoundchance = rand() % 10 + 1;
 			}
@@ -3566,7 +3642,6 @@ void SP2::RenderENV()
 			if (Application::IsKeyPressed('E') and DialogueBoxOpen == false and timesincelastbuttonpress > 0.2) {
 				DialogueBoxOpen = true;
 				timesincelastbuttonpress = 0;
-				checkedbin = true;
 				inshop = true;
 				ringfoundchance = rand() % 10 + 1;
 			}
@@ -3587,7 +3662,6 @@ void SP2::RenderENV()
 			if (Application::IsKeyPressed('E') and DialogueBoxOpen == false and timesincelastbuttonpress > 0.2) {
 				DialogueBoxOpen = true;
 				timesincelastbuttonpress = 0;
-				checkedbin = true;
 				inshop = true;
 				ringfoundchance = rand() % 10 + 1;
 			}
@@ -3610,7 +3684,6 @@ void SP2::RenderENV()
 			if (Application::IsKeyPressed('E') and DialogueBoxOpen == false and timesincelastbuttonpress > 0.2) {
 				DialogueBoxOpen = true;
 				timesincelastbuttonpress = 0;
-				checkedbin = true;
 				inshop = true;
 				ringfoundchance = rand() % 10 + 1;
 			}
@@ -3631,7 +3704,6 @@ void SP2::RenderENV()
 			if (Application::IsKeyPressed('E') and DialogueBoxOpen == false and timesincelastbuttonpress > 0.2) {
 				DialogueBoxOpen = true;
 				timesincelastbuttonpress = 0;
-				checkedbin = true;
 				inshop = true;
 				ringfoundchance = rand() % 10 + 1;
 			}
@@ -3652,7 +3724,6 @@ void SP2::RenderENV()
 			if (Application::IsKeyPressed('E') and DialogueBoxOpen == false and timesincelastbuttonpress > 0.2) {
 				DialogueBoxOpen = true;
 				timesincelastbuttonpress = 0;
-				checkedbin = true;
 				inshop = true;
 				ringfoundchance = rand() % 10 + 1;
 			}
