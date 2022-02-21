@@ -1429,19 +1429,37 @@ void SP2::UpdateENV(double dt)
 				{
 					GD_PrintLine1 = "Hah! That's a movie studio,";
 					GD_PrintLine2 = "no game comes from there!";
-					GD_PrintLine3 = "";
+					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
+					failNPC++;
+					if (failNPC < 2)
+					{
+						Dialogue = 4;
+					}
+					else
+					{
+						Dialogue = 10;
+					}
 				}
 				if (Application::IsKeyPressed('3') and timesincelastbuttonpress > 0.2 and Dialogue == 5)
 				{
 					GD_PrintLine1 = "Can I even trust you into buying this game?";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "";
+					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
+					failNPC++;
+					if (failNPC < 2)
+					{
+						Dialogue = 4;
+					}
+					else
+					{
+						Dialogue = 10;
+					}
 				}
 				if (Application::IsKeyPressed('1') and timesincelastbuttonpress > 0.2 and Dialogue == 6)
 				{
@@ -1451,15 +1469,33 @@ void SP2::UpdateENV(double dt)
 					person = "PEDESTRIAN";
 					Dialogue = 9;
 					timesincelastbuttonpress = 0;
+					failNPC++;
+					if (failNPC < 2)
+					{
+						Dialogue = 4;
+					}
+					else
+					{
+						Dialogue = 10;
+					}
 				}
 				if (Application::IsKeyPressed('2') and timesincelastbuttonpress > 0.2 and Dialogue == 6)
 				{
 					GD_PrintLine1 = "Do you even know who is that?";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "";
+					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
+					failNPC++;
+					if (failNPC < 2)
+					{
+						Dialogue = 4;
+					}
+					else
+					{
+						Dialogue = 10;
+					}
 				}
 				if (Application::IsKeyPressed('3') and timesincelastbuttonpress > 0.2 and Dialogue == 6)
 				{
@@ -1474,19 +1510,37 @@ void SP2::UpdateENV(double dt)
 				{
 					GD_PrintLine1 = "Hah! That's a movie studio,";
 					GD_PrintLine2 = "no game comes from there!";
-					GD_PrintLine3 = "";
+					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
+					failNPC++;
+					if (failNPC < 2)
+					{
+						Dialogue = 4;
+					}
+					else
+					{
+						Dialogue = 10;
+					}
 				}
 				if (Application::IsKeyPressed('2') and timesincelastbuttonpress > 0.2 and Dialogue == 7)
 				{
 					GD_PrintLine1 = "Are you being serious?";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "";
+					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
+					failNPC++;
+					if (failNPC < 2)
+					{
+						Dialogue = 4;
+					}
+					else
+					{
+						Dialogue = 10;
+					}
 				}
 				if (Application::IsKeyPressed('3') and timesincelastbuttonpress > 0.2 and Dialogue == 7)
 				{
@@ -1501,20 +1555,38 @@ void SP2::UpdateENV(double dt)
 				{
 					GD_PrintLine1 = "Do you even know who is that?";
 					GD_PrintLine2 = " ";
-					GD_PrintLine3 = "";
+					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
+					failNPC++;
+					if (failNPC < 2)
+					{
+						Dialogue = 4;
+					}
+					else
+					{
+						Dialogue = 10;
+					}
 				}
 				if (Application::IsKeyPressed('2') and timesincelastbuttonpress > 0.2 and Dialogue == 8)
 				{
 
 					GD_PrintLine1 = "Can I even trust you into buying this game?";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "";
+					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
+					failNPC++;
+					if (failNPC < 2)
+					{
+						Dialogue = 4;
+					}
+					else
+					{
+						Dialogue = 10;
+					}
 				}
 				if (Application::IsKeyPressed('3') and timesincelastbuttonpress > 0.2 and Dialogue == 8)
 				{
@@ -1666,19 +1738,37 @@ void SP2::UpdateENV(double dt)
 				{
 					GD_PrintLine1 = "You are kidding me right?";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "";
+					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
+					failNPC++;
+					if (failNPC < 2)
+					{
+						Dialogue = 4;
+					}
+					else
+					{
+						Dialogue = 10;
+					}
 				}
 				if (Application::IsKeyPressed('2') and timesincelastbuttonpress > 0.2 and Dialogue == 5)
 				{
 					GD_PrintLine1 = "Did you expect me to give you a good answer for that?";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "";
+					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
+					failNPC++;
+					if (failNPC < 2)
+					{
+						Dialogue = 4;
+					}
+					else
+					{
+						Dialogue = 10;
+					}
 				}
 				if (Application::IsKeyPressed('3') and timesincelastbuttonpress > 0.2 and Dialogue == 5)
 				{
@@ -1693,10 +1783,19 @@ void SP2::UpdateENV(double dt)
 				{
 					GD_PrintLine1 = "Is your wine even old enough to drink?";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "";
+					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
+					failNPC++;
+					if (failNPC < 2)
+					{
+						Dialogue = 4;
+					}
+					else
+					{
+						Dialogue = 10;
+					}
 				}
 				if (Application::IsKeyPressed('2') and timesincelastbuttonpress > 0.2 and Dialogue == 6)
 				{
@@ -1711,10 +1810,19 @@ void SP2::UpdateENV(double dt)
 				{
 					GD_PrintLine1 = "For a wine from 711 that is pretty expensive.";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "";
+					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
+					failNPC++;
+					if (failNPC < 2)
+					{
+						Dialogue = 4;
+					}
+					else
+					{
+						Dialogue = 10;
+					}
 				}
 				if (Application::IsKeyPressed('1') and timesincelastbuttonpress > 0.2 and Dialogue == 7)
 				{
@@ -1729,28 +1837,55 @@ void SP2::UpdateENV(double dt)
 				{
 					GD_PrintLine1 = "Is your wine even old enough to drink?";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "";
+					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
+					failNPC++;
+					if (failNPC < 2)
+					{
+						Dialogue = 4;
+					}
+					else
+					{
+						Dialogue = 10;
+					}
 				}
 				if (Application::IsKeyPressed('3') and timesincelastbuttonpress > 0.2 and Dialogue == 7)
 				{
 					GD_PrintLine1 = "You are kidding me right?";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "";
+					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
+					failNPC++;
+					if (failNPC < 2)
+					{
+						Dialogue = 4;
+					}
+					else
+					{
+						Dialogue = 10;
+					}
 				}
 				if (Application::IsKeyPressed('1') and timesincelastbuttonpress > 0.2 and Dialogue == 8)
 				{
 					GD_PrintLine1 = "Did you expect me to give you a good answer for that?";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "";
+					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
+					failNPC++;
+					if (failNPC < 2)
+					{
+						Dialogue = 4;
+					}
+					else
+					{
+						Dialogue = 10;
+					}
 				}
 				if (Application::IsKeyPressed('2') and timesincelastbuttonpress > 0.2 and Dialogue == 8)
 				{
@@ -1765,10 +1900,19 @@ void SP2::UpdateENV(double dt)
 				{
 					GD_PrintLine1 = "For a wine from 711 that is pretty expensive.";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "";
+					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
+					failNPC++;
+					if (failNPC < 2)
+					{
+						Dialogue = 4;
+					}
+					else
+					{
+						Dialogue = 10;
+					}
 				}
 				if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 9)
 				{
@@ -1916,28 +2060,55 @@ void SP2::UpdateENV(double dt)
 				{
 					GD_PrintLine1 = "I do not care.";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "";
+					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
+					failNPC++;
+					if (failNPC < 2)
+					{
+						Dialogue = 4;
+					}
+					else
+					{
+						Dialogue = 10;
+					}
 				}
 				if (Application::IsKeyPressed('3') and timesincelastbuttonpress > 0.2 and Dialogue == 5)
 				{
 					GD_PrintLine1 = "That is from a game. ";
 					GD_PrintLine2 = "Are you even selling a real charm?";
-					GD_PrintLine3 = "";
+					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
+					failNPC++;
+					if (failNPC < 2)
+					{
+						Dialogue = 4;
+					}
+					else
+					{
+						Dialogue = 10;
+					}
 				}
 				if (Application::IsKeyPressed('1') and timesincelastbuttonpress > 0.2 and Dialogue == 6)
 				{
 					GD_PrintLine1 = "You do know I am not a student anymore right? ";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "";
+					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
+					failNPC++;
+					if (failNPC < 2)
+					{
+						Dialogue = 4;
+					}
+					else
+					{
+						Dialogue = 10;
+					}
 				}
 				if (Application::IsKeyPressed('2') and timesincelastbuttonpress > 0.2 and Dialogue == 6)
 				{
@@ -1952,10 +2123,19 @@ void SP2::UpdateENV(double dt)
 				{
 					GD_PrintLine1 = "Have you looked at yourself in the mirror?";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "";
+					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
+					failNPC++;
+					if (failNPC < 2)
+					{
+						Dialogue = 4;
+					}
+					else
+					{
+						Dialogue = 10;
+					}
 				}
 				if (Application::IsKeyPressed('1') and timesincelastbuttonpress > 0.2 and Dialogue == 7)
 				{
@@ -1965,15 +2145,33 @@ void SP2::UpdateENV(double dt)
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
+					failNPC++;
+					if (failNPC < 2)
+					{
+						Dialogue = 4;
+					}
+					else
+					{
+						Dialogue = 10;
+					}
 				}
 				if (Application::IsKeyPressed('2') and timesincelastbuttonpress > 0.2 and Dialogue == 7)
 				{
 					GD_PrintLine1 = "You do know I am not a student anymore right? ";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "";
+					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
+					failNPC++;
+					if (failNPC < 2)
+					{
+						Dialogue = 4;
+					}
+					else
+					{
+						Dialogue = 10;
+					}
 				}
 				if (Application::IsKeyPressed('3') and timesincelastbuttonpress > 0.2 and Dialogue == 7)
 				{
@@ -1988,19 +2186,37 @@ void SP2::UpdateENV(double dt)
 				{
 					GD_PrintLine1 = "I do not care.";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "";
+					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
+					failNPC++;
+					if (failNPC< 2)
+					{
+						Dialogue = 4;
+					}
+					else
+					{
+						Dialogue = 10;
+					}
 				}
 				if (Application::IsKeyPressed('2') and timesincelastbuttonpress > 0.2 and Dialogue == 8)
 				{
 					GD_PrintLine1 = "Have you looked at yourself in the mirror?";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "";
+					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
+					failNPC++;
+					if (failNPC < 2)
+					{
+						Dialogue = 4;
+					}
+					else
+					{
+						Dialogue = 10;
+					}
 				}
 				if (Application::IsKeyPressed('3') and timesincelastbuttonpress > 0.2 and Dialogue == 8)
 				{
@@ -2816,7 +3032,7 @@ void SP2::UpdateENV(double dt)
 				}
 				timesincelastbuttonpress = 0;
 				failshop++;
-				if (failshop < 3)
+				if (failshop < 2)
 				{
 					Dialogue = 4;
 				}

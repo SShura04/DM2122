@@ -355,6 +355,7 @@ private:
 	int randomsuccess;
 	int randomfail;
 	int failshop = 0;
+	int failNPC = 0;
 
 	std::string person;
 
