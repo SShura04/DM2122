@@ -3800,18 +3800,23 @@ void SP2::RenderENV()
 	//sell items 
 	if (interactableObjectRect(player.getposition().x, player.getposition().z, objectlist[hb_SHOPSELLTABLE].getposition().x, objectlist[hb_SHOPSELLTABLE].getposition().z + 0.5, 1.5, 1) == true and camera.position.y == -18)
 	{
-		if (DialogueBoxOpen == false) 
+		if (DialogueBoxOpen == false && rings >= 1)
 		{
 			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to sell items", Color(1, 1, 1), 4, 28, 3);
 		}
-		if (Application::IsKeyPressed('E') and DialogueBoxOpen == false and timesincelastbuttonpress > 0.2) 
+		else
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "No rings to sell.", Color(1, 1, 1), 4, 28, 3);
+		}
+		if (Application::IsKeyPressed('E') and DialogueBoxOpen == false and timesincelastbuttonpress > 0.2 && rings >= 1) 
 		{
 			talkshopkeep = true;
 			DialogueBoxOpen = true;
 			timesincelastbuttonpress = 0;
 			inshop = true;
 		}
-		if (DialogueBoxOpen == true) {
+		if (DialogueBoxOpen == true && rings >= 1) 
+		{
 			RenderMeshOnScreen(meshList[GEO_DIALOGUEUI], Vector3(60, 15, 1), 0, 40, 10);
 			RenderTextOnScreen(meshList[GEO_TEXT], person, Color(1, 1, 1), 2.7, 23.5, 13.5);
 			RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine1, Color(0, 0, 0), 3, 14, 10);
