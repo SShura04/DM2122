@@ -2282,6 +2282,7 @@ void SP2::UpdateENV(double dt)
 				GD_PrintLine1 = "Welcome to the pawn shop!";
 				GD_PrintLine2 = "";
 				GD_PrintLine3 = "";
+				person = "SHOPKEEPER";
 				Dialogue = 2;
 				timesincelastbuttonpress = 0;
 			}
@@ -2289,6 +2290,7 @@ void SP2::UpdateENV(double dt)
 				GD_PrintLine1 = "What would you like to do today?";
 				GD_PrintLine2 = "";
 				GD_PrintLine3 = "";
+				person = "SHOPKEEPER";
 				Dialogue = 3;
 				timesincelastbuttonpress = 0;
 			}
@@ -2297,6 +2299,7 @@ void SP2::UpdateENV(double dt)
 				GD_PrintLine1 = "I like to pawn this exquisite ring i have here.";
 				GD_PrintLine2 = "";
 				GD_PrintLine3 = "";
+				person = "YOU";
 				Dialogue = 4;
 				timesincelastbuttonpress = 0;
 			}
@@ -2308,6 +2311,7 @@ void SP2::UpdateENV(double dt)
 					GD_PrintLine1 = " 1. It is made with multiple diamonds";
 					GD_PrintLine2 = "  2. I found it from the garbage bin down the road";
 					GD_PrintLine3 = " 3. It is a ring worn by the famous actor James Bonk.";
+					person = "YOU";
 					Dialogue = 5;
 					timesincelastbuttonpress = 0;
 				}
@@ -2316,6 +2320,7 @@ void SP2::UpdateENV(double dt)
 					GD_PrintLine1 = " 1. I found it from the garbage bin down the road.";
 					GD_PrintLine2 = "  2.It is a limited edition swalawalaski ring.";
 					GD_PrintLine3 = " 3. It is from a gift from the late president.";
+					person = "YOU";
 					Dialogue = 6;
 					timesincelastbuttonpress = 0;
 				}
@@ -2324,6 +2329,7 @@ void SP2::UpdateENV(double dt)
 					GD_PrintLine1 = " 1. It is from a gift from the late president.";
 					GD_PrintLine2 = "  2. It is a family treasure passed down from my late grandfather. ";
 					GD_PrintLine3 = " 3.  I just bought this from your shop not long ago.";
+					person = "YOU";
 					Dialogue = 7;
 					timesincelastbuttonpress = 0;
 				}
@@ -2332,6 +2338,7 @@ void SP2::UpdateENV(double dt)
 					GD_PrintLine1 = " 1. It is a limited edition swalawalaski ring.";
 					GD_PrintLine2 = "  2. It is a ring worn by the famous actor James Bonk.";
 					GD_PrintLine3 = " 3.  I just bought this from your shop not long ago.";
+					person = "YOU";
 					Dialogue = 8;
 					timesincelastbuttonpress = 0;
 				}
@@ -2341,6 +2348,7 @@ void SP2::UpdateENV(double dt)
 				GD_PrintLine1 = "Nice try, but i have checked it and its a fake ring.";
 				GD_PrintLine2 = "";
 				GD_PrintLine3 = "";
+				person = "SHOPKEEPER";
 				timesincelastbuttonpress = 0;
 				Dialogue = 10;
 			}
@@ -2349,6 +2357,7 @@ void SP2::UpdateENV(double dt)
 				GD_PrintLine1 = " Why are you even here? ";
 				GD_PrintLine2 = "";
 				GD_PrintLine3 = "";
+				person = "SHOPKEEPER";
 				timesincelastbuttonpress = 0;
 				Dialogue = 10;
 			}
@@ -2357,6 +2366,7 @@ void SP2::UpdateENV(double dt)
 				GD_PrintLine1 = "I do not know much about him,";
 				GD_PrintLine2 = "but I think I did see him wear this ring.";
 				GD_PrintLine3 = "";
+				person = "SHOPKEEPER";
 				timesincelastbuttonpress = 0;
 				Dialogue = 11;
 			}
@@ -2365,6 +2375,7 @@ void SP2::UpdateENV(double dt)
 				GD_PrintLine1 = " Why are you even here? ";
 				GD_PrintLine2 = "";
 				GD_PrintLine3 = "";
+				person = "SHOPKEEPER";
 				timesincelastbuttonpress = 0;
 				Dialogue = 10;
 			}
@@ -2373,6 +2384,7 @@ void SP2::UpdateENV(double dt)
 				GD_PrintLine1 = " Never heard of it before, ";
 				GD_PrintLine2 = "  probably from the pasar malam.";
 				GD_PrintLine3 = "";
+				person = "SHOPKEEPER";
 				timesincelastbuttonpress = 0;
 				Dialogue = 10;
 			}
@@ -2381,6 +2393,7 @@ void SP2::UpdateENV(double dt)
 				GD_PrintLine1 = " Oh that could be worth a lot.";
 				GD_PrintLine2 = "";
 				GD_PrintLine3 = "";
+				person = "SHOPKEEPER";
 				timesincelastbuttonpress = 0;
 				Dialogue = 11;
 			}
@@ -2389,6 +2402,7 @@ void SP2::UpdateENV(double dt)
 				GD_PrintLine1 = " Oh that could be worth a lot.";
 				GD_PrintLine2 = "";
 				GD_PrintLine3 = "";
+				person = "SHOPKEEPER";
 				timesincelastbuttonpress = 0;
 				Dialogue = 11;
 			}
@@ -2397,6 +2411,7 @@ void SP2::UpdateENV(double dt)
 				GD_PrintLine1 = "  So sorry to hear that but this ring ";
 				GD_PrintLine2 = "  does not wield much money";
 				GD_PrintLine3 = "";
+				person = "SHOPKEEPER";
 				timesincelastbuttonpress = 0;
 				Dialogue = 10;
 			}
@@ -2405,14 +2420,16 @@ void SP2::UpdateENV(double dt)
 				GD_PrintLine1 = " We do not sell this here, what are you saying?";
 				GD_PrintLine2 = "";
 				GD_PrintLine3 = "";
+				person = "SHOPKEEPER";
 				timesincelastbuttonpress = 0;
 				Dialogue = 10;
 			}
 			if (Application::IsKeyPressed('1') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 8)
 			{
-				GD_PrintLine1 = "  So sorry to hear that but this ring ";
-				GD_PrintLine2 = "  does not wield much money";
+				GD_PrintLine1 = " Never heard of it before, ";
+				GD_PrintLine2 = "  probably from the pasar malam.";
 				GD_PrintLine3 = "";
+				person = "SHOPKEEPER";
 				timesincelastbuttonpress = 0;
 				Dialogue = 10;
 			}
@@ -2421,6 +2438,7 @@ void SP2::UpdateENV(double dt)
 				GD_PrintLine1 = "I do not know much about him,";
 				GD_PrintLine2 = "but I think I did see him wear this ring.";
 				GD_PrintLine3 = "";
+				person = "SHOPKEEPER";
 				timesincelastbuttonpress = 0;
 				Dialogue = 11;
 			}
@@ -2429,6 +2447,7 @@ void SP2::UpdateENV(double dt)
 				GD_PrintLine1 = " We do not sell this here, what are you saying?";
 				GD_PrintLine2 = "";
 				GD_PrintLine3 = "";
+				person = "SHOPKEEPER";
 				timesincelastbuttonpress = 0;
 				Dialogue = 10;
 			}
@@ -2441,18 +2460,21 @@ void SP2::UpdateENV(double dt)
 					GD_PrintLine1 = " I am not buying that.";
 					GD_PrintLine2 = "";
 					GD_PrintLine3 = " (Crap, i better choose my words carefully before i get caught)";
+					person = "SHOPKEEPER";
 				}
 				if (randomfail == 2)
 				{
 					GD_PrintLine1 = " I would make a loss from this. I am so sorry!";
 					GD_PrintLine2 = "";
 					GD_PrintLine3 = " (Crap, i better choose my words carefully before i get caught)";
+					person = "SHOPKEEPER";
 				}
 				if (randomfail == 3)
 				{
 					GD_PrintLine1 = "  This would not sell well if I had to guess.";
 					GD_PrintLine2 = "";
 					GD_PrintLine3 = " (Crap, i better choose my words carefully before i get caught)";
+					person = "SHOPKEEPER";
 				}
 				timesincelastbuttonpress = 0;
 				failshop++;
@@ -2474,18 +2496,21 @@ void SP2::UpdateENV(double dt)
 					GD_PrintLine1 = " I could make a profit from this. Thank you for coming!";
 					GD_PrintLine2 = "";
 					GD_PrintLine3 = "";
+					person = "SHOPKEEPER";
 				}
 				if (randomsuccess == 2)
 				{
 					GD_PrintLine1 = " Guess I can take this off your hands. Thank you for coming!";
 					GD_PrintLine2 = "";
 					GD_PrintLine3 = "";
+					person = "SHOPKEEPER";
 				}
 				if (randomsuccess == 3)
 				{
 					GD_PrintLine1 = " IThis would be a great investment. Thank you for coming!";
 					GD_PrintLine2 = "";
 					GD_PrintLine3 = "";
+					person = "SHOPKEEPER";
 				}
 				timesincelastbuttonpress = 0;
 				Dialogue = 4;
@@ -2495,6 +2520,7 @@ void SP2::UpdateENV(double dt)
 				GD_PrintLine1 = " Hey! Are you trying to scam me?";
 				GD_PrintLine2 = "   I am calling the police this instant!";
 				GD_PrintLine3 = "";
+				person = "SHOPKEEPER";
 				timesincelastbuttonpress = 0;
 				Dialogue = 4;
 			}
