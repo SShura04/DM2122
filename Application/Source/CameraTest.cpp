@@ -66,17 +66,17 @@ void CameraTest::Update(double dt, POINT mousepos, bool move)
             target = position + view;
         }
 
-        if (position.x >= 50) {
-            position.x = 50;
+        if (position.x >= 30) {
+            position.x = 30;
         }
-        if (position.x <= -50) {
-            position.x = -50;
+        if (position.x <= -21) {
+            position.x = -21;
         }
-        if (position.z >= 50) {
-            position.z = 50;
+        if (position.z >= 30) {
+            position.z = 30;
         }
-        if (position.z <= -50) {
-            position.z = -50;
+        if (position.z <= -43) {
+            position.z = -43;
         }
 
         position.y = Position_Y;

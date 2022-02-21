@@ -358,10 +358,12 @@ private:
 
 	std::string person;
 
+	int finditemchance;
 	bool talkshopkeep;
 	bool ringfound;
 	int rings;
-	int ringfoundchance;
+	int watches;
+	int necklace;
 
 	//other
 	bool isinhouse = false;
