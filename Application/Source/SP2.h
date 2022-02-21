@@ -361,6 +361,7 @@ private:
 
 	bool checkedbin;
 	bool checkedtv;
+	bool talkshopkeep;
 
 	//other
 	bool isinhouse = false;

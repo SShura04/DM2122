@@ -26,22 +26,22 @@ bool LoadOBJ(
 		char buf[256];
 		fileStream.getline(buf, 256);
 		if (strncmp("v ", buf, 2) == 0) { //process vertex position
-			//Exercise 2
-			Position vertex; 
-			sscanf_s((buf + 2), "%f%f%f", &vertex.x, &vertex.y, &vertex.z); 
+		//Exercise 2
+			Position vertex;
+			sscanf_s((buf + 2), "%f%f%f", &vertex.x, &vertex.y, &vertex.z);
 			temp_vertices.push_back(vertex);
 		}
 		else if (strncmp("vt ", buf, 3) == 0) { //process texcoord
-			//Exercise 2
-			TexCoord vt;
-			sscanf_s((buf + 2), "%f%f", &vt.u, &vt.v);
-			temp_uvs.push_back(vt);
+		//Exercise 2
+			TexCoord tc;
+			sscanf_s((buf + 2), "%f%f", &tc.u, &tc.v);
+			temp_uvs.push_back(tc);
 		}
 		else if (strncmp("vn ", buf, 3) == 0) { //process normal
-			//Exercise 2
-			Vector3 vn;
-			sscanf_s((buf + 2), "%f%f&f", &vn.x, &vn.y, &vn.z);
-			temp_normals.push_back(vn);
+		//Exercise 2
+			Vector3 normal;
+			sscanf_s((buf + 2), "%f%f%f", &normal.x, &normal.y, &normal.z);
+			temp_normals.push_back(normal);
 		}
 		else if (strncmp("f ", buf, 2) == 0) { //process face
 			unsigned int vertexIndex[4], uvIndex[4], normalIndex[4];
@@ -54,13 +54,13 @@ bool LoadOBJ(
 			if (matches == 9) //triangle
 			{
 				//Exercise 2
-				vertexIndices.push_back(vertexIndex[0]); 
-				vertexIndices.push_back(vertexIndex[1]); 
-				vertexIndices.push_back(vertexIndex[2]); 
-				uvIndices.push_back(uvIndex[0]); 
-				uvIndices.push_back(uvIndex[1]); 
-				uvIndices.push_back(uvIndex[2]); 
-				normalIndices.push_back(normalIndex[0]); 
+				vertexIndices.push_back(vertexIndex[0]);
+				vertexIndices.push_back(vertexIndex[1]);
+				vertexIndices.push_back(vertexIndex[2]);
+				uvIndices.push_back(uvIndex[0]);
+				uvIndices.push_back(uvIndex[1]);
+				uvIndices.push_back(uvIndex[2]);
+				normalIndices.push_back(normalIndex[0]);
 				normalIndices.push_back(normalIndex[1]);
 				normalIndices.push_back(normalIndex[2]);
 			}
@@ -90,8 +90,8 @@ bool LoadOBJ(
 			else
 			{
 				//Exercise 2
-				std::cout << "Error line: " << buf << std::endl; 
-				std::cout << "File can't be read by parser\n"; 
+				std::cout << "Error line: " << buf << std::endl;
+				std::cout << "File can't be read by parser\n";
 				return false;
 			}
 		}
@@ -256,34 +256,34 @@ bool LoadOBJMTL(const char* file_path, const char* mtl_path, std::vector<Positio
 	std::vector<TexCoord> temp_uvs;
 	std::vector<Vector3> temp_normals;
 	std::map<std::string, Material*> materials_map;
-	if(mtl_path != nullptr && !LoadMTL(mtl_path, materials_map))
+	if (mtl_path != nullptr && !LoadMTL(mtl_path, materials_map))
 		return false;
 
 	while (!fileStream.eof()) {
 		char buf[256];
 		fileStream.getline(buf, 256);
 		if (strncmp("v ", buf, 2) == 0) { //process vertex position
-			//Exercise 2
+		//Exercise 2
 			Position vertex;
 			sscanf_s((buf + 2), "%f%f%f", &vertex.x, &vertex.y, &vertex.z);
 			temp_vertices.push_back(vertex);
 		}
 		else if (strncmp("vt ", buf, 3) == 0) { //process texcoord
-			//Exercise 2
-			TexCoord vt;
-			sscanf_s((buf + 2), "%f%f", &vt.u, &vt.v);
-			temp_uvs.push_back(vt);
+		//Exercise 2
+			TexCoord tc;
+			sscanf_s((buf + 2), "%f%f", &tc.u, &tc.v);
+			temp_uvs.push_back(tc);
 		}
 		else if (strncmp("vn ", buf, 3) == 0) { //process normal
-			//Exercise 2
-			Vector3 vn;
-			sscanf_s((buf + 2), "%f%f&f", &vn.x, &vn.y, &vn.z);
-			temp_normals.push_back(vn);
+		//Exercise 2
+			Vector3 normal;
+			sscanf_s((buf + 2), "%f%f%f", &normal.x, &normal.y, &normal.z);
+			temp_normals.push_back(normal);
 		}
 		//else if (strncmp("mtllib ", buf, 7) == 0) { //process mtllib
-		//	char mtl_path[256];
-		//	strcpy_s(mtl_path, buf + 7);
-		//	LoadMTL(mtl_path, materials_map);
+		// char mtl_path[256];
+		// strcpy_s(mtl_path, buf + 7);
+		// LoadMTL(mtl_path, materials_map);
 		//}
 		else if (strncmp("usemtl ", buf, 7) == 0) { //process usemtl
 			char mtl_name[256];
