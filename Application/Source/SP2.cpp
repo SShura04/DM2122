@@ -951,7 +951,34 @@ void SP2::UpdateENV(double dt)
 		Application::Minigame_timer -= dt;
 	}
 
-
+	if (bin1cooldown > 0)
+	{
+		bin1cooldown -= dt;
+	}
+	if (bin2cooldown > 0)
+	{
+		bin2cooldown -= dt;
+	}
+	if (bin3cooldown > 0)
+	{
+		bin3cooldown -= dt;
+	}
+	if (bin4cooldown > 0)
+	{
+		bin4cooldown -= dt;
+	}	
+	if (bin5cooldown > 0)
+	{
+		bin5cooldown -= dt;
+	}	
+	if (bin6cooldown > 0)
+	{
+		bin6cooldown -= dt;
+	}	
+	if (bin7cooldown > 0)
+	{
+		bin7cooldown -= dt;
+	}
 
 	// Skybox
 	static bool isDay = true;
@@ -981,8 +1008,6 @@ void SP2::UpdateENV(double dt)
 	timer_dayandNight += dt;
 
 	glClearColor(0.0f, 0.0f + DayandNightSkyboxTransitioning * 0.8, 0.0f + DayandNightSkyboxTransitioning, 0.0f);
-
-
 
 
 	camera.right = camera.view.Cross(camera.up);
@@ -2354,9 +2379,9 @@ void SP2::UpdateENV(double dt)
 		//Bin 1
 		else if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN1].getposition().x, objectlist[hb_BIN1].getposition().z) <= 3)
 		{
-		if (finditemchance <= 4)
+		if (finditemchance <= 4 and timesincelastbuttonpress > 0.2 and Dialogue == 1 and bin1cooldown <= 0)
 		{
-			if (timesincelastbuttonpress > 0.2 and Dialogue == 1 and finditemchance == 1)
+			if (finditemchance == 1)
 			{
 				GD_PrintLine1 = " Oh a ring!";
 				GD_PrintLine2 = " I can try to convince the pawn shop to buy this from me.";
@@ -2365,7 +2390,7 @@ void SP2::UpdateENV(double dt)
 				timesincelastbuttonpress = 0;
 				rings++;
 			}
-			if (timesincelastbuttonpress > 0.2 and Dialogue == 1 and finditemchance == 2)
+			if (finditemchance == 2)
 			{
 				GD_PrintLine1 = " Oh an old watch!";
 				GD_PrintLine2 = " It's still ticking...";
@@ -2374,7 +2399,7 @@ void SP2::UpdateENV(double dt)
 				timesincelastbuttonpress = 0;
 				watches++;
 			}
-			if (timesincelastbuttonpress > 0.2 and Dialogue == 1 and finditemchance >= 3)
+			if (finditemchance >= 3)
 			{
 				GD_PrintLine1 = " A beautiful necklace!";
 				GD_PrintLine2 = " I can try to convince the pawn shop to buy this from me.";
@@ -2384,18 +2409,22 @@ void SP2::UpdateENV(double dt)
 				necklace++;
 			}
 		}
-		else if (finditemchance > 4)
+		else if (finditemchance > 4 and timesincelastbuttonpress > 0.2 and Dialogue == 1 and bin1cooldown <= 0)
 		{
-			if (timesincelastbuttonpress > 0.2 and Dialogue == 1)
-			{
-				GD_PrintLine1 = "Darn, nothing useful here.";
-				GD_PrintLine2 = "Better luck next time.";
-				GD_PrintLine3 = "";
-				Dialogue = 2;
-				timesincelastbuttonpress = 0;
-			}
+			GD_PrintLine1 = "Darn, nothing useful here.";
+			GD_PrintLine2 = "Better luck next time.";
+			GD_PrintLine3 = "";
+			Dialogue = 2;
+			timesincelastbuttonpress = 0;
 		}
-
+		else if (bin1cooldown > 0 and timesincelastbuttonpress > 0.2 and Dialogue == 1)
+		{
+			GD_PrintLine1 = "I've just searched this bin.";
+			GD_PrintLine2 = "No use going through it again.";
+			GD_PrintLine3 = "";
+			Dialogue = 2;
+			timesincelastbuttonpress = 0;
+		}
 		if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 2)
 		{
 			SetCursorPos(camera.center.x, camera.center.y);
@@ -2406,16 +2435,16 @@ void SP2::UpdateENV(double dt)
 			timesincelastbuttonpress = 0;
 			DialogueBoxOpen = false;
 			inshop = false;
+			bin1cooldown = 20;
 		}
-
 		}
 
 		//Bin 2
 		else if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN2].getposition().x, objectlist[hb_BIN2].getposition().z) <= 3)
 		{
-		if (finditemchance <= 4)
+		if (finditemchance <= 4 and timesincelastbuttonpress > 0.2 and Dialogue == 1 and bin2cooldown <= 0)
 		{
-			if (timesincelastbuttonpress > 0.2 and Dialogue == 1 and finditemchance == 1)
+			if (finditemchance == 1)
 			{
 				GD_PrintLine1 = " Oh a ring!";
 				GD_PrintLine2 = " I can try to convince the pawn shop to buy this from me.";
@@ -2424,7 +2453,7 @@ void SP2::UpdateENV(double dt)
 				timesincelastbuttonpress = 0;
 				rings++;
 			}
-			if (timesincelastbuttonpress > 0.2 and Dialogue == 1 and finditemchance == 2)
+			if (finditemchance == 2)
 			{
 				GD_PrintLine1 = " Oh an old watch!";
 				GD_PrintLine2 = " It's still ticking...";
@@ -2433,7 +2462,7 @@ void SP2::UpdateENV(double dt)
 				timesincelastbuttonpress = 0;
 				watches++;
 			}
-			if (timesincelastbuttonpress > 0.2 and Dialogue == 1 and finditemchance >= 3)
+			if (finditemchance >= 3)
 			{
 				GD_PrintLine1 = " A beautiful necklace!";
 				GD_PrintLine2 = " I can try to convince the pawn shop to buy this from me.";
@@ -2443,18 +2472,22 @@ void SP2::UpdateENV(double dt)
 				necklace++;
 			}
 		}
-		else if (finditemchance > 4)
+		else if (finditemchance > 4 and timesincelastbuttonpress > 0.2 and Dialogue == 1 and bin2cooldown <= 0)
 		{
-			if (timesincelastbuttonpress > 0.2 and Dialogue == 1)
-			{
-				GD_PrintLine1 = "Darn, nothing useful here.";
-				GD_PrintLine2 = "Better luck next time.";
-				GD_PrintLine3 = "";
-				Dialogue = 2;
-				timesincelastbuttonpress = 0;
-			}
+			GD_PrintLine1 = "Darn, nothing useful here.";
+			GD_PrintLine2 = "Better luck next time.";
+			GD_PrintLine3 = "";
+			Dialogue = 2;
+			timesincelastbuttonpress = 0;
 		}
-
+		else if (bin2cooldown > 0 and timesincelastbuttonpress > 0.2 and Dialogue == 1)
+		{
+			GD_PrintLine1 = "I've just searched this bin.";
+			GD_PrintLine2 = "No use going through it again.";
+			GD_PrintLine3 = "";
+			Dialogue = 2;
+			timesincelastbuttonpress = 0;
+		}
 		if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 2)
 		{
 			SetCursorPos(camera.center.x, camera.center.y);
@@ -2465,16 +2498,16 @@ void SP2::UpdateENV(double dt)
 			timesincelastbuttonpress = 0;
 			DialogueBoxOpen = false;
 			inshop = false;
+			bin2cooldown = 20;
 		}
-
 		}
 
 		//Bin 3
 		else if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN3].getposition().x, objectlist[hb_BIN3].getposition().z) <= 3)
 		{
-		if (finditemchance <= 4)
+		if (finditemchance <= 4 and timesincelastbuttonpress > 0.2 and Dialogue == 1 and bin3cooldown <= 0)
 		{
-			if (timesincelastbuttonpress > 0.2 and Dialogue == 1 and finditemchance == 1)
+			if (finditemchance == 1)
 			{
 				GD_PrintLine1 = " Oh a ring!";
 				GD_PrintLine2 = " I can try to convince the pawn shop to buy this from me.";
@@ -2483,7 +2516,7 @@ void SP2::UpdateENV(double dt)
 				timesincelastbuttonpress = 0;
 				rings++;
 			}
-			if (timesincelastbuttonpress > 0.2 and Dialogue == 1 and finditemchance == 2)
+			if (finditemchance == 2)
 			{
 				GD_PrintLine1 = " Oh an old watch!";
 				GD_PrintLine2 = " It's still ticking...";
@@ -2492,7 +2525,7 @@ void SP2::UpdateENV(double dt)
 				timesincelastbuttonpress = 0;
 				watches++;
 			}
-			if (timesincelastbuttonpress > 0.2 and Dialogue == 1 and finditemchance >= 3)
+			if (finditemchance >= 3)
 			{
 				GD_PrintLine1 = " A beautiful necklace!";
 				GD_PrintLine2 = " I can try to convince the pawn shop to buy this from me.";
@@ -2502,18 +2535,22 @@ void SP2::UpdateENV(double dt)
 				necklace++;
 			}
 		}
-		else if (finditemchance > 4)
+		else if (finditemchance > 4 and timesincelastbuttonpress > 0.2 and Dialogue == 1 and bin3cooldown <= 0)
 		{
-			if (timesincelastbuttonpress > 0.2 and Dialogue == 1)
-			{
-				GD_PrintLine1 = "Darn, nothing useful here.";
-				GD_PrintLine2 = "Better luck next time.";
-				GD_PrintLine3 = "";
-				Dialogue = 2;
-				timesincelastbuttonpress = 0;
-			}
+			GD_PrintLine1 = "Darn, nothing useful here.";
+			GD_PrintLine2 = "Better luck next time.";
+			GD_PrintLine3 = "";
+			Dialogue = 2;
+			timesincelastbuttonpress = 0;
 		}
-
+		else if (bin2cooldown > 0 and timesincelastbuttonpress > 0.2 and Dialogue == 1)
+		{
+			GD_PrintLine1 = "I've just searched this bin.";
+			GD_PrintLine2 = "No use going through it again.";
+			GD_PrintLine3 = "";
+			Dialogue = 2;
+			timesincelastbuttonpress = 0;
+		}
 		if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 2)
 		{
 			SetCursorPos(camera.center.x, camera.center.y);
@@ -2524,6 +2561,7 @@ void SP2::UpdateENV(double dt)
 			timesincelastbuttonpress = 0;
 			DialogueBoxOpen = false;
 			inshop = false;
+			bin3cooldown = 20;
 		}
 
 		}
@@ -2531,9 +2569,9 @@ void SP2::UpdateENV(double dt)
 		//Bin 4
 		else if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN4].getposition().x, objectlist[hb_BIN4].getposition().z) <= 3)
 		{
-			if (finditemchance <= 4)
+			if (finditemchance <= 4 and timesincelastbuttonpress > 0.2 and Dialogue == 1 and bin4cooldown <= 0)
 			{
-				if (timesincelastbuttonpress > 0.2 and Dialogue == 1 and finditemchance == 1)
+				if (finditemchance == 1)
 				{
 					GD_PrintLine1 = " Oh a ring!";
 					GD_PrintLine2 = " I can try to convince the pawn shop to buy this from me.";
@@ -2542,7 +2580,7 @@ void SP2::UpdateENV(double dt)
 					timesincelastbuttonpress = 0;
 					rings++;
 				}
-				if (timesincelastbuttonpress > 0.2 and Dialogue == 1 and finditemchance == 2)
+				if (finditemchance == 2)
 				{
 					GD_PrintLine1 = " Oh an old watch!";
 					GD_PrintLine2 = " It's still ticking...";
@@ -2551,7 +2589,7 @@ void SP2::UpdateENV(double dt)
 					timesincelastbuttonpress = 0;
 					watches++;
 				}
-				if (timesincelastbuttonpress > 0.2 and Dialogue == 1 and finditemchance >= 3)
+				if (finditemchance >= 3)
 				{
 					GD_PrintLine1 = " A beautiful necklace!";
 					GD_PrintLine2 = " I can try to convince the pawn shop to buy this from me.";
@@ -2561,18 +2599,22 @@ void SP2::UpdateENV(double dt)
 					necklace++;
 				}
 			}
-			else if (finditemchance > 4)
+			else if (finditemchance > 4 and timesincelastbuttonpress >0.2 and Dialogue == 1 and bin4cooldown <= 0)
 			{
-				if (timesincelastbuttonpress > 0.2 and Dialogue == 1)
-				{
-					GD_PrintLine1 = "Darn, nothing useful here.";
-					GD_PrintLine2 = "Better luck next time.";
-					GD_PrintLine3 = "";
-					Dialogue = 2;
-					timesincelastbuttonpress = 0;
-				}
+				GD_PrintLine1 = "Darn, nothing useful here.";
+				GD_PrintLine2 = "Better luck next time.";
+				GD_PrintLine3 = "";
+				Dialogue = 2;
+				timesincelastbuttonpress = 0;
 			}
-
+			else if (bin4cooldown > 0 and timesincelastbuttonpress > 0.2 and Dialogue == 1)
+			{
+				GD_PrintLine1 = "I've just searched this bin.";
+				GD_PrintLine2 = "No use going through it again.";
+				GD_PrintLine3 = "";
+				Dialogue = 2;
+				timesincelastbuttonpress = 0;
+			}
 			if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 2)
 			{
 				SetCursorPos(camera.center.x, camera.center.y);
@@ -2583,16 +2625,16 @@ void SP2::UpdateENV(double dt)
 				timesincelastbuttonpress = 0;
 				DialogueBoxOpen = false;
 				inshop = false;
+				bin4cooldown = 20;
 			}
-
 		}
 
 		//Bin 5
 		else if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN5].getposition().x, objectlist[hb_BIN5].getposition().z) <= 3)
 		{
-		if (finditemchance <= 4)
+		if (finditemchance <= 4 and timesincelastbuttonpress > 0.2 and Dialogue == 1 and bin5cooldown <= 0)
 		{
-			if (timesincelastbuttonpress > 0.2 and Dialogue == 1 and finditemchance == 1)
+			if (finditemchance == 1)
 			{
 				GD_PrintLine1 = " Oh a ring!";
 				GD_PrintLine2 = " I can try to convince the pawn shop to buy this from me.";
@@ -2601,7 +2643,7 @@ void SP2::UpdateENV(double dt)
 				timesincelastbuttonpress = 0;
 				rings++;
 			}
-			if (timesincelastbuttonpress > 0.2 and Dialogue == 1 and finditemchance == 2)
+			if (finditemchance == 2)
 			{
 				GD_PrintLine1 = " Oh an old watch!";
 				GD_PrintLine2 = " It's still ticking...";
@@ -2610,7 +2652,7 @@ void SP2::UpdateENV(double dt)
 				timesincelastbuttonpress = 0;
 				watches++;
 			}
-			if (timesincelastbuttonpress > 0.2 and Dialogue == 1 and finditemchance >= 3)
+			if (finditemchance >= 3)
 			{
 				GD_PrintLine1 = " A beautiful necklace!";
 				GD_PrintLine2 = " I can try to convince the pawn shop to buy this from me.";
@@ -2620,18 +2662,22 @@ void SP2::UpdateENV(double dt)
 				necklace++;
 			}
 		}
-		else if (finditemchance > 4)
+		else if (finditemchance > 4 and timesincelastbuttonpress > 0.2 and Dialogue == 1 and bin5cooldown <= 0)
 		{
-			if (timesincelastbuttonpress > 0.2 and Dialogue == 1)
-			{
-				GD_PrintLine1 = "Darn, nothing useful here.";
-				GD_PrintLine2 = "Better luck next time.";
-				GD_PrintLine3 = "";
-				Dialogue = 2;
-				timesincelastbuttonpress = 0;
-			}
+			GD_PrintLine1 = "Darn, nothing useful here.";
+			GD_PrintLine2 = "Better luck next time.";
+			GD_PrintLine3 = "";
+			Dialogue = 2;
+			timesincelastbuttonpress = 0;
 		}
-
+		else if (bin5cooldown > 0 and timesincelastbuttonpress > 0.2 and Dialogue == 1)
+		{
+			GD_PrintLine1 = "I've just searched this bin.";
+			GD_PrintLine2 = "No use going through it again.";
+			GD_PrintLine3 = "";
+			Dialogue = 2;
+			timesincelastbuttonpress = 0;
+		}
 		if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 2)
 		{
 			SetCursorPos(camera.center.x, camera.center.y);
@@ -2642,6 +2688,7 @@ void SP2::UpdateENV(double dt)
 			timesincelastbuttonpress = 0;
 			DialogueBoxOpen = false;
 			inshop = false;
+			bin5cooldown = 20;
 		}
 
 		}
@@ -2649,9 +2696,9 @@ void SP2::UpdateENV(double dt)
 		//Bin 6
 		else if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN6].getposition().x, objectlist[hb_BIN6].getposition().z) <= 3)
 		{
-		if (finditemchance <= 4)
+		if (finditemchance <= 4 and timesincelastbuttonpress > 0.2 and Dialogue == 1 and bin6cooldown <= 0)
 		{
-			if (timesincelastbuttonpress > 0.2 and Dialogue == 1 and finditemchance == 1)
+			if (finditemchance == 1)
 			{
 				GD_PrintLine1 = " Oh a ring!";
 				GD_PrintLine2 = " I can try to convince the pawn shop to buy this from me.";
@@ -2660,7 +2707,7 @@ void SP2::UpdateENV(double dt)
 				timesincelastbuttonpress = 0;
 				rings++;
 			}
-			if (timesincelastbuttonpress > 0.2 and Dialogue == 1 and finditemchance == 2)
+			if (finditemchance == 2)
 			{
 				GD_PrintLine1 = " Oh an old watch!";
 				GD_PrintLine2 = " It's still ticking...";
@@ -2669,7 +2716,7 @@ void SP2::UpdateENV(double dt)
 				timesincelastbuttonpress = 0;
 				watches++;
 			}
-			if (timesincelastbuttonpress > 0.2 and Dialogue == 1 and finditemchance >= 3)
+			if (finditemchance >= 3)
 			{
 				GD_PrintLine1 = " A beautiful necklace!";
 				GD_PrintLine2 = " I can try to convince the pawn shop to buy this from me.";
@@ -2679,18 +2726,22 @@ void SP2::UpdateENV(double dt)
 				necklace++;
 			}
 		}
-		else if (finditemchance > 4)
+		else if (finditemchance > 4 and timesincelastbuttonpress > 0.2 and Dialogue == 1 and bin6cooldown <= 0)
 		{
-			if (timesincelastbuttonpress > 0.2 and Dialogue == 1)
-			{
-				GD_PrintLine1 = "Darn, nothing useful here.";
-				GD_PrintLine2 = "Better luck next time.";
-				GD_PrintLine3 = "";
-				Dialogue = 2;
-				timesincelastbuttonpress = 0;
-			}
+			GD_PrintLine1 = "Darn, nothing useful here.";
+			GD_PrintLine2 = "Better luck next time.";
+			GD_PrintLine3 = "";
+			Dialogue = 2;
+			timesincelastbuttonpress = 0;
 		}
-
+		else if (bin6cooldown > 0 and timesincelastbuttonpress > 0.2 and Dialogue == 1)
+		{
+			GD_PrintLine1 = "I've just searched this bin.";
+			GD_PrintLine2 = "No use going through it again.";
+			GD_PrintLine3 = "";
+			Dialogue = 2;
+			timesincelastbuttonpress = 0;
+		}
 		if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 2)
 		{
 			SetCursorPos(camera.center.x, camera.center.y);
@@ -2701,6 +2752,7 @@ void SP2::UpdateENV(double dt)
 			timesincelastbuttonpress = 0;
 			DialogueBoxOpen = false;
 			inshop = false;
+			bin6cooldown = 20;
 		}
 
 		}
@@ -2708,9 +2760,9 @@ void SP2::UpdateENV(double dt)
 		//Bin 7
 		else if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_BIN7].getposition().x, objectlist[hb_BIN7].getposition().z) <= 3)
 		{
-		if (finditemchance <= 4)
+		if (finditemchance <= 4 and timesincelastbuttonpress > 0.2 and Dialogue == 1 and bin7cooldown <= 0)
 		{
-			if (timesincelastbuttonpress > 0.2 and Dialogue == 1 and finditemchance == 1)
+			if (finditemchance == 1)
 			{
 				GD_PrintLine1 = " Oh a ring!";
 				GD_PrintLine2 = " I can try to convince the pawn shop to buy this from me.";
@@ -2719,7 +2771,7 @@ void SP2::UpdateENV(double dt)
 				timesincelastbuttonpress = 0;
 				rings++;
 			}
-			if (timesincelastbuttonpress > 0.2 and Dialogue == 1 and finditemchance == 2)
+			if (finditemchance == 2)
 			{
 				GD_PrintLine1 = " Oh an old watch!";
 				GD_PrintLine2 = " It's still ticking...";
@@ -2728,7 +2780,7 @@ void SP2::UpdateENV(double dt)
 				timesincelastbuttonpress = 0;
 				watches++;
 			}
-			if (timesincelastbuttonpress > 0.2 and Dialogue == 1 and finditemchance >= 3)
+			if (finditemchance >= 3)
 			{
 				GD_PrintLine1 = " A beautiful necklace!";
 				GD_PrintLine2 = " I can try to convince the pawn shop to buy this from me.";
@@ -2738,18 +2790,22 @@ void SP2::UpdateENV(double dt)
 				necklace++;
 			}
 		}
-		else if (finditemchance > 4)
+		else if (finditemchance > 4 and timesincelastbuttonpress > 0.2 and Dialogue == 1 and bin7cooldown <= 0)
 		{
-			if (timesincelastbuttonpress > 0.2 and Dialogue == 1)
-			{
-				GD_PrintLine1 = "Darn, nothing useful here.";
-				GD_PrintLine2 = "Better luck next time.";
-				GD_PrintLine3 = "";
-				Dialogue = 2;
-				timesincelastbuttonpress = 0;
-			}
+			GD_PrintLine1 = "Darn, nothing useful here.";
+			GD_PrintLine2 = "Better luck next time.";
+			GD_PrintLine3 = "";
+			Dialogue = 2;
+			timesincelastbuttonpress = 0;
 		}
-
+		else if (bin7cooldown > 0 and timesincelastbuttonpress > 0.2 and Dialogue == 1)
+		{
+			GD_PrintLine1 = "I've just searched this bin.";
+			GD_PrintLine2 = "No use going through it again.";
+			GD_PrintLine3 = "";
+			Dialogue = 2;
+			timesincelastbuttonpress = 0;
+		}
 		if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 2)
 		{
 			SetCursorPos(camera.center.x, camera.center.y);
@@ -2760,8 +2816,8 @@ void SP2::UpdateENV(double dt)
 			timesincelastbuttonpress = 0;
 			DialogueBoxOpen = false;
 			inshop = false;
+			bin7cooldown = 20;
 		}
-
 		}
 
 
@@ -3447,7 +3503,7 @@ void SP2::UpdateENV(double dt)
 				camera.setposition(Vector3(3.5, camera.Position_Y, -26.1));
 			}
 		}
-	}
+}
 
 	//CALL SCAM
 	/*if (DialogueBoxOpen == true)

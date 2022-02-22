@@ -364,7 +364,7 @@ private:
 	int failNPC = 0;
 
 	std::string person;
-
+	
 	//bins
 	int finditemchance;
 	bool talkshopkeep;
@@ -375,6 +375,13 @@ private:
 	bool ringscam = false;
 	bool watchscam = false;
 	bool necklacescam = false;
+	float bin1cooldown;
+	float bin2cooldown;
+	float bin3cooldown;
+	float bin4cooldown;
+	float bin5cooldown;
+	float bin6cooldown;
+	float bin7cooldown;
 
 	//other
 	bool isinhouse = false;
