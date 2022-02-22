@@ -837,7 +837,7 @@ void SP2::Init()
 	treeplanted = false; lackofwater = false;
 	imagepos = Vector3(40, 30, 0);
 	imagedimensions = Vector3(20, 20, 1);
-	bincooldown = 60;
+	//bincooldown = 60;
 }
 
 bool SP2::Update(double dt)
@@ -2936,7 +2936,7 @@ void SP2::UpdateENV(double dt)
 				timesincelastbuttonpress = 0;
 				Dialogue = 10;
 			}
-			if (Application::IsKeyPressed('1') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 8 && watchscam == true)
+			if (Application::IsKeyPressed('1') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 8 && ringscam == true)
 			{
 				GD_PrintLine1 = " Never heard of it before, ";
 				GD_PrintLine2 = "  probably from the pasar malam.";
@@ -2945,7 +2945,7 @@ void SP2::UpdateENV(double dt)
 				timesincelastbuttonpress = 0;
 				Dialogue = 10;
 			}
-			else if (Application::IsKeyPressed('2') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 8 && watchscam == true)
+			else if (Application::IsKeyPressed('2') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 8 && ringscam == true)
 			{
 				GD_PrintLine1 = "I do not know much about him,";
 				GD_PrintLine2 = "but I think I did see him wear this ring.";
@@ -2954,7 +2954,7 @@ void SP2::UpdateENV(double dt)
 				timesincelastbuttonpress = 0;
 				Dialogue = 11;
 			}
-			else if (Application::IsKeyPressed('3') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 8 && watchscam == true)
+			else if (Application::IsKeyPressed('3') and isRead == false and timesincelastbuttonpress > 0.2 and Dialogue == 8 && ringscam == true)
 			{
 				GD_PrintLine1 = " We do not sell this here, what are you saying?";
 				GD_PrintLine2 = "";
