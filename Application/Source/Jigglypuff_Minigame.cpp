@@ -2233,7 +2233,7 @@ void Sp2_Minigame::UpdateENV(double dt)
 		static bool ismaximumdistance3 = false;
 		static float distancetravelled3;
 		static float time_detect3 = 0;
-		distancetravelled3 = DistanceParameter(EnemyPosX3, EnemyPosX3, -100, -140);
+		distancetravelled3 = DistanceParameter(EnemyPosX3, EnemyPosZ3, -100, -140);
 		EnemyXSpeed3 = (float)(15 * dt);
 		EnemyZSpeed3 = (float)(15 * dt);
 		if (EnemyDetectPlayer(translateX, translateZ, EnemyPosX3, EnemyPosZ3) == true and ismaximumdistance3 == false and triggerEnemy3 == false) {

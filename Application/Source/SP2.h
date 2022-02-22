@@ -372,7 +372,9 @@ private:
 	int rings;
 	int watches;
 	int necklace;
-	int bincooldown;
+	bool ringscam = false;
+	bool watchscam = false;
+	bool necklacescam = false;
 
 	//other
 	bool isinhouse = false;
