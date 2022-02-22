@@ -97,6 +97,11 @@ class SP2 : public Scene
 		//Cash
 		GEO_CASH,
 
+		//jewellery
+		GEO_RING,
+		GEO_NECKLACE,
+		GEO_WATCH,
+
 		//text
 		GEO_TEXT_CALIBRI,
 		GEO_TEXT,
@@ -315,6 +320,7 @@ private:
 	LPPOINT mousepos;
 	Vector3 camerapos;
 	bool debug;
+	bool inventoryopen;
 
 	std::ostringstream UIstringoutput;
 
@@ -359,12 +365,14 @@ private:
 
 	std::string person;
 
+	//bins
 	int finditemchance;
 	bool talkshopkeep;
 	bool ringfound;
 	int rings;
 	int watches;
 	int necklace;
+	int bincooldown;
 
 	//other
 	bool isinhouse = false;
