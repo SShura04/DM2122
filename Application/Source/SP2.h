@@ -365,6 +365,9 @@ private:
 	int rings;
 	int watches;
 	int necklace;
+	bool ringscam = false;
+	bool watchscam = false;
+	bool necklacescam = false;
 
 	//other
 	bool isinhouse = false;
