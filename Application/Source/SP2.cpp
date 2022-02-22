@@ -233,6 +233,7 @@ void SP2::Init()
 
 		m_parameters[U_LIGHTENABLED] = glGetUniformLocation(m_programID, "lightEnabled");
 		m_parameters[U_NUMLIGHTS] = glGetUniformLocation(m_programID, "numLights");
+
 		// Get a handle for our "colorTexture" uniform
 		m_parameters[U_COLOR_TEXTURE_ENABLED] = glGetUniformLocation(m_programID, "colorTextureEnabled");
 		m_parameters[U_COLOR_TEXTURE] = glGetUniformLocation(m_programID, "colorTexture");
@@ -397,8 +398,15 @@ void SP2::Init()
 	meshList[GEO_STAR3_Grey]->textureID = LoadTGA("Image//3_Star_Grey.tga");
 	meshList[GEO_STAR4_Grey] = MeshBuilder::GenerateQuad("star4", Color(1, 1, 1), 1.f);
 	meshList[GEO_STAR4_Grey]->textureID = LoadTGA("Image//4_Star_Grey.tga");
-	meshList[GEO_STAR5_Grey] = MeshBuilder::GenerateQuad("star1", Color(1, 1, 1), 1.f);
+	meshList[GEO_STAR5_Grey] = MeshBuilder::GenerateQuad("star5", Color(1, 1, 1), 1.f);
 	meshList[GEO_STAR5_Grey]->textureID = LoadTGA("Image//5_Star_Grey.tga");
+
+	meshList[GEO_RING] = MeshBuilder::GenerateQuad("ring", Color(1, 1, 1), 1.f);
+	meshList[GEO_RING]->textureID = LoadTGA("Image//ring.tga");
+	meshList[GEO_WATCH] = MeshBuilder::GenerateQuad("watch", Color(1, 1, 1), 1.f);
+	meshList[GEO_WATCH]->textureID = LoadTGA("Image//watch.tga");
+	meshList[GEO_NECKLACE] = MeshBuilder::GenerateQuad("necklace", Color(1, 1, 1), 1.f);
+	meshList[GEO_NECKLACE]->textureID = LoadTGA("Image//necklace.tga");
 
 	//garbage
 	meshList[GEO_GARBAGE] = MeshBuilder::GenerateQuad("garbage", Color(1, 1, 1), 1.f);
@@ -741,18 +749,15 @@ void SP2::Init()
 	objectlist[hb_BIN7].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
 	objectlist[hb_BIN7].sethitboxcollisionsize(Vector3(0, 0, 0));
 
-
 	//furniture
 	meshList[GEO_BED] = MeshBuilder::GenerateOBJMTL("modelbed", "OBJ//BedSingle.obj", "OBJ//BedSingle.mtl");
 	objectlist[hb_BED].setmesh(GEO_BED);
 	objectlist[hb_BED].setproperties(Vector3(18.8, -20, 2.5), Vector3(0, 180, 0), Vector3(3, 3, 3));
 	objectlist[hb_BED].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
-
 	meshList[GEO_DESK] = MeshBuilder::GenerateOBJMTL("modeldesk", "OBJ//Desk.obj", "OBJ//Desk.mtl");
 	objectlist[hb_DESK].setmesh(GEO_DESK);
 	objectlist[hb_DESK].setproperties(Vector3(17.4, -20, 2.5), Vector3(0, -90, 0), Vector3(4, 3, 3));
 	objectlist[hb_DESK].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
-
 	meshList[GEO_LAPTOP] = MeshBuilder::GenerateOBJMTL("modellaptop", "OBJ//Laptop.obj", "OBJ//Laptop.mtl");
 	objectlist[hb_LAPTOP].setmesh(GEO_LAPTOP);
 	objectlist[hb_LAPTOP].setproperties(Vector3(17.0, -18.85, 1.5), Vector3(0, -90, 0), Vector3(4, 3, 3));
@@ -768,9 +773,6 @@ void SP2::Init()
 	objectlist[hb_TV].setproperties(Vector3(21.1, -19.3, 7.5), Vector3(0, 0, 0), Vector3(3, 3, 3));
 	objectlist[hb_TV].Setuphitbox(Vector3(1, 1, 1), Vector3(0, 3, 0));
 
-
-
-
 	// hitbox
 	meshList[GEO_HITBOX] = MeshBuilder::GenerateCube("modelhitbox", Color(0, 0, 0), 1);
 	meshList[GEO_HITBOX]->textureID = LoadTGA("Image//hitbox2.tga");
@@ -783,7 +785,6 @@ void SP2::Init()
 	meshList[GEO_TEXT_COMICSANS]->textureID = LoadTGA("Image//calibri.tga");
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//DimboFont.tga");
-
 
 	//setup player's hitbox
 	player.Setposition(Vector3(0, 2, 0));
@@ -802,8 +803,10 @@ void SP2::Init()
 	projection.SetToPerspective(45.f, 4.f / 3.f, 0.1f, 10000.f);
 	projectionStack.LoadMatrix(projection);
 
+
 	timesincelastbuttonpress = 0; DrawAxis = false; InWindow = true;
 	window = GetFocus();
+
 
 	//set mouse to centre of window
 	if (GetWindowRect(window, &rect))
@@ -834,6 +837,7 @@ void SP2::Init()
 	treeplanted = false; lackofwater = false;
 	imagepos = Vector3(40, 30, 0);
 	imagedimensions = Vector3(20, 20, 1);
+	bincooldown = 60;
 }
 
 bool SP2::Update(double dt)
@@ -946,7 +950,6 @@ void SP2::UpdateENV(double dt)
 	if ((int)Application::Minigame_timer > 0) {
 		Application::Minigame_timer -= dt;
 	}
-	cout << Application::Minigame_timer << endl;
 
 
 
@@ -1088,8 +1091,6 @@ void SP2::UpdateENV(double dt)
 	objectlist[hb_ShopKeeper].setrotation(Vector3(0, PlayerandShopKeeperRotationSpeed, 0));
 
 
-
-
 	//Enemy Movement
 	// will be motified
 	if (Stars != 0) {
@@ -1197,7 +1198,6 @@ void SP2::UpdateENV(double dt)
 		}
 
 
-
 		if (GetAsyncKeyState(0x01) && timesincelastpunch > 0.5)
 		{
 			punch = true;
@@ -1211,8 +1211,6 @@ void SP2::UpdateENV(double dt)
 			if (playerfist2 > 0)
 				playerfist2 -= 10.f * dt;
 		}
-
-
 
 		if (debug)
 		{
@@ -1255,6 +1253,7 @@ void SP2::UpdateENV(double dt)
 				rctrlbuttonstate = false;
 			}
 		}
+
 		static bool OEM5buttonstate = false;
 		if (Application::IsKeyPressed(VK_OEM_5) && !OEM5buttonstate) //'\'
 		{
@@ -1264,6 +1263,17 @@ void SP2::UpdateENV(double dt)
 		else if (!GetAsyncKeyState(VK_OEM_5) && OEM5buttonstate)
 		{
 			OEM5buttonstate = false;
+		}
+
+		static bool tabbuttonstate = false;
+		if (Application::IsKeyPressed(VK_TAB) && !tabbuttonstate) //'Tab'
+		{
+			inventoryopen = !inventoryopen;
+			tabbuttonstate = true;
+		}
+		else if (!GetAsyncKeyState(VK_TAB) && tabbuttonstate)
+		{
+			tabbuttonstate = false;
 		}
 
 		if (GetAsyncKeyState(VK_ESCAPE) && !escbuttonstate) //to exit env
@@ -2307,6 +2317,7 @@ void SP2::UpdateENV(double dt)
 				}
 			}
 		}
+		
 		//tv dialogue
 		else if (interactableObjectRect(player.getposition().x, player.getposition().z, objectlist[hb_TV].getposition().x - 0.11, objectlist[hb_TV].getposition().z - 0.5, 1.9, 1) == true and Stars == 0 and camera.Position_Y == -18) 
 		{
@@ -2372,17 +2383,6 @@ void SP2::UpdateENV(double dt)
 				timesincelastbuttonpress = 0;
 				necklace++;
 			}
-			if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 2)
-			{
-				SetCursorPos(camera.center.x, camera.center.y);
-				GD_PrintLine1 = "";
-				GD_PrintLine2 = "";
-				GD_PrintLine3 = "";
-				Dialogue = 1;
-				timesincelastbuttonpress = 0;
-				DialogueBoxOpen = false;
-				inshop = false;
-			}
 		}
 		else if (finditemchance > 4)
 		{
@@ -2441,17 +2441,6 @@ void SP2::UpdateENV(double dt)
 				Dialogue = 2;
 				timesincelastbuttonpress = 0;
 				necklace++;
-			}
-			if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 2)
-			{
-				SetCursorPos(camera.center.x, camera.center.y);
-				GD_PrintLine1 = "";
-				GD_PrintLine2 = "";
-				GD_PrintLine3 = "";
-				Dialogue = 1;
-				timesincelastbuttonpress = 0;
-				DialogueBoxOpen = false;
-				inshop = false;
 			}
 		}
 		else if (finditemchance > 4)
@@ -2512,17 +2501,6 @@ void SP2::UpdateENV(double dt)
 				timesincelastbuttonpress = 0;
 				necklace++;
 			}
-			if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 2)
-			{
-				SetCursorPos(camera.center.x, camera.center.y);
-				GD_PrintLine1 = "";
-				GD_PrintLine2 = "";
-				GD_PrintLine3 = "";
-				Dialogue = 1;
-				timesincelastbuttonpress = 0;
-				DialogueBoxOpen = false;
-				inshop = false;
-			}
 		}
 		else if (finditemchance > 4)
 		{
@@ -2581,17 +2559,6 @@ void SP2::UpdateENV(double dt)
 					Dialogue = 2;
 					timesincelastbuttonpress = 0;
 					necklace++;
-				}
-				if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 2)
-				{
-					SetCursorPos(camera.center.x, camera.center.y);
-					GD_PrintLine1 = "";
-					GD_PrintLine2 = "";
-					GD_PrintLine3 = "";
-					Dialogue = 1;
-					timesincelastbuttonpress = 0;
-					DialogueBoxOpen = false;
-					inshop = false;
 				}
 			}
 			else if (finditemchance > 4)
@@ -2652,17 +2619,6 @@ void SP2::UpdateENV(double dt)
 				timesincelastbuttonpress = 0;
 				necklace++;
 			}
-			if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 2)
-			{
-				SetCursorPos(camera.center.x, camera.center.y);
-				GD_PrintLine1 = "";
-				GD_PrintLine2 = "";
-				GD_PrintLine3 = "";
-				Dialogue = 1;
-				timesincelastbuttonpress = 0;
-				DialogueBoxOpen = false;
-				inshop = false;
-			}
 		}
 		else if (finditemchance > 4)
 		{
@@ -2722,17 +2678,6 @@ void SP2::UpdateENV(double dt)
 				timesincelastbuttonpress = 0;
 				necklace++;
 			}
-			if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 2)
-			{
-				SetCursorPos(camera.center.x, camera.center.y);
-				GD_PrintLine1 = "";
-				GD_PrintLine2 = "";
-				GD_PrintLine3 = "";
-				Dialogue = 1;
-				timesincelastbuttonpress = 0;
-				DialogueBoxOpen = false;
-				inshop = false;
-			}
 		}
 		else if (finditemchance > 4)
 		{
@@ -2791,17 +2736,6 @@ void SP2::UpdateENV(double dt)
 				Dialogue = 2;
 				timesincelastbuttonpress = 0;
 				necklace++;
-			}
-			if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 2)
-			{
-				SetCursorPos(camera.center.x, camera.center.y);
-				GD_PrintLine1 = "";
-				GD_PrintLine2 = "";
-				GD_PrintLine3 = "";
-				Dialogue = 1;
-				timesincelastbuttonpress = 0;
-				DialogueBoxOpen = false;
-				inshop = false;
 			}
 		}
 		else if (finditemchance > 4)
@@ -3869,7 +3803,6 @@ void SP2::UpdateENV(double dt)
 
 	// Wanted timer
 
-
 	if (Stars != 0) {
 		timer_blinking += dt;
 		timer_wanted += dt;
@@ -4674,7 +4607,7 @@ void SP2::RenderENV()
 		}
 	}
 
-	// Shop
+	//Shop
 	static bool isClick_Wanted_Shop = false;
 	static float timer_click_Wanted_Shop = 0;
 	if (interactableObjectRect(player.getposition().x, player.getposition().z, objectlist[hb_HOUSE14].getposition().x, objectlist[hb_HOUSE14].getposition().z + 5, 1.5, 1) == true and camera.position.y != -18) {
@@ -4786,8 +4719,6 @@ void SP2::RenderENV()
 		UIstringoutput.str("");
 	}
 
-
-
 	//render UI
 	//Stamina bar
 	if (SizeofStamina < 40 and !inshop) {
@@ -4797,14 +4728,33 @@ void SP2::RenderENV()
 	if (SizeofStamina <= 0 and !inshop) {
 		RenderTextOnScreen(meshList[GEO_TEXT], "YOU NEED REST!", Color(1, 1, 1), 3, 34, 8.5);
 	}
-	
-	//Cash 
-	RenderMeshOnScreen(meshList[GEO_CASH], Vector3(5, 5, 5), 0, 4, 55);
-	RenderTextOnScreen(meshList[GEO_TEXT], "$" + to_string(Application::Cash), Color(0, 0.9, 0), 4, 7, 53);
 
-	RenderTextOnScreen(meshList[GEO_TEXT], "Rings:" + to_string(rings), Color(1, 1, 1), 4, 4, 48);
-	RenderTextOnScreen(meshList[GEO_TEXT], "Watches:" + to_string(watches), Color(1, 1, 1), 4, 4, 46);
-	RenderTextOnScreen(meshList[GEO_TEXT], "Necklaces:" + to_string(necklace), Color(1, 1, 1), 4, 4, 44);
+	if (inventoryopen)
+	{
+		if (!inshop)
+		{
+			//Cash 
+			RenderMeshOnScreen(meshList[GEO_CASH], Vector3(5, 5, 5), 0, 3, 55);
+			RenderTextOnScreen(meshList[GEO_TEXT], "$" + to_string(Application::Cash), Color(0, 0.9, 0), 4, 5, 53);
+
+			//Junk
+			RenderMeshOnScreen(meshList[GEO_RING], Vector3(5, 5, 5), 0, 3, 48);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Rings: " + to_string(rings), Color(1, 1, 1), 4, 6, 46);
+			RenderMeshOnScreen(meshList[GEO_WATCH], Vector3(5, 5, 5), 0, 3, 43);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Watches: " + to_string(watches), Color(1, 1, 1), 4, 6, 41);
+			RenderMeshOnScreen(meshList[GEO_NECKLACE], Vector3(5, 5, 5), 0, 3, 38);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Necklaces: " + to_string(necklace), Color(1, 1, 1), 4, 6, 36);
+		}
+	}
+	else
+	{
+		if (!inshop)
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Press Tab to check inventory", Color(0.8, 0.8, 0.8), 3, 2, 34);
+		}
+		
+	}
+	
 
 	//Stars
 	if (Stars == 1) {
