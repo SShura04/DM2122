@@ -1622,6 +1622,7 @@ void SP2::UpdateENV(double dt)
 					person = "PEDESTRIAN";
 					Dialogue = 11;
 					timesincelastbuttonpress = 0;
+					Application::Cash += 100;
 				}
 				if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 10)
 				{
@@ -1938,6 +1939,7 @@ void SP2::UpdateENV(double dt)
 					person = "PEDESTRIAN";
 					Dialogue = 11;
 					timesincelastbuttonpress = 0;
+					Application::Cash += 100;
 				}
 				if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 10)
 				{
@@ -2251,6 +2253,7 @@ void SP2::UpdateENV(double dt)
 					person = "PEDESTRIAN";
 					Dialogue = 11;
 					timesincelastbuttonpress = 0;
+					Application::Cash += 100;
 				}
 				if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 10)
 				{
@@ -3464,6 +3467,7 @@ void SP2::UpdateENV(double dt)
 				timesincelastbuttonpress = 0;
 				inshop = false;
 				rings--;
+				Application::Cash += 100;
 			}
 			if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 13 && watchscam == true)
 			{
@@ -3477,6 +3481,7 @@ void SP2::UpdateENV(double dt)
 				timesincelastbuttonpress = 0;
 				inshop = false;
 				watches--;
+				Application::Cash += 100;
 			}
 			if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 13 && necklacescam == true)
 			{
@@ -3490,6 +3495,7 @@ void SP2::UpdateENV(double dt)
 				timesincelastbuttonpress = 0;
 				inshop = false;
 				necklace--;
+				Application::Cash += 100;
 			}
 			if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 14)
 			{
