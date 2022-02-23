@@ -447,6 +447,15 @@ void SP2::Init()
 	objectlist[hb_ShopKeeper].sethitboxcollisionsize(Vector3(1, 0, 1));
 	objectlist[hb_ShopKeeper].setlighting(false);
 
+	meshList[GEO_NPC3] = MeshBuilder::GenerateOBJMTL("npc3", "OBJ//advancedCharacter.obj", "OBJ//advancedCharacter.obj.mtl");
+	meshList[GEO_NPC3]->textureID = LoadTGA("Image//skin_adventurer.tga");
+	objectlist[hb_NPC3].setmesh(GEO_NPC3);
+	objectlist[hb_NPC3].setproperties(Vector3(0, 0, -5), Vector3(0, 0, 0), Vector3(0.16, 0.16, 0.16));
+	objectlist[hb_NPC3].sethitboxcollisionsize(Vector3(1, 0, 1));
+	objectlist[hb_NPC3].setlighting(false);
+	NPCX = objectlist[hb_NPC3].getposition().x;
+	NPCZ = objectlist[hb_NPC3].getposition().z;
+
 
 	meshList[GEO_POLICE] = MeshBuilder::GenerateOBJMTL("police", "OBJ//advancedCharacter.obj", "OBJ//advancedCharacter.obj.mtl");
 	meshList[GEO_POLICE]->textureID = LoadTGA("Image//skin_man.tga");
@@ -1296,11 +1305,39 @@ void SP2::UpdateENV(double dt)
 		if (PlayerandNpcRotationSpeed <= PrevRotation) {
 			PlayerandNpcRotationSpeed += (float)(120 * dt);
 		}
-
-
 	}
 
+	if (DialogueBoxOpen == true and DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_NPC3].getposition().x, objectlist[hb_NPC3].getposition().z) <= 5) {
+		if (PlayerandNpcRotationSpeed >= NPClookAtPlayerAngle) {
+			PlayerandNpcRotationSpeed -= (float)(120 * dt);
+		}
+		if (PlayerandNpcRotationSpeed <= NPClookAtPlayerAngle) {
+			PlayerandNpcRotationSpeed += (float)(120 * dt);
+		}
+		if (PlayerandNpcRotationSpeed >= NPClookAtPlayerAngle) {
+			PlayerandNpcRotationSpeed -= (float)(120 * dt);
+		}
+		if (PlayerandNpcRotationSpeed <= NPClookAtPlayerAngle) {
+			PlayerandNpcRotationSpeed += (float)(120 * dt);
+		}
 
+		// Camera rotation
+		Mtx44 rotation;
+		rotation.SetToRotation(speed_yaw, camera.up.x, camera.up.y, camera.up.z);
+		camera.view = rotation * camera.view;
+		camera.target = camera.position + camera.view;
+		rotation.SetToRotation(speed_pitch, camera.right.x, camera.right.y, camera.right.z);
+		camera.view = rotation * camera.view;
+		camera.target = camera.position + camera.view;
+	}
+	else {
+		if (PlayerandNpcRotationSpeed >= PrevRotation) {
+			PlayerandNpcRotationSpeed -= (float)(120 * dt);
+		}
+		if (PlayerandNpcRotationSpeed <= PrevRotation) {
+			PlayerandNpcRotationSpeed += (float)(120 * dt);
+		}
+	}
 
 	// Shopkeeper
 	Vector3 PlayertoShopXZ = (Vector3(objectlist[hb_ShopKeeper].getposition().x, 0, objectlist[hb_ShopKeeper].getposition().z) - PlayerXZ).Normalized();
@@ -1334,6 +1371,7 @@ void SP2::UpdateENV(double dt)
 
 	objectlist[hb_NPC1].setrotationparentonly(Vector3(0, PlayerandNpcRotationSpeed, 0));
 	objectlist[hb_ShopKeeper].setrotationparentonly(Vector3(0, PlayerandShopKeeperRotationSpeed, 0));
+	objectlist[hb_NPC3].setrotationparentonly(Vector3(0, PlayerandNpcRotationSpeed, 0));
 
 
 
@@ -1773,14 +1811,14 @@ void SP2::UpdateENV(double dt)
 				{
 					GD_PrintLine1 = "Hah! That's a movie studio,";
 					GD_PrintLine2 = "no game comes from there!";
-					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
+					GD_PrintLine3 = "";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
 					failNPC++;
 					if (failNPC < 2)
 					{
-						Dialogue = 4;
+						Dialogue = 13;
 					}
 					else
 					{
@@ -1791,14 +1829,14 @@ void SP2::UpdateENV(double dt)
 				{
 					GD_PrintLine1 = "Can I even trust you into buying this game?";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
+					GD_PrintLine3 = "";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
 					failNPC++;
 					if (failNPC < 2)
 					{
-						Dialogue = 4;
+						Dialogue = 13;
 					}
 					else
 					{
@@ -1811,12 +1849,12 @@ void SP2::UpdateENV(double dt)
 					GD_PrintLine2 = "";
 					GD_PrintLine3 = "";
 					person = "PEDESTRIAN";
-					Dialogue = 9;
+					Dialogue = 10;
 					timesincelastbuttonpress = 0;
 					failNPC++;
 					if (failNPC < 2)
 					{
-						Dialogue = 4;
+						Dialogue = 13;
 					}
 					else
 					{
@@ -1827,14 +1865,14 @@ void SP2::UpdateENV(double dt)
 				{
 					GD_PrintLine1 = "Do you even know who is that?";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
+					GD_PrintLine3 = "";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
 					failNPC++;
 					if (failNPC < 2)
 					{
-						Dialogue = 4;
+						Dialogue = 13;
 					}
 					else
 					{
@@ -1854,14 +1892,14 @@ void SP2::UpdateENV(double dt)
 				{
 					GD_PrintLine1 = "Hah! That's a movie studio,";
 					GD_PrintLine2 = "no game comes from there!";
-					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
+					GD_PrintLine3 = "";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
 					failNPC++;
 					if (failNPC < 2)
 					{
-						Dialogue = 4;
+						Dialogue = 13;
 					}
 					else
 					{
@@ -1872,14 +1910,14 @@ void SP2::UpdateENV(double dt)
 				{
 					GD_PrintLine1 = "Are you being serious?";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
+					GD_PrintLine3 = "";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
 					failNPC++;
 					if (failNPC < 2)
 					{
-						Dialogue = 4;
+						Dialogue = 13;
 					}
 					else
 					{
@@ -1899,14 +1937,14 @@ void SP2::UpdateENV(double dt)
 				{
 					GD_PrintLine1 = "Do you even know who is that?";
 					GD_PrintLine2 = " ";
-					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
+					GD_PrintLine3 = "";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
 					failNPC++;
 					if (failNPC < 2)
 					{
-						Dialogue = 4;
+						Dialogue = 13;
 					}
 					else
 					{
@@ -1918,14 +1956,14 @@ void SP2::UpdateENV(double dt)
 
 					GD_PrintLine1 = "Can I even trust you into buying this game?";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
+					GD_PrintLine3 = "";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
 					failNPC++;
 					if (failNPC < 2)
 					{
-						Dialogue = 4;
+						Dialogue = 13;
 					}
 					else
 					{
@@ -2018,7 +2056,15 @@ void SP2::UpdateENV(double dt)
 					timesincelastbuttonpress = 0;
 					inshop = false;
 				}
-
+				if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 13)
+				{
+					GD_PrintLine1 = "(Crap, i better choose my words ";
+					GD_PrintLine2 = " carefully before i get caught)";
+					GD_PrintLine3 = "";
+					person = "YOU";
+					Dialogue = 4;
+					timesincelastbuttonpress = 0;
+				}
 			}
 			if (randomscam == 2)
 			{
@@ -2083,14 +2129,14 @@ void SP2::UpdateENV(double dt)
 				{
 					GD_PrintLine1 = "You are kidding me right?";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
+					GD_PrintLine3 = "";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
 					failNPC++;
 					if (failNPC < 2)
 					{
-						Dialogue = 4;
+						Dialogue = 13;
 					}
 					else
 					{
@@ -2101,15 +2147,16 @@ void SP2::UpdateENV(double dt)
 				{
 					GD_PrintLine1 = "Did you expect me to give you a good answer for that?";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
+					GD_PrintLine3 = "";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
 					failNPC++;
 					if (failNPC < 2)
 					{
-						Dialogue = 4;
+						Dialogue = 13;
 					}
+					
 					else
 					{
 						Dialogue = 10;
@@ -2128,14 +2175,14 @@ void SP2::UpdateENV(double dt)
 				{
 					GD_PrintLine1 = "Is your wine even old enough to drink?";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
+					GD_PrintLine3 = "";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
 					failNPC++;
 					if (failNPC < 2)
 					{
-						Dialogue = 4;
+						Dialogue = 13;
 					}
 					else
 					{
@@ -2155,14 +2202,14 @@ void SP2::UpdateENV(double dt)
 				{
 					GD_PrintLine1 = "For a wine from 711 that is pretty expensive.";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
+					GD_PrintLine3 = "";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
 					failNPC++;
 					if (failNPC < 2)
 					{
-						Dialogue = 4;
+						Dialogue = 13;
 					}
 					else
 					{
@@ -2182,14 +2229,14 @@ void SP2::UpdateENV(double dt)
 				{
 					GD_PrintLine1 = "Is your wine even old enough to drink?";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
+					GD_PrintLine3 = "";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
 					failNPC++;
 					if (failNPC < 2)
 					{
-						Dialogue = 4;
+						Dialogue = 13;
 					}
 					else
 					{
@@ -2200,14 +2247,14 @@ void SP2::UpdateENV(double dt)
 				{
 					GD_PrintLine1 = "You are kidding me right?";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
+					GD_PrintLine3 = "";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
 					failNPC++;
 					if (failNPC < 2)
 					{
-						Dialogue = 4;
+						Dialogue = 13;
 					}
 					else
 					{
@@ -2218,14 +2265,14 @@ void SP2::UpdateENV(double dt)
 				{
 					GD_PrintLine1 = "Did you expect me to give you a good answer for that?";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
+					GD_PrintLine3 = "";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
 					failNPC++;
 					if (failNPC < 2)
 					{
-						Dialogue = 4;
+						Dialogue = 13;
 					}
 					else
 					{
@@ -2245,14 +2292,14 @@ void SP2::UpdateENV(double dt)
 				{
 					GD_PrintLine1 = "For a wine from 711 that is pretty expensive.";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
+					GD_PrintLine3 = "";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
 					failNPC++;
 					if (failNPC < 2)
 					{
-						Dialogue = 4;
+						Dialogue = 13;
 					}
 					else
 					{
@@ -2335,6 +2382,15 @@ void SP2::UpdateENV(double dt)
 					timesincelastbuttonpress = 0;
 					inshop = false;
 				}
+				if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 13)
+				{
+					GD_PrintLine1 = "(Crap, i better choose my words ";
+					GD_PrintLine2 = " carefully before i get caught)";
+					GD_PrintLine3 = "";
+					person = "YOU";
+					Dialogue = 4;
+					timesincelastbuttonpress = 0;
+				}
 			}
 			if (randomscam == 3)
 			{
@@ -2406,14 +2462,14 @@ void SP2::UpdateENV(double dt)
 				{
 					GD_PrintLine1 = "I do not care.";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
+					GD_PrintLine3 = "";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
 					failNPC++;
 					if (failNPC < 2)
 					{
-						Dialogue = 4;
+						Dialogue = 13;
 					}
 					else
 					{
@@ -2424,14 +2480,14 @@ void SP2::UpdateENV(double dt)
 				{
 					GD_PrintLine1 = "That is from a game. ";
 					GD_PrintLine2 = "Are you even selling a real charm?";
-					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
+					GD_PrintLine3 = "";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
 					failNPC++;
 					if (failNPC < 2)
 					{
-						Dialogue = 4;
+						Dialogue = 13;
 					}
 					else
 					{
@@ -2442,14 +2498,14 @@ void SP2::UpdateENV(double dt)
 				{
 					GD_PrintLine1 = "You do know I am not a student anymore right? ";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
+					GD_PrintLine3 = "";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
 					failNPC++;
 					if (failNPC < 2)
 					{
-						Dialogue = 4;
+						Dialogue = 13;
 					}
 					else
 					{
@@ -2469,14 +2525,14 @@ void SP2::UpdateENV(double dt)
 				{
 					GD_PrintLine1 = "Have you looked at yourself in the mirror?";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
+					GD_PrintLine3 = "";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
 					failNPC++;
 					if (failNPC < 2)
 					{
-						Dialogue = 4;
+						Dialogue = 13;
 					}
 					else
 					{
@@ -2494,7 +2550,7 @@ void SP2::UpdateENV(double dt)
 					failNPC++;
 					if (failNPC < 2)
 					{
-						Dialogue = 4;
+						Dialogue = 13;
 					}
 					else
 					{
@@ -2505,14 +2561,14 @@ void SP2::UpdateENV(double dt)
 				{
 					GD_PrintLine1 = "You do know I am not a student anymore right? ";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
+					GD_PrintLine3 = "";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
 					failNPC++;
 					if (failNPC < 2)
 					{
-						Dialogue = 4;
+						Dialogue = 13;
 					}
 					else
 					{
@@ -2532,14 +2588,14 @@ void SP2::UpdateENV(double dt)
 				{
 					GD_PrintLine1 = "I do not care.";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
+					GD_PrintLine3 = "";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
 					failNPC++;
 					if (failNPC < 2)
 					{
-						Dialogue = 4;
+						Dialogue = 13;
 					}
 					else
 					{
@@ -2550,14 +2606,14 @@ void SP2::UpdateENV(double dt)
 				{
 					GD_PrintLine1 = "Have you looked at yourself in the mirror?";
 					GD_PrintLine2 = "";
-					GD_PrintLine3 = "(Crap, i better choose my words carefully before i get caught)";
+					GD_PrintLine3 = "";
 					person = "PEDESTRIAN";
 					Dialogue = 10;
 					timesincelastbuttonpress = 0;
 					failNPC++;
 					if (failNPC < 2)
 					{
-						Dialogue = 4;
+						Dialogue = 13;
 					}
 					else
 					{
@@ -2648,6 +2704,15 @@ void SP2::UpdateENV(double dt)
 					person = "???";
 					timesincelastbuttonpress = 0;
 					inshop = false;
+				}
+				if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 13)
+				{
+					GD_PrintLine1 = "(Crap, i better choose my words ";
+					GD_PrintLine2 = " carefully before i get caught)";
+					GD_PrintLine3 = "";
+					person = "YOU";
+					Dialogue = 4;
+					timesincelastbuttonpress = 0;
 				}
 			}
 		}
@@ -3129,7 +3194,7 @@ void SP2::UpdateENV(double dt)
 		}
 		}
 
-		// SHOPKEEPER
+		// SHOPKEEPER talk 
 		else if (interactableObjectRect(player.getposition().x, player.getposition().z, objectlist[hb_SHOPSELLTABLE].getposition().x, objectlist[hb_SHOPSELLTABLE].getposition().z + 0.5, 1.5, 1) == true and camera.position.y == -18)
 		{
 			if (timesincelastbuttonpress > 0.2 and Dialogue == 1)
@@ -3159,13 +3224,662 @@ void SP2::UpdateENV(double dt)
 				GD_PrintLine3 = "";
 				person = "???";
 				timesincelastbuttonpress = 0;
-				//inshop = false;
 				isShopOpen = true;
 			}
 
 		}
-	}
+	
+		// NPC item scam
+		if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_NPC3].getposition().x, objectlist[hb_NPC3].getposition().z) <= 5 and Stars == 0 and camera.Position_Y == 2)
+		{
+			if (timesincelastbuttonpress > 0.2 and Dialogue == 1)
+			{
+				randomgreet = rand() % 4 + 1;
+				if (randomgreet == 1)
+				{
+					GD_PrintLine1 = "Huh? Whayya want?";
+					GD_PrintLine2 = "";
+					GD_PrintLine3 = "";
+				}
+				else if (randomgreet == 2)
+				{
+					GD_PrintLine1 = "Hi! What do you need?";
+					GD_PrintLine2 = "";
+					GD_PrintLine3 = "";
+				}
+				else if (randomgreet == 3)
+				{
+					GD_PrintLine1 = "I've got no time to waste for you kid, hurry up and say it!";
+					GD_PrintLine2 = "";
+					GD_PrintLine3 = "";
+				}
+				else if (randomgreet == 4)
+				{
+					GD_PrintLine1 = "I hate wasting time, spit it out already!";
+					GD_PrintLine2 = "";
+					GD_PrintLine3 = "";
+				}
+				person = "PEDESTRIAN";
+				Dialogue = 3;
+				timesincelastbuttonpress = 0;
+				randomscam = rand() % 3 + 1;
+			}
+			if (Application::IsKeyPressed('E') and  timesincelastbuttonpress > 0.2 and Dialogue == 3 && rings >= 1)
+			{
+				GD_PrintLine1 = "I like to sell you this exquisite ring i have here.";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "YOU";
+				Dialogue = 4;
+				ringscam = true;
+				timesincelastbuttonpress = 0;
+			}
+			else if (Application::IsKeyPressed('E') and  timesincelastbuttonpress > 0.2 and Dialogue == 3 && watches >= 1)
+			{
+				GD_PrintLine1 = "I like to sell you this exquisite watch i have here.";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "YOU";
+				Dialogue = 4;
+				watchscam = true;
+				timesincelastbuttonpress = 0;
+			}
+			else if (Application::IsKeyPressed('E') and  timesincelastbuttonpress > 0.2 and Dialogue == 3 && necklace >= 1)
+			{
+				GD_PrintLine1 = "I like to sell you exquisite necklace i have here.";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "YOU";
+				Dialogue = 4;
+				necklacescam = true;
+				timesincelastbuttonpress = 0;
+			}
+			else if (Application::IsKeyPressed('E') and  timesincelastbuttonpress > 0.2 and Dialogue == 4 && ringscam == true) {
+				srand(time(NULL));
+				randomtext = rand() % 4 + 1;
+				if (randomtext == 1)
+				{
+					GD_PrintLine1 = " 1. It is made with multiple diamonds";
+					GD_PrintLine2 = "  2. I found it from the garbage bin down the road";
+					GD_PrintLine3 = " 3. It is a ring worn by the famous actor James Bonk.";
+					person = "YOU";
+					Dialogue = 5;
+					timesincelastbuttonpress = 0;
+				}
+				else if (randomtext == 2)
+				{
+					GD_PrintLine1 = " 1. I found it from the garbage bin down the road.";
+					GD_PrintLine2 = "  2.It is a limited edition swalawalaski ring.";
+					GD_PrintLine3 = " 3. It is from a gift from the late president.";
+					person = "YOU";
+					Dialogue = 6;
+					timesincelastbuttonpress = 0;
+				}
+				else if (randomtext == 3)
+				{
+					GD_PrintLine1 = " 1. It is from a gift from the late president.";
+					GD_PrintLine2 = "  2. It is a family treasure passed down from my late grandfather. ";
+					GD_PrintLine3 = " 3.  I just bought this from the shop down the street.";
+					person = "YOU";
+					Dialogue = 7;
+					timesincelastbuttonpress = 0;
+				}
+				else if (randomtext == 4)
+				{
+					GD_PrintLine1 = " 1. It is a limited edition swalawalaski ring.";
+					GD_PrintLine2 = "  2. It is a ring worn by the famous actor James Bonk.";
+					GD_PrintLine3 = " 3.  I just bought this from the shop down the street.";
+					person = "YOU";
+					Dialogue = 8;
+					timesincelastbuttonpress = 0;
+				}
+			}
+			if (Application::IsKeyPressed('1') and  timesincelastbuttonpress > 0.2 and Dialogue == 5 && ringscam == true)
+			{
+				GD_PrintLine1 = "Nice try, that clearly is a fake ring.";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 10;
+			}
+			else if (Application::IsKeyPressed('2') and  timesincelastbuttonpress > 0.2 and Dialogue == 5 && ringscam == true)
+			{
+				GD_PrintLine1 = " Why are you even trying to sell it to me? ";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 10;
+			}
+			else if (Application::IsKeyPressed('3') and  timesincelastbuttonpress > 0.2 and Dialogue == 5 && ringscam == true)
+			{
+				GD_PrintLine1 = "He is my favourite actor!,";
+				GD_PrintLine2 = "I would love to get that ring.";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 11;
+			}
+			if (Application::IsKeyPressed('1') and  timesincelastbuttonpress > 0.2 and Dialogue == 6 && ringscam == true)
+			{
+				GD_PrintLine1 = " Why are you even trying to sell it to me? ";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 10;
+			}
+			else if (Application::IsKeyPressed('2') and  timesincelastbuttonpress > 0.2 and Dialogue == 6 && ringscam == true)
+			{
+				GD_PrintLine1 = " Never heard of it before, ";
+				GD_PrintLine2 = "  probably from the pasar malam.";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 10;
+			}
+			else if (Application::IsKeyPressed('3') and  timesincelastbuttonpress > 0.2 and Dialogue == 6 && ringscam == true)
+			{
+				GD_PrintLine1 = " Oh that could be worth a lot.";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 11;
+			}
+			if (Application::IsKeyPressed('1') and  timesincelastbuttonpress > 0.2 and Dialogue == 7 && ringscam == true)
+			{
+				GD_PrintLine1 = " Oh that could be worth a lot.";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 11;
+			}
+			else if (Application::IsKeyPressed('2') and  timesincelastbuttonpress > 0.2 and Dialogue == 7 && ringscam == true)
+			{
+				GD_PrintLine1 = "  So sorry to hear that but this ring ";
+				GD_PrintLine2 = "  is not to my liking";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 10;
+			}
+			else if (Application::IsKeyPressed('3') and  timesincelastbuttonpress > 0.2 and Dialogue == 7 && ringscam == true)
+			{
+				GD_PrintLine1 = " They do not even sell rings, what are you saying?";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 10;
+			}
+			if (Application::IsKeyPressed('1') and  timesincelastbuttonpress > 0.2 and Dialogue == 8 && ringscam == true)
+			{
+				GD_PrintLine1 = " Never heard of it before, ";
+				GD_PrintLine2 = "  probably from the pasar malam.";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 10;
+			}
+			else if (Application::IsKeyPressed('2') and  timesincelastbuttonpress > 0.2 and Dialogue == 8 && ringscam == true)
+			{
+				GD_PrintLine1 = "He is my favourite actor!,";
+				GD_PrintLine2 = "I would love to get that ring.";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 11;
+			}
+			else if (Application::IsKeyPressed('3') and  timesincelastbuttonpress > 0.2 and Dialogue == 8 && ringscam == true)
+			{
+				GD_PrintLine1 = " They do not even sell rings, what are you saying?";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 10;
+			}
+			else if (Application::IsKeyPressed('E') and  timesincelastbuttonpress > 0.2 and Dialogue == 4 && watchscam == true) {
+				srand(time(NULL));
+				randomtext = rand() % 4 + 1;
+				if (randomtext == 1)
+				{
+					GD_PrintLine1 = " 1. It's able to stop time!";
+					GD_PrintLine2 = "  2. It tells you the time.";
+					GD_PrintLine3 = " 3. It is the watch that was showcased in the new movie.";
+					person = "YOU";
+					Dialogue = 5;
+					timesincelastbuttonpress = 0;
+				}
+				else if (randomtext == 2)
+				{
+					GD_PrintLine1 = " 1. You can do JoJo poses with this.";
+					GD_PrintLine2 = "  2. The watch is an ancient relic.";
+					GD_PrintLine3 = " 3. It is an Apple Watch.";
+					person = "YOU";
+					Dialogue = 6;
+					timesincelastbuttonpress = 0;
+				}
+				else if (randomtext == 3)
+				{
+					GD_PrintLine1 = " 1. It is the watch that was showcased in the new movie.";
+					GD_PrintLine2 = "  2. You can do JoJo poses with this.";
+					GD_PrintLine3 = " 3.  It tells you the time.";
+					person = "YOU";
+					Dialogue = 7;
+					timesincelastbuttonpress = 0;
+				}
+				else if (randomtext == 4)
+				{
+					GD_PrintLine1 = " 1. It's able to stop time!";
+					GD_PrintLine2 = "  2. The watch is an ancient relic.";
+					GD_PrintLine3 = " 3.  It is an Apple Watch.";
+					person = "YOU";
+					Dialogue = 8;
+					timesincelastbuttonpress = 0;
+				}
+			}
+			if (Application::IsKeyPressed('1') and  timesincelastbuttonpress > 0.2 and Dialogue == 5 && watchscam == true)
+			{
+				GD_PrintLine1 = "Ya, ya, stop dreaming about your weird fantasies.";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 10;
+			}
+			else if (Application::IsKeyPressed('2') and  timesincelastbuttonpress > 0.2 and Dialogue == 5 && watchscam == true)
+			{
+				GD_PrintLine1 = " No shit sherlock.";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 10;
+			}
+			else if (Application::IsKeyPressed('3') and  timesincelastbuttonpress > 0.2 and Dialogue == 5 && watchscam == true)
+			{
+				GD_PrintLine1 = "The new movie 'Royal'? I love that movie!";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 11;
+			}
+			if (Application::IsKeyPressed('1') and  timesincelastbuttonpress > 0.2 and Dialogue == 6 && watchscam == true)
+			{
+				GD_PrintLine1 = "That's cringe, are you ok?";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 10;
+			}
+			else if (Application::IsKeyPressed('2') and  timesincelastbuttonpress > 0.2 and Dialogue == 6 && watchscam == true)
+			{
+				GD_PrintLine1 = " Oh! A rare find from the age of old.";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 11;
+			}
+			else if (Application::IsKeyPressed('3') and  timesincelastbuttonpress > 0.2 and Dialogue == 6 && watchscam == true)
+			{
+				GD_PrintLine1 = "Nice lie when your watch can't even touch screen.";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 10;
+			}
+			if (Application::IsKeyPressed('1') and  timesincelastbuttonpress > 0.2 and Dialogue == 7 && watchscam == true)
+			{
+				GD_PrintLine1 = "The new movie 'Royal'? I love that movie!";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 11;
+			}
+			else if (Application::IsKeyPressed('2') and  timesincelastbuttonpress > 0.2 and Dialogue == 7 && watchscam == true)
+			{
+				GD_PrintLine1 = "That's cringe, are you ok?";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 10;
+			}
+			else if (Application::IsKeyPressed('3') and  timesincelastbuttonpress > 0.2 and Dialogue == 7 && watchscam == true)
+			{
+				GD_PrintLine1 = " No shit sherlock.";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 10;
+			}
+			if (Application::IsKeyPressed('1') and  timesincelastbuttonpress > 0.2 and Dialogue == 8 && watchscam == true)
+			{
+				GD_PrintLine1 = "Ya, ya, stop dreaming about your weird fantasies.";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 10;
+			}
+			else if (Application::IsKeyPressed('2') and  timesincelastbuttonpress > 0.2 and Dialogue == 8 && watchscam == true)
+			{
+				GD_PrintLine1 = " Oh! A rare find from the age of old.";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 11;
+			}
+			else if (Application::IsKeyPressed('3') and  timesincelastbuttonpress > 0.2 and Dialogue == 8 && watchscam == true)
+			{
+				GD_PrintLine1 = "Nice lie when your watch can't even touch screen.";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 10;
+			}
+			else if (Application::IsKeyPressed('E') and  timesincelastbuttonpress > 0.2 and Dialogue == 4 && necklacescam == true) {
+				srand(time(NULL));
+				randomtext = rand() % 4 + 1;
+				if (randomtext == 1)
+				{
+					GD_PrintLine1 = " 1. My friend bought it to me as a gift.";
+					GD_PrintLine2 = "  2. It is an olympic gold necklace.";
+					GD_PrintLine3 = " 3. It is 999 karat gold necklace.";
+					person = "YOU";
+					Dialogue = 5;
+					timesincelastbuttonpress = 0;
+				}
+				else if (randomtext == 2)
+				{
+					GD_PrintLine1 = " 1. The necklace is worn by a soldier that died in WWII.";
+					GD_PrintLine2 = "  2. The necklace is nice to wear.";
+					GD_PrintLine3 = " 3. The necklace helps to cure cancer.";
+					person = "YOU";
+					Dialogue = 6;
+					timesincelastbuttonpress = 0;
+				}
+				else if (randomtext == 3)
+				{
+					GD_PrintLine1 = " 1. It is 999 karat gold necklace.";
+					GD_PrintLine2 = "  2. It is an olympic gold necklace.";
+					GD_PrintLine3 = " 3. The necklace is nice to wear.";
+					person = "YOU";
+					Dialogue = 7;
+					timesincelastbuttonpress = 0;
+				}
+				else if (randomtext == 4)
+				{
+					GD_PrintLine1 = " 1. The necklace helps to cure cancer.";
+					GD_PrintLine2 = "  2. My friend bought it to me as a gift.";
+					GD_PrintLine3 = " 3.  The necklace is worn by a soldier that died in WWII";
+					person = "YOU";
+					Dialogue = 8;
+					timesincelastbuttonpress = 0;
+				}
+			}
+			if (Application::IsKeyPressed('1') and  timesincelastbuttonpress > 0.2 and Dialogue == 5 && necklacescam == true)
+			{
+				GD_PrintLine1 = "So sorry but this necklace is a cheap one.";
+				GD_PrintLine2 = " It's probably better to keep it.";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 10;
+			}
+			else if (Application::IsKeyPressed('2') and  timesincelastbuttonpress > 0.2 and Dialogue == 5 && necklacescam == true)
+			{
+				GD_PrintLine1 = " Wow you are a gold medalist? That sure would worth a lot!";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 11;
+			}
+			else if (Application::IsKeyPressed('3') and  timesincelastbuttonpress > 0.2 and Dialogue == 5 && necklacescam == true)
+			{
+				GD_PrintLine1 = "This is clearly just gold plated, look at the shininess!";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 10;
+			}
+			if (Application::IsKeyPressed('1') and  timesincelastbuttonpress > 0.2 and Dialogue == 6 && necklacescam == true)
+			{
+				GD_PrintLine1 = "I am fond of history, I can add that to my collection.";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 11;
+			}
+			else if (Application::IsKeyPressed('2') and  timesincelastbuttonpress > 0.2 and Dialogue == 6 && necklacescam == true)
+			{
+				GD_PrintLine1 = "Ok and? All of the necklaces is nice to wear too.";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 10;
+			}
+			else if (Application::IsKeyPressed('3') and  timesincelastbuttonpress > 0.2 and Dialogue == 6 && necklacescam == true)
+			{
+				GD_PrintLine1 = "This is a necklace not some medicine. Get your facts right.";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 10;
+			}
+			if (Application::IsKeyPressed('1') and  timesincelastbuttonpress > 0.2 and Dialogue == 7 && necklacescam == true)
+			{
+				GD_PrintLine1 = "This is clearly just gold plated, look at the shininess!";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 10;
+			}
+			else if (Application::IsKeyPressed('2') and  timesincelastbuttonpress > 0.2 and Dialogue == 7 && necklacescam == true)
+			{
+				GD_PrintLine1 = " Wow you are a gold medalist? That sure would worth a lot!";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 11;
+			}
+			else if (Application::IsKeyPressed('3') and  timesincelastbuttonpress > 0.2 and Dialogue == 7 && necklacescam == true)
+			{
+				GD_PrintLine1 = "Ok and? All of the necklaces is nice to wear too.";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 10;
+			}
+			if (Application::IsKeyPressed('1') and  timesincelastbuttonpress > 0.2 and Dialogue == 8 && necklacescam == true)
+			{
+				GD_PrintLine1 = "This is a necklace not some medicine. Get your facts right.";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 10;
+			}
+			else if (Application::IsKeyPressed('2') and  timesincelastbuttonpress > 0.2 and Dialogue == 8 && necklacescam == true)
+			{
+				GD_PrintLine1 = "So sorry but this necklace is a cheap one.";
+				GD_PrintLine2 = " It's probably better to keep it.";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 10;
+			}
+			else if (Application::IsKeyPressed('3') and  timesincelastbuttonpress > 0.2 and Dialogue == 8 && necklacescam == true)
+			{
+				GD_PrintLine1 = "I am fond of history, I can add that to my collection.";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 11;
+			}
+			if (Application::IsKeyPressed('E') and  timesincelastbuttonpress > 0.2 and Dialogue == 10)
+			{
+				srand(time(NULL));
+				randomfail = rand() % 3 + 1;
+				if (randomfail == 1)
+				{
+					GD_PrintLine1 = " I am not buying that.";
+					GD_PrintLine2 = "";
+					GD_PrintLine3 = "";
+					person = "PEDESTRIAN";
+				}
+				if (randomfail == 2)
+				{
+					GD_PrintLine1 = " This serves no purpose to me.";
+					GD_PrintLine2 = "";
+					GD_PrintLine3 = "";
+					person = "PEDESTRIAN";
+				}
+				if (randomfail == 3)
+				{
+					GD_PrintLine1 = "  This is not worth my money.";
+					GD_PrintLine2 = "";
+					GD_PrintLine3 = "";
+					person = "PEDESTRIAN";
+				}
+				timesincelastbuttonpress = 0;
+				failshop++;
+				if (failshop < 2)
+				{
+					Dialogue = 15;
+				}
+				else
+				{
+					Dialogue = 12;
+				}
+			}
+			if (Application::IsKeyPressed('E') and  timesincelastbuttonpress > 0.2 and Dialogue == 11)
+			{
+				srand(time(NULL));
+				randomsuccess = rand() % 3 + 1;
+				if (randomsuccess == 1)
+				{
+					GD_PrintLine1 = " I will take it. This looks promising.";
+					GD_PrintLine2 = "";
+					GD_PrintLine3 = "";
+					person = "PEDESTRIAN";
+				}
+				if (randomsuccess == 2)
+				{
+					GD_PrintLine1 = " Guess I can take this off your hands.";
+					GD_PrintLine2 = "";
+					GD_PrintLine3 = "";
+					person = "PEDESTRIAN";
+				}
+				if (randomsuccess == 3)
+				{
+					GD_PrintLine1 = " This would be a great investment.";
+					GD_PrintLine2 = "";
+					GD_PrintLine3 = "";
+					person = "PEDESTRIAN";
+				}
+				timesincelastbuttonpress = 0;
+				Dialogue = 13;
+			}
+			if (Application::IsKeyPressed('E') and  timesincelastbuttonpress > 0.2 and Dialogue == 12)
+			{
+				GD_PrintLine1 = " Hey! Are you trying to scam me?";
+				GD_PrintLine2 = "   I am calling the police this instant!";
+				GD_PrintLine3 = "";
+				person = "PEDESTRIAN";
+				timesincelastbuttonpress = 0;
+				Dialogue = 14;
+			}
+			if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 13 && ringscam == true)
+			{
+				SetCursorPos(camera.center.x, camera.center.y);
+				Dialogue = 1;
+				DialogueBoxOpen = false;
+				GD_PrintLine1 = "";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "???";
+				timesincelastbuttonpress = 0;
+				inshop = false;
+				rings--;
+				Application::Cash += 100;
+			}
+			if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 13 && watchscam == true)
+			{
+				SetCursorPos(camera.center.x, camera.center.y);
+				Dialogue = 1;
+				DialogueBoxOpen = false;
+				GD_PrintLine1 = "";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "???";
+				timesincelastbuttonpress = 0;
+				inshop = false;
+				watches--;
+				Application::Cash += 100;
+			}
+			if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 13 && necklacescam == true)
+			{
+				SetCursorPos(camera.center.x, camera.center.y);
+				Dialogue = 1;
+				DialogueBoxOpen = false;
+				GD_PrintLine1 = "";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "???";
+				timesincelastbuttonpress = 0;
+				inshop = false;
+				necklace--;
+				Application::Cash += 100;
+			}
+			if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 14)
+			{
+				SetCursorPos(camera.center.x, camera.center.y);
+				Dialogue = 1;
+				DialogueBoxOpen = false;
+				Stars++;
+				GD_PrintLine1 = "";
+				GD_PrintLine2 = "";
+				GD_PrintLine3 = "";
+				person = "???";
+				timesincelastbuttonpress = 0;
+				inshop = false;
+			}
+			if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 15)
+			{
+				GD_PrintLine1 = "(Crap, i better choose my words ";
+				GD_PrintLine2 = " carefully before i get caught)";
+				GD_PrintLine3 = "";
+				person = "YOU";
+				Dialogue = 4;
+				timesincelastbuttonpress = 0;
+			}
+		}
 
+}
+
+	//shop menu
 	if (isShopOpen == true) {
 		POINT initmousepos;
 		mousepos = &initmousepos;//init mousepos
@@ -3359,6 +4073,10 @@ void SP2::UpdateENV(double dt)
 		timesincelastbuttonpress += dt;
 	}
 	else if (interactableObjectRect(player.getposition().x, player.getposition().z, objectlist[hb_SHOPSELLTABLE].getposition().x, objectlist[hb_SHOPSELLTABLE].getposition().z + 0.5, 1.5, 1) == true and camera.position.y == -18) {
+		timesincelastbuttonpress += dt;
+	}
+	else if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_NPC3].getposition().x, objectlist[hb_NPC3].getposition().z) <= 5 and Stars == 0)
+	{
 		timesincelastbuttonpress += dt;
 	}
 	else {
@@ -4004,7 +4722,6 @@ void SP2::RenderENV()
 				modelStack.PopMatrix();
 			}
 		}
-
 	}
 
 	//render city centre
@@ -4171,6 +4888,35 @@ void SP2::RenderENV()
 			RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine2, Color(0, 0, 0), 3, 14, 7.5);
 			RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine3, Color(0, 0, 0), 3, 14, 5);
 			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to speed up", Color(1, 1, 1), 3, 30.2, 0.8);
+		}
+	}
+
+	//scam ring
+	if (DistanceParameter(player.getposition().x, player.getposition().z, objectlist[hb_NPC3].getposition().x, objectlist[hb_NPC3].getposition().z) <= 5 and Stars == 0)
+	{
+		if (DialogueBoxOpen == false && (rings >= 1 || watches >= 1 || necklace >= 1))
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to sell items", Color(1, 1, 1), 4, 28, 14);
+		}
+		else
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "No item to sell", Color(1, 1, 1), 4, 28, 14);
+		}
+		if (Application::IsKeyPressed('E') and DialogueBoxOpen == false and timesincelastbuttonpress > 0.2 && (rings >= 1 || watches >= 1 || necklace >= 1))
+		{
+			talkshopkeep = true;
+			DialogueBoxOpen = true;
+			timesincelastbuttonpress = 0;
+			inshop = true;
+		}
+		if (DialogueBoxOpen == true && rings >= 1 || DialogueBoxOpen == true && watches >= 1 || DialogueBoxOpen == true && necklace >= 1)
+		{
+			RenderMeshOnScreen(meshList[GEO_DIALOGUEUI], Vector3(60, 15, 1), 0, 40, 10);
+			RenderTextOnScreen(meshList[GEO_TEXT], person, Color(1, 1, 1), 2.7, 23.5, 13.5);
+			RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine1, Color(0, 0, 0), 3, 14, 10);
+			RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine2, Color(0, 0, 0), 3, 14, 7.5);
+			RenderTextOnScreen(meshList[GEO_TEXT], GD_PrintLine3, Color(0, 0, 0), 3, 14, 5);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Try to scam people.", Color(1, 1, 1), 3, 30.2, 0.8);
 		}
 	}
 

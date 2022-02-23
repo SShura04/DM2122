@@ -47,6 +47,7 @@ class SP2 : public Scene
 		GEO_HOUSE5,
 		GEO_NPC1,
 		GEO_NPC2,
+		GEO_NPC3,
 		GEO_POLICE,
 
 		GEO_WATCH,
@@ -253,6 +254,7 @@ class SP2 : public Scene
 
 		//Npc
 		hb_NPC1,
+		hb_NPC3,
 		hb_POLICE,
 
 		//End of collision
@@ -387,7 +389,6 @@ private:
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
 	void RenderMeshOnScreen(Mesh* mesh, Vector3 size, float rotate, float x, float y);
-	void RenderMudkip(Vector3 position = Vector3(0, 8, 0), Vector3 rotation = Vector3(0, 0, 0));
 
 	// npc and police
 	void NPCMove(unsigned ObjectID, float& x, float& z, double dt, int choice);
