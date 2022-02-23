@@ -47,6 +47,8 @@ class SP2 : public Scene
 		GEO_HOUSE5,
 		GEO_NPC1,
 		GEO_NPC2,
+		GEO_NPC3,
+		GEO_NPCRING,
 		GEO_POLICE,
 
 		GEO_WATCH,
@@ -253,6 +255,7 @@ class SP2 : public Scene
 
 		//Npc
 		hb_NPC1,
+		hb_NPC3,
 		hb_POLICE,
 
 		//End of collision
