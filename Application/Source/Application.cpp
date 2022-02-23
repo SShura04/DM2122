@@ -19,7 +19,7 @@
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
-const unsigned int frameTime = 100 / FPS; // time for each frame
+const unsigned int frameTime = 1000 / FPS; // time for each frame
 
 
 
@@ -28,6 +28,8 @@ unsigned Application::m_height;
 unsigned Application::GameScene;
 float Application::Minigame_timer = 0;
 int Application::Cash = 100;
+bool Application::isMuted = false;
+bool Application::ismusicPlaying = false;
 
 void resize_callback(GLFWwindow* window, int w, int h)
 {

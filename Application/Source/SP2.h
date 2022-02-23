@@ -8,6 +8,8 @@
 #include "Light.h"
 #include "timer.h"
 #include "Objects.h"
+#include "Navmesh.h"
+#include "PoliceAI.h"
 #include <sstream>
 #include <stdlib.h>
 
@@ -17,6 +19,16 @@ class SP2 : public Scene
 	{
 		GEO_AXES,
 		GEO_QUAD,
+		GEO_SHOPUI,
+		GEO_SOUND_MUTE,
+		GEO_SOUND_UNMUTE,
+		GEO_GAMEOVERBACKGROUND,
+		GEO_GAMEOVER,
+		GEO_GAMEOVERBUTTON,
+
+
+		GEO_NAVINODES,
+		GEO_NAVINODES2,
 		GEO_LIGHTBALL,
 
 		//skybox
@@ -37,7 +49,9 @@ class SP2 : public Scene
 		GEO_NPC2,
 		GEO_POLICE,
 
-
+		GEO_WATCH,
+		GEO_NECKLACE,
+		GEO_RING,
 		GEO_DIALOGUEUI,
 
 		//walls
@@ -90,17 +104,14 @@ class SP2 : public Scene
 		GEO_STAMINA_BLACK,
 		GEO_STAMINA_BAR,
 
-		//Sun and Moon
-		GEO_MOON,
-		GEO_SUN,
-
 		//Cash
 		GEO_CASH,
 
-		//jewellery
-		GEO_RING,
-		GEO_NECKLACE,
-		GEO_WATCH,
+		//Inv
+		GEO_HOTBAR,
+
+		GEO_CUBE1,
+
 
 		//text
 		GEO_TEXT_CALIBRI,
@@ -145,6 +156,32 @@ class SP2 : public Scene
 		U_LIGHT1_COSCUTOFF,
 		U_LIGHT1_COSINNER,
 		U_LIGHT1_EXPONENT,
+
+		//light 3	(house marker)
+		U_LIGHT2_POSITION,
+		U_LIGHT2_COLOR,
+		U_LIGHT2_POWER,
+		U_LIGHT2_KC,
+		U_LIGHT2_KL,
+		U_LIGHT2_KQ,
+		U_LIGHT2_TYPE,
+		U_LIGHT2_SPOTDIRECTION,
+		U_LIGHT2_COSCUTOFF,
+		U_LIGHT2_COSINNER,
+		U_LIGHT2_EXPONENT,
+
+		//light 4	(shop marker)
+		U_LIGHT3_POSITION,
+		U_LIGHT3_COLOR,
+		U_LIGHT3_POWER,
+		U_LIGHT3_KC,
+		U_LIGHT3_KL,
+		U_LIGHT3_KQ,
+		U_LIGHT3_TYPE,
+		U_LIGHT3_SPOTDIRECTION,
+		U_LIGHT3_COSCUTOFF,
+		U_LIGHT3_COSINNER,
+		U_LIGHT3_EXPONENT,
 
 		U_LIGHTENABLED,
 		U_NUMLIGHTS,
@@ -304,23 +341,31 @@ private:
 	float playerfist1, playerfist2;
 	bool playerfist1extend, playerfist2extend;
 	Vector3 savedposition, savedtarget;
+	Navmesh* navigationmesh;
+	std::vector <PoliceAI*> polices;
+
 
 	unsigned playergold, playerpunchpower, playerwater, shopselect, textprogress, pricemultiplier, playerwood, treegrowthstage;
 	bool playerhasseed, playerhaskey, lackofmoney, playerboughtitem, lackofwood, playerlost, lackofwater;
 	bool house2locked, treeplanted;
 	unsigned m_programID;
 	unsigned m_parameters[U_TOTAL];
-	bool resume, escbuttonstate, triedtoopendoor;
+	bool resume, escbuttonstate, triedtoopendoor, rendernodes;
 	unsigned buttonhover;
 
-	float NPClookAtPlayerAngle = 0, ShopKeeperlookAtPlayerAngle = 0, PlayerandNpcRotationSpeed = 0, PlayerandShopKeeperRotationSpeed = 0, rotateAngle, gamemovementspeed, playerscore;
+	float NPClookAtPlayerAngle = 0, ShopKeeperlookAtPlayerAngle = 0, PlayerandNpcRotationSpeed = 0, PlayerandShopKeeperRotationSpeed = 0;
+	float PrevRotation = 0;
+
+
+	float rotateAngle, gamemovementspeed, playerscore;
 	float timesincelastbuttonpress = 0, timesincelastpunch;
 	bool DrawAxis, InWindow, mousehidden, renderhitboxes, checkcollision, inshop, ingame, chatting;
 	HWND window; RECT rect;
 	LPPOINT mousepos;
 	Vector3 camerapos;
 	bool debug;
-	bool inventoryopen;
+
+
 
 	std::ostringstream UIstringoutput;
 
@@ -331,7 +376,7 @@ private:
 	float fps;
 	std::string fpstext;
 
-	Light light[2];
+	Light light[4];
 
 	Vector3 imagepos;
 	Vector3 imagedimensions;
@@ -342,39 +387,13 @@ private:
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
 	void RenderMeshOnScreen(Mesh* mesh, Vector3 size, float rotate, float x, float y);
-	void EnemyMove(unsigned ObjectID, float& x, float& z, double dt, float speed);
-	float EnemyX, EnemyZ;
+	void RenderMudkip(Vector3 position = Vector3(0, 8, 0), Vector3 rotation = Vector3(0, 0, 0));
 
+	// npc and police
+	void NPCMove(unsigned ObjectID, float& x, float& z, double dt, int choice);
+	float NPCX, NPCZ;
 
-	float DayandNightSkyboxTransitioning = 0.5;
-
-	// Scrolling of text
-	bool isRead = false;
-	bool DialogueBoxOpen = false;
-	std::string GD_PrintLine1;
-	std::string GD_PrintLine2;
-	std::string GD_PrintLine3;
-	int Dialogue = 1;
-	int randomtext;
-	int randomscam;
-	int randomgreet;
-	int randomsuccess;
-	int randomfail;
-	int failshop = 0;
-	int failNPC = 0;
-
-	std::string person;
-	
-	//bins
-	int finditemchance;
-	bool talkshopkeep;
-	bool ringfound;
-	int rings;
-	int watches;
-	int necklace;
-	bool ringscam = false;
-	bool watchscam = false;
-	bool necklacescam = false;
+	//bin cooldowns
 	float bin1cooldown;
 	float bin2cooldown;
 	float bin3cooldown;
@@ -382,6 +401,27 @@ private:
 	float bin5cooldown;
 	float bin6cooldown;
 	float bin7cooldown;
+
+	float DayandNightSkyboxTransitioning = 0.5;
+
+	// Interaction dialogue
+	bool DialogueBoxOpen = false;
+	std::string GD_PrintLine1 = "";
+	std::string GD_PrintLine2 = "";
+	std::string GD_PrintLine3 = "";
+	int Dialogue = 1;
+	int randomtext = 0;
+	int randomscam = 0;
+	int randomgreet = 0;
+	int randomsuccess = 0;
+	int randomfail = 0;
+	int failshop = 0;
+	int failNPC = 0;
+	int rings = 0;
+	std::string person;
+	// TV
+	bool checkedtv = false;
+	bool isShopOpen = false;
 
 	//other
 	bool isinhouse = false;
@@ -396,14 +436,31 @@ private:
 	Vector3 CollisionCircleRect(float cx, float cz, float radius, float rx, float rz, float rw, float rb);
 	bool CollisionCircleRect1(float cx, float cz, float radius, float rx, float rz, float rw, float rb);
 
-	Vector3 prev;
-
 	// Stars wanted
 	int Stars = 0;
 	float timer_blinking = 0;
 	float timer_wanted = 0;
 	float timer_Wanted_Chase = 0;
 	float speed_police = 2;
+	bool canseeplayer = false;
+	bool gameover = false;
+
+
+	// bin
+	int finditemchance;
+	bool talkshopkeep;
+	bool ringfound;
+	int watches;
+	int necklace;
+	bool ringscam = false;
+	bool watchscam = false;
+	bool necklacescam = false;
+	bool inventoryopen = false;
+
+	//Inv
+	int item1 = 0, item2 = 0, item3 = 0;
+	bool isSufficient = false;
+	bool ShopUI_Status = false;
 };
 
 #endif

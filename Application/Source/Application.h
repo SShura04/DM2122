@@ -30,6 +30,8 @@ public:
 
 	// Minigame timer
 	static float Minigame_timer;
+	static bool isMuted;
+	static bool ismusicPlaying;
 
 	// Cash
 	static int Cash;
