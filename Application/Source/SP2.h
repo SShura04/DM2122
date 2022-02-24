@@ -89,6 +89,9 @@ class SP2 : public Scene
 		//garbage
 		GEO_GARBAGE,
 
+		GEO_PHONEBODY,
+		GEO_PHONESCREEN,
+
 		//Stars
 	    GEO_STAR1,
 		GEO_STAR2,
@@ -274,6 +277,7 @@ class SP2 : public Scene
 		hb_LAPTOP,
 		hb_TABLE,
 		hb_TV,
+		hb_PHONE,
 		hb_WALLSHOP,
 		hb_SHOPSELLTABLE,
 		hb_SHOPTABLE,
