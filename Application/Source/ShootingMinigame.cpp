@@ -464,7 +464,6 @@ bool shootingminigame::Update(double dt)
 	static bool RightClick = false;
 	if (!RightClick && Application::IsMousePressed(1))
 	{
-		gameover = true;
 		RightClick = true;
 	}
 	else if (RightClick && !Application::IsMousePressed(1))
@@ -579,6 +578,7 @@ void shootingminigame::UpdateENV(double dt)
 			}
 			score = 0;
 			camera.Reset();
+			gameover = false;
 			timerstart = false;
 			timer = 60;
 		}
@@ -592,6 +592,7 @@ void shootingminigame::UpdateENV(double dt)
 			}
 			score = 0;
 			camera.Reset();
+			gameover = false;
 			timerstart = false;
 			timer = 60;
 		}
