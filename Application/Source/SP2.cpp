@@ -404,7 +404,7 @@ void SP2::Init()
 	meshList[GEO_QUAD] = MeshBuilder::GenerateQuad("quad", Color(1, 1, 1), 1.f, 8);
 	meshList[GEO_QUAD]->textureID = LoadTGA("Image//grass.tga");
 
-	//cash
+	//ground
 	meshList[GEO_CASH] = MeshBuilder::GenerateQuad("cash", Color(1, 1, 1), 1.f);
 	meshList[GEO_CASH]->textureID = LoadTGA("Image//Cash.tga");
 
@@ -441,6 +441,7 @@ void SP2::Init()
 	objectlist[hb_NPC1].setlighting(false);
 	NPCX = objectlist[hb_NPC1].getposition().x;
 	NPCZ = objectlist[hb_NPC1].getposition().z;
+
 
 
 	meshList[GEO_NPC2] = MeshBuilder::GenerateOBJMTL("npc2", "OBJ//advancedCharacter.obj", "OBJ//advancedCharacter.obj.mtl");
@@ -560,6 +561,19 @@ void SP2::Init()
 	objectlist[hb_HOUSE2].setmesh(GEO_HOUSE2);
 	objectlist[hb_HOUSE2].setproperties(Vector3(-9.2, 0, 20), Vector3(0, 0, 0), Vector3(7, 10, 7));
 	objectlist[hb_HOUSE2].sethitboxcollisionsize(Vector3(12, 0, 4));
+	objectlist[hb_HOUSE_TEST].setmesh(GEO_HOUSE2);
+	objectlist[hb_HOUSE_TEST].setproperties(Vector3(-28.8, 0, 20), Vector3(0, 0, 0), Vector3(7, 10, 7));
+	objectlist[hb_HOUSE_TEST].sethitboxcollisionsize(Vector3(12, 0, 4));
+	objectlist[hb_HOUSE_TEST2].setmesh(GEO_HOUSE2);
+	objectlist[hb_HOUSE_TEST2].setproperties(Vector3(42.2, 0, 20), Vector3(0, 0, 0), Vector3(7, 10, 7));
+	objectlist[hb_HOUSE_TEST2].sethitboxcollisionsize(Vector3(12, 0, 4));
+	objectlist[hb_HOUSE_TEST3].setmesh(GEO_HOUSE2);
+	objectlist[hb_HOUSE_TEST3].setproperties(Vector3(39, 0, 3.4), Vector3(0, 180, 0), Vector3(7, 10, 7));
+	objectlist[hb_HOUSE_TEST3].sethitboxcollisionsize(Vector3(12, 0, 4));
+	objectlist[hb_HOUSE_TEST4].setmesh(GEO_HOUSE2);
+	objectlist[hb_HOUSE_TEST4].setproperties(Vector3(-34.8, 0, 3.6), Vector3(0, 180, 0), Vector3(7, 10, 7));
+	objectlist[hb_HOUSE_TEST4].sethitboxcollisionsize(Vector3(12, 0, 4));
+
 
 	objectlist[hb_HOUSE7].setmesh(GEO_HOUSE2);
 	objectlist[hb_HOUSE7].setproperties(Vector3(-23, 0, -16), Vector3(0, 90, 0), Vector3(17, 10, 7));
@@ -829,12 +843,6 @@ void SP2::Init()
 	meshList[GEO_SHOPUI] = MeshBuilder::GenerateQuad("shop", Color(1, 1, 1), 1.f);
 	meshList[GEO_SHOPUI]->textureID = LoadTGA("Image//Store.tga");
 
-	meshList[GEO_CONTROLSTAB] = MeshBuilder::GenerateQuad("controltab", Color(1, 1, 1), 1.f);
-	meshList[GEO_CONTROLSTAB]->textureID = LoadTGA("Image//ControlsTab.tga");
-
-	meshList[GEO_CONTROLSCREEN] = MeshBuilder::GenerateQuad("controlscreen", Color(1, 1, 1), 1.f);
-	meshList[GEO_CONTROLSCREEN]->textureID = LoadTGA("Image//ControlScreen.tga");
-
 	//Inv
 	meshList[GEO_HOTBAR] = MeshBuilder::GenerateQuad("hotbar", Color(1, 1, 1), 1.f);
 	meshList[GEO_HOTBAR]->textureID = LoadTGA("Image//Hotbar.tga");
@@ -888,6 +896,11 @@ void SP2::Init()
 	objectlist[hb_PHONE].setmesh(GEO_PHONESCREEN);
 	objectlist[hb_PHONE].setproperties(Vector3(16.8, -18.8, 2.2), Vector3(-90, 0, 90), Vector3(0.25, 0.48, 0.01));
 
+	meshList[GEO_CONTROLSTAB] = MeshBuilder::GenerateQuad("controltab", Color(1, 1, 1), 1.f);
+	meshList[GEO_CONTROLSTAB]->textureID = LoadTGA("Image//ControlsTab.tga");
+
+	meshList[GEO_CONTROLSCREEN] = MeshBuilder::GenerateQuad("controlscreen", Color(1, 1, 1), 1.f);
+	meshList[GEO_CONTROLSCREEN]->textureID = LoadTGA("Image//ControlScreen.tga");
 
 	Mtx44 projection;
 	projection.SetToPerspective(45.f, 4.f / 3.f, 0.1f, 10000.f);
@@ -924,7 +937,6 @@ void SP2::Init()
 	imagepos = Vector3(40, 30, 0);
 	imagedimensions = Vector3(20, 20, 1);
 	navigationmesh = new Navmesh(60, 80, 1.5, -25, -47);
-	controlopen = false;
 
 	//autogenerate walls for the navigation mesh
 	NavmeshNode* nodemarker = navigationmesh->getzerozeronode();
@@ -2000,6 +2012,7 @@ void SP2::UpdateENV(double dt)
 		{
 			ctrlbuttonstate = false;
 		}
+
 
 		if (GetAsyncKeyState(VK_ESCAPE) && !escbuttonstate) //to exit env
 		{
@@ -4407,14 +4420,11 @@ void SP2::UpdateENV(double dt)
 			GD_PrintLine2 = "";
 			GD_PrintLine3 = "";
 			Dialogue = 2;
-			person = "???";
+			person = "    CALLER";
 			timesincelastbuttonpress = 0;
 		}
 		if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 2)
 		{
-
-			srand(time(NULL));
-
 			randomtext = rand() % 4 + 1;
 
 			if (randomtext == 1)
@@ -4423,7 +4433,6 @@ void SP2::UpdateENV(double dt)
 				GD_PrintLine2 = "2. Kidnapping scam.";
 				GD_PrintLine3 = "3. Bank scam.";
 				Dialogue = 3;
-				person = "YOU";
 				timesincelastbuttonpress = 0;
 			}
 			if (randomtext == 2)
@@ -4450,6 +4459,7 @@ void SP2::UpdateENV(double dt)
 				Dialogue = 15;
 				timesincelastbuttonpress = 0;
 			}
+			person = "       YOU";
 		}
 		if (Application::IsKeyPressed('1') and timesincelastbuttonpress > 0.2 and Dialogue == 3)
 		{
@@ -4458,6 +4468,7 @@ void SP2::UpdateENV(double dt)
 			GD_PrintLine3 = "";
 			timesincelastbuttonpress = 0;
 			Dialogue = 4;
+			person = "       YOU";
 		}
 		if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 4) {
 
@@ -4479,12 +4490,14 @@ void SP2::UpdateENV(double dt)
 				Dialogue = 19;
 				timesincelastbuttonpress = 0;
 			}
+			person = "    CALLER";
 		}
 		if (Application::IsKeyPressed('2') and timesincelastbuttonpress > 0.2 and Dialogue == 3)
 		{
 			GD_PrintLine1 = "I have your child with me!";
 			GD_PrintLine2 = "Give me $100 or you will never see your child ever again! ";
 			GD_PrintLine3 = "";
+			person = "       YOU";
 			timesincelastbuttonpress = 0;
 			Dialogue = 5;
 		}
@@ -4508,12 +4521,14 @@ void SP2::UpdateENV(double dt)
 				Dialogue = 19;
 				timesincelastbuttonpress = 0;
 			}
+			person = "    CALLER";
 		}
 		if (Application::IsKeyPressed('3') and timesincelastbuttonpress > 0.2 and Dialogue == 3)
 		{
 			GD_PrintLine1 = "I am from the ABC bank, your card has been declined. ";
 			GD_PrintLine2 = "You need to give me $100 or else your account is forever blocked! ";
 			GD_PrintLine3 = "";
+			person = "       YOU";
 			timesincelastbuttonpress = 0;
 			Dialogue = 6;
 		}
@@ -4538,8 +4553,8 @@ void SP2::UpdateENV(double dt)
 				GD_PrintLine3 = "";
 				Dialogue = 19;
 				timesincelastbuttonpress = 0;
-
 			}
+			person = "    CALLER";
 		}
 		if (Application::IsKeyPressed('1') and timesincelastbuttonpress > 0.2 and Dialogue == 7)
 		{
@@ -4547,6 +4562,7 @@ void SP2::UpdateENV(double dt)
 			GD_PrintLine2 = "Simply pay a $100 registration fee, and you can apply for this   ";
 			GD_PrintLine3 = "job that earns $8000 a month just by doing surveys.";
 			Dialogue = 8;
+			person = "       YOU";
 			timesincelastbuttonpress = 0;
 		}
 		if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 8)
@@ -4570,6 +4586,7 @@ void SP2::UpdateENV(double dt)
 				Dialogue = 19;
 				timesincelastbuttonpress = 0;
 			}
+			person = "    CALLER";
 		}
 		if (Application::IsKeyPressed('2') and timesincelastbuttonpress > 0.2 and Dialogue == 7)
 		{
@@ -4577,6 +4594,7 @@ void SP2::UpdateENV(double dt)
 			GD_PrintLine2 = "pay it and we will return your house to you.";
 			GD_PrintLine3 = "";
 			Dialogue = 9;
+			person = "       YOU";
 			timesincelastbuttonpress = 0;
 		}
 		if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 9)
@@ -4599,12 +4617,14 @@ void SP2::UpdateENV(double dt)
 				Dialogue = 19;
 				timesincelastbuttonpress = 0;
 			}
+			person = "    CALLER";
 		}
 		if (Application::IsKeyPressed('3') and timesincelastbuttonpress > 0.2 and Dialogue == 7)
 		{
 			GD_PrintLine1 = "I am from the organization that donates ";
 			GD_PrintLine2 = "food and money to african children,";
 			GD_PrintLine3 = "would you like to donate $100 to them?";
+			person = "       YOU";
 			Dialogue = 10;
 			timesincelastbuttonpress = 0;
 		}
@@ -4628,12 +4648,14 @@ void SP2::UpdateENV(double dt)
 				Dialogue = 19;
 				timesincelastbuttonpress = 0;
 			}
+			person = "    CALLER";
 		}
 		if (Application::IsKeyPressed('1') and timesincelastbuttonpress > 0.2 and Dialogue == 11)
 		{
 			GD_PrintLine1 = "I have an insurance plan for you! For only $100,";
 			GD_PrintLine2 = "you can get health insurance for a lifetime no matter";
 			GD_PrintLine3 = "the problem that you have!";
+			person = "       YOU";
 			Dialogue = 12;
 			timesincelastbuttonpress = 0;
 		}
@@ -4657,13 +4679,14 @@ void SP2::UpdateENV(double dt)
 				Dialogue = 19;
 				timesincelastbuttonpress = 0;
 			}
-
+			person = "    CALLER";
 		}
 		if (Application::IsKeyPressed('2') and timesincelastbuttonpress > 0.2 and Dialogue == 11)
 		{
 			GD_PrintLine1 = "I am from the ABC bank, your card has been declined. ";
 			GD_PrintLine2 = "You need to give me $100 or else your account is forever blocked! ";
 			GD_PrintLine3 = "";
+			person = "       YOU";
 			Dialogue = 13;
 			timesincelastbuttonpress = 0;
 		}
@@ -4689,12 +4712,14 @@ void SP2::UpdateENV(double dt)
 				Dialogue = 19;
 				timesincelastbuttonpress = 0;
 			}
+			person = "    CALLER";
 		}
 		if (Application::IsKeyPressed('3') and timesincelastbuttonpress > 0.2 and Dialogue == 11)
 		{
 			GD_PrintLine1 = "I have your child with me!";
 			GD_PrintLine2 = "Give me $100 or you will never see your child ever again! ";
 			GD_PrintLine3 = "";
+			person = "       YOU";
 			Dialogue = 14;
 			timesincelastbuttonpress = 0;
 		}
@@ -4718,12 +4743,14 @@ void SP2::UpdateENV(double dt)
 				Dialogue = 19;
 				timesincelastbuttonpress = 0;
 			}
+			person = "    CALLER";
 		}
 		if (Application::IsKeyPressed('1') and timesincelastbuttonpress > 0.2 and Dialogue == 15)
 		{
 			GD_PrintLine1 = "I am from the organization that donates ";
 			GD_PrintLine2 = "food and money to african children,";
 			GD_PrintLine3 = "would you like to donate $100 to them?";
+			person = "       YOU";
 			Dialogue = 16;
 			timesincelastbuttonpress = 0;
 		}
@@ -4747,12 +4774,14 @@ void SP2::UpdateENV(double dt)
 				Dialogue = 19;
 				timesincelastbuttonpress = 0;
 			}
+			person = "    CALLER";
 		}
 		if (Application::IsKeyPressed('2') and timesincelastbuttonpress > 0.2 and Dialogue == 15)
 		{
 			GD_PrintLine1 = "I have an insurance plan for you! For only $100,";
 			GD_PrintLine2 = "you can get health insurance for a lifetime no matter";
 			GD_PrintLine3 = "the problem that you have!";
+			person = "       YOU";
 			Dialogue = 17;
 			timesincelastbuttonpress = 0;
 		}
@@ -4771,17 +4800,19 @@ void SP2::UpdateENV(double dt)
 			if (randomtext == 2)
 			{
 				GD_PrintLine1 = "That sounds amazing!.";
-				GD_PrintLine2 = " I will buy it.";
+				GD_PrintLine2 = "I will buy it.";
 				GD_PrintLine3 = "";
 				Dialogue = 19;
 				timesincelastbuttonpress = 0;
 			}
+			person = "    CALLER";
 		}
 		if (Application::IsKeyPressed('3') and timesincelastbuttonpress > 0.2 and Dialogue == 15)
 		{
 			GD_PrintLine1 = "I have some exclusive NFTs for sale at $100.";
 			GD_PrintLine2 = "Would you like to buy them?";
 			GD_PrintLine3 = "";
+			person = "       YOU";
 			Dialogue = 18;
 			timesincelastbuttonpress = 0;
 		}
@@ -4804,6 +4835,7 @@ void SP2::UpdateENV(double dt)
 				Dialogue = 19;
 				timesincelastbuttonpress = 0;
 			}
+			person = "    CALLER";
 		}
 		if (Application::IsKeyPressed('E') and timesincelastbuttonpress > 0.2 and Dialogue == 19)
 		{
@@ -5792,6 +5824,8 @@ void SP2::RenderENV()
 	);
 	modelStack.LoadIdentity();
 
+
+
 	Position lightPosition_cameraspace = viewStack.Top() * light[0].position;
 	glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightPosition_cameraspace.x);
 
@@ -5854,7 +5888,6 @@ void SP2::RenderENV()
 		modelStack.PopMatrix();
 	}
 
-	//garbage
 	{
 		modelStack.PushMatrix();
 		modelStack.Translate(-6, 1, 2.5);
@@ -6046,6 +6079,37 @@ void SP2::RenderENV()
 		for (int idx = 0; idx < 50; idx++)
 		{
 			modelStack.PushMatrix();
+			modelStack.Translate(49 - (idx * 2), 0.001, 25);
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(49 - (idx * 2), 0.001, 23);
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(49 - (idx * 2), 0.001, 21);
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(49 - (idx * 2), 0.001, 19);
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+
+
+
+			modelStack.PushMatrix();
 			modelStack.Translate(49 - (idx * 2), 0.001, 17);
 			modelStack.Rotate(-90, 1, 0, 0);
 			modelStack.Scale(2, 2, 2);
@@ -6089,6 +6153,105 @@ void SP2::RenderENV()
 		}
 		for (int idx = 0; idx < 25; idx++)
 		{
+			modelStack.PushMatrix();
+			modelStack.Translate(-49, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-47, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-45, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-43, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-41, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-39, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-37, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-35, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-33, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-31, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-29, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-27, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-25, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-23, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
 			modelStack.PushMatrix();
 			modelStack.Translate(-21, 0.0009, 6 - (idx * 2));
 			modelStack.Rotate(-90, 1, 0, 0);
@@ -6186,6 +6349,76 @@ void SP2::RenderENV()
 			modelStack.Scale(2, 2, 2);
 			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
 			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(31, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(33, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(35, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(37, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(39, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(41, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(43, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(45, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(47, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(49, 0.0009, 6 - (idx * 2));
+			modelStack.Rotate(-90, 1, 0, 0);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CONCRETE_PAVEMENT], true);
+			modelStack.PopMatrix();
 		}
 		for (int idx = 0; idx < 3; idx++)
 		{
@@ -6261,91 +6494,91 @@ void SP2::RenderENV()
 	for (int idx = 0; idx < 18; idx++)
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate(-9, 0.0009, 6 - (idx * 2));
+		modelStack.Translate(-9, 0.0009, 6 - (idx * 2.001));
 		modelStack.Rotate(-90, 1, 0, 0);
 		modelStack.Scale(2, 2, 2);
 		RenderMesh(meshList[GEO_CITY_CENTRE_FLOOR], true);
 		modelStack.PopMatrix();
 
 		modelStack.PushMatrix();
-		modelStack.Translate(-7, 0.0009, 6 - (idx * 2));
+		modelStack.Translate(-7, 0.0009, 6 - (idx * 2.001));
 		modelStack.Rotate(-90, 1, 0, 0);
 		modelStack.Scale(2, 2, 2);
 		RenderMesh(meshList[GEO_CITY_CENTRE_FLOOR], true);
 		modelStack.PopMatrix();
 
 		modelStack.PushMatrix();
-		modelStack.Translate(-5, 0.0009, 6 - (idx * 2));
+		modelStack.Translate(-5, 0.0009, 6 - (idx * 2.001));
 		modelStack.Rotate(-90, 1, 0, 0);
 		modelStack.Scale(2, 2, 2);
 		RenderMesh(meshList[GEO_CITY_CENTRE_FLOOR], true);
 		modelStack.PopMatrix();
 
 		modelStack.PushMatrix();
-		modelStack.Translate(-3, 0.0009, 6 - (idx * 2));
+		modelStack.Translate(-3, 0.0009, 6 - (idx * 2.001));
 		modelStack.Rotate(-90, 1, 0, 0);
 		modelStack.Scale(2, 2, 2);
 		RenderMesh(meshList[GEO_CITY_CENTRE_FLOOR], true);
 		modelStack.PopMatrix();
 
 		modelStack.PushMatrix();
-		modelStack.Translate(-1, 0.0009, 6 - (idx * 2));
+		modelStack.Translate(-1, 0.0009, 6 - (idx * 2.001));
 		modelStack.Rotate(-90, 1, 0, 0);
 		modelStack.Scale(2, 2, 2);
 		RenderMesh(meshList[GEO_CITY_CENTRE_FLOOR], true);
 		modelStack.PopMatrix();
 
 		modelStack.PushMatrix();
-		modelStack.Translate(1, 0.0009, 6 - (idx * 2));
+		modelStack.Translate(1, 0.0009, 6 - (idx * 2.001));
 		modelStack.Rotate(-90, 1, 0, 0);
 		modelStack.Scale(2, 2, 2);
 		RenderMesh(meshList[GEO_CITY_CENTRE_FLOOR], true);
 		modelStack.PopMatrix();
 
 		modelStack.PushMatrix();
-		modelStack.Translate(3, 0.0009, 6 - (idx * 2));
+		modelStack.Translate(3, 0.0009, 6 - (idx * 2.001));
 		modelStack.Rotate(-90, 1, 0, 0);
 		modelStack.Scale(2, 2, 2);
 		RenderMesh(meshList[GEO_CITY_CENTRE_FLOOR], true);
 		modelStack.PopMatrix();
 
 		modelStack.PushMatrix();
-		modelStack.Translate(5, 0.0009, 6 - (idx * 2));
+		modelStack.Translate(5, 0.0009, 6 - (idx * 2.001));
 		modelStack.Rotate(-90, 1, 0, 0);
 		modelStack.Scale(2, 2, 2);
 		RenderMesh(meshList[GEO_CITY_CENTRE_FLOOR], true);
 		modelStack.PopMatrix();
 
 		modelStack.PushMatrix();
-		modelStack.Translate(7, 0.0009, 6 - (idx * 2));
+		modelStack.Translate(7, 0.0009, 6 - (idx * 2.001));
 		modelStack.Rotate(-90, 1, 0, 0);
 		modelStack.Scale(2, 2, 2);
 		RenderMesh(meshList[GEO_CITY_CENTRE_FLOOR], true);
 		modelStack.PopMatrix();
 
 		modelStack.PushMatrix();
-		modelStack.Translate(9, 0.0009, 6 - (idx * 2));
+		modelStack.Translate(9, 0.0009, 6 - (idx * 2.001));
 		modelStack.Rotate(-90, 1, 0, 0);
 		modelStack.Scale(2, 2, 2);
 		RenderMesh(meshList[GEO_CITY_CENTRE_FLOOR], true);
 		modelStack.PopMatrix();
 
 		modelStack.PushMatrix();
-		modelStack.Translate(11, 0.0009, 6 - (idx * 2));
+		modelStack.Translate(11, 0.0009, 6 - (idx * 2.001));
 		modelStack.Rotate(-90, 1, 0, 0);
 		modelStack.Scale(2, 2, 2);
 		RenderMesh(meshList[GEO_CITY_CENTRE_FLOOR], true);
 		modelStack.PopMatrix();
 
 		modelStack.PushMatrix();
-		modelStack.Translate(13, 0.0009, 6 - (idx * 2));
+		modelStack.Translate(13, 0.0009, 6 - (idx * 2.001));
 		modelStack.Rotate(-90, 1, 0, 0);
 		modelStack.Scale(2, 2, 2);
 		RenderMesh(meshList[GEO_CITY_CENTRE_FLOOR], true);
 		modelStack.PopMatrix();
 
 		modelStack.PushMatrix();
-		modelStack.Translate(15, 0.0009, 6 - (idx * 2));
+		modelStack.Translate(15, 0.0009, 6 - (idx * 2.001));
 		modelStack.Rotate(-90, 1, 0, 0);
 		modelStack.Scale(2, 2, 2);
 		RenderMesh(meshList[GEO_CITY_CENTRE_FLOOR], true);
@@ -6371,8 +6604,6 @@ void SP2::RenderENV()
 			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to speed up", Color(1, 1, 1), 3, 30.2, 0.8);
 		}
 	}
-
-
 
 	if (interactableObjectRect(player.getposition().x, player.getposition().z, objectlist[hb_TV].getposition().x - 0.11, objectlist[hb_TV].getposition().z - 0.5, 1.9, 1) == true and Stars == 0 and camera.position.y == -18)
 	{
@@ -6536,8 +6767,6 @@ void SP2::RenderENV()
 		timer_click_Minigame_Shooting = 0;
 		isClick_Minigame_Shooting = false;
 	}
-
-
 
 
 	//pick junk
@@ -6889,8 +7118,6 @@ void SP2::RenderENV()
 		RenderTextOnScreen(meshList[GEO_TEXT], "x" + to_string(item3), Color(1, 1, 1), 2, 48.3, 0.7);
 	}
 
-
-	
 
 	// Show money rings necklace and watches
 	if (inventoryopen and !gameover)

@@ -1,5 +1,5 @@
-#ifndef SCENE_SP2_H
-#define SCENE_SP2_H
+#ifndef SCENE_UI_H
+#define SCENE_UI_H
 
 #include "Scene.h"
 #include "CameraTest.h"
@@ -21,8 +21,6 @@ class SP2 : public Scene
 		GEO_AXES,
 		GEO_QUAD,
 		GEO_SHOPUI,
-		GEO_CONTROLSTAB,
-		GEO_CONTROLSCREEN,
 		GEO_SOUND_MUTE,
 		GEO_SOUND_UNMUTE,
 		GEO_GAMEOVERBACKGROUND,
@@ -79,9 +77,14 @@ class SP2 : public Scene
 		GEO_RADIO,
 		GEO_WASHERDRYER,
 
+
 		//hitboxes
 		GEO_HITBOX,
 		GEO_HITBOX2,
+
+
+		GEO_CONTROLSTAB,
+		GEO_CONTROLSCREEN,
 
 		//garbage
 		GEO_GARBAGE,
@@ -111,6 +114,7 @@ class SP2 : public Scene
 
 		//Inv
 		GEO_HOTBAR,
+
 
 		//text
 		GEO_TEXT,
@@ -230,6 +234,12 @@ class SP2 : public Scene
 		hb_HOUSE31,
 		hb_HOUSE32,
 		hb_HOUSE33,
+
+		hb_HOUSE_TEST,
+		hb_HOUSE_TEST2,
+		hb_HOUSE_TEST3,
+		hb_HOUSE_TEST4,
+
 
 		hb_BENCH1,
 		hb_BENCH2,

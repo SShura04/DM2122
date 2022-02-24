@@ -25,7 +25,7 @@ unsigned Application::m_width;
 unsigned Application::m_height;
 unsigned Application::GameScene;
 float Application::Minigame_timer = 0;
-int Application::Cash = 1000;
+int Application::Cash = 100;
 
 bool Application::isMuted = false;
 bool Application::ismusicPlaying = false;
