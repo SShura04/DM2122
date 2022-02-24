@@ -7199,15 +7199,15 @@ void SP2::RenderCredits()
 	//RenderTextOnScreen(meshList[GEO_TEXT], "https://your-guide-to-pokemon", Color(1, 1, 1), 4, 0, -100 + rotateAngle);
 	//RenderTextOnScreen(meshList[GEO_TEXT], ".fandom.com/wiki/Chris%27s_Mudkip", Color(1, 1, 1), 4, 0, -105 + rotateAngle);
 								
-	RenderTextOnScreen(meshList[GEO_TEXT], "Mudkip model by:", Color(1, 1, 1), 4, 0, -115 + rotateAngle);
-	RenderTextOnScreen(meshList[GEO_TEXT], "Ming Jie", Color(1, 1, 1), 4, 0, -120 + rotateAngle);
+	//RenderTextOnScreen(meshList[GEO_TEXT], "Mudkip model by:", Color(1, 1, 1), 4, 0, -115 + rotateAngle);
+	//RenderTextOnScreen(meshList[GEO_TEXT], "Ming Jie", Color(1, 1, 1), 4, 0, -120 + rotateAngle);
 								
-	RenderTextOnScreen(meshList[GEO_TEXT], "Water drop in UI from:", Color(1, 1, 1), 4, 0, -130 + rotateAngle);
-	RenderTextOnScreen(meshList[GEO_TEXT], "https://uxwing.com/water-drop-icon/", Color(1, 1, 1), 4, 0, -135 + rotateAngle);
+	//RenderTextOnScreen(meshList[GEO_TEXT], "Water drop in UI from:", Color(1, 1, 1), 4, 0, -130 + rotateAngle);
+	//RenderTextOnScreen(meshList[GEO_TEXT], "https://uxwing.com/water-drop-icon/", Color(1, 1, 1), 4, 0, -135 + rotateAngle);
 								
-	RenderTextOnScreen(meshList[GEO_TEXT], "other assets are from", Color(1, 1, 1), 4, 0, -145 + rotateAngle);
-	RenderTextOnScreen(meshList[GEO_TEXT], "Kenny", Color(1, 1, 1), 4, 0, -150 + rotateAngle);
-	RenderTextOnScreen(meshList[GEO_TEXT], "www.kenney.nl", Color(1, 1, 1), 4, 0, -155 + rotateAngle);
+	RenderTextOnScreen(meshList[GEO_TEXT], "other assets are from", Color(1, 1, 1), 4, 0, -45 + rotateAngle);
+	RenderTextOnScreen(meshList[GEO_TEXT], "Kenny", Color(1, 1, 1), 4, 0, -50 + rotateAngle);
+	RenderTextOnScreen(meshList[GEO_TEXT], "www.kenney.nl", Color(1, 1, 1), 4, 0, -55 + rotateAngle);
 }
 
 void SP2::Exit()
