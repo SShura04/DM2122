@@ -443,7 +443,6 @@ void SP2::Init()
 	NPCZ = objectlist[hb_NPC1].getposition().z;
 
 
-
 	meshList[GEO_NPC2] = MeshBuilder::GenerateOBJMTL("npc2", "OBJ//advancedCharacter.obj", "OBJ//advancedCharacter.obj.mtl");
 	meshList[GEO_NPC2]->textureID = LoadTGA("Image//skin_man.tga");
 	objectlist[hb_ShopKeeper].setmesh(GEO_NPC2);
@@ -830,6 +829,12 @@ void SP2::Init()
 	meshList[GEO_SHOPUI] = MeshBuilder::GenerateQuad("shop", Color(1, 1, 1), 1.f);
 	meshList[GEO_SHOPUI]->textureID = LoadTGA("Image//Store.tga");
 
+	meshList[GEO_CONTROLSTAB] = MeshBuilder::GenerateQuad("controltab", Color(1, 1, 1), 1.f);
+	meshList[GEO_CONTROLSTAB]->textureID = LoadTGA("Image//ControlsTab.tga");
+
+	meshList[GEO_CONTROLSCREEN] = MeshBuilder::GenerateQuad("controlscreen", Color(1, 1, 1), 1.f);
+	meshList[GEO_CONTROLSCREEN]->textureID = LoadTGA("Image//ControlScreen.tga");
+
 	//Inv
 	meshList[GEO_HOTBAR] = MeshBuilder::GenerateQuad("hotbar", Color(1, 1, 1), 1.f);
 	meshList[GEO_HOTBAR]->textureID = LoadTGA("Image//Hotbar.tga");
@@ -919,6 +924,7 @@ void SP2::Init()
 	imagepos = Vector3(40, 30, 0);
 	imagedimensions = Vector3(20, 20, 1);
 	navigationmesh = new Navmesh(60, 80, 1.5, -25, -47);
+	controlopen = false;
 
 	//autogenerate walls for the navigation mesh
 	NavmeshNode* nodemarker = navigationmesh->getzerozeronode();
@@ -1982,6 +1988,17 @@ void SP2::UpdateENV(double dt)
 		else if (!GetAsyncKeyState(VK_TAB) && tabbuttonstate)
 		{
 			tabbuttonstate = false;
+		}
+
+		static bool ctrlbuttonstate = false;
+		if (Application::IsKeyPressed(VK_CONTROL) && !ctrlbuttonstate) //'ctrl'
+		{
+			controlopen = !controlopen;
+			ctrlbuttonstate = true;
+		}
+		else if (!GetAsyncKeyState(VK_CONTROL) && ctrlbuttonstate)
+		{
+			ctrlbuttonstate = false;
 		}
 
 		if (GetAsyncKeyState(VK_ESCAPE) && !escbuttonstate) //to exit env
@@ -6402,11 +6419,6 @@ void SP2::RenderENV()
 	}
 
 
-
-
-
-
-
 	static bool isClick_Wanted = false;
 	static float timer_click_Wanted = 0;
 	if (interactableObjectRect(player.getposition().x, player.getposition().z, objectlist[hb_HOUSE18].getposition().x - 1.8, objectlist[hb_HOUSE18].getposition().z + 3, 1.5, 1) == true and camera.position.y != -18) {
@@ -6524,11 +6536,6 @@ void SP2::RenderENV()
 		timer_click_Minigame_Shooting = 0;
 		isClick_Minigame_Shooting = false;
 	}
-
-
-
-
-
 
 
 
@@ -6883,6 +6890,8 @@ void SP2::RenderENV()
 	}
 
 
+	
+
 	// Show money rings necklace and watches
 	if (inventoryopen and !gameover)
 	{
@@ -6910,6 +6919,20 @@ void SP2::RenderENV()
 
 	}
 
+	if (controlopen and !gameover)
+	{
+		if (!inshop)
+		{
+			RenderMeshOnScreen(meshList[GEO_CONTROLSCREEN], Vector3(60, 60, 60), 0, 40, 28.5);
+		}
+	}
+	else
+	{
+		if (!inshop and !gameover)
+		{
+			RenderMeshOnScreen(meshList[GEO_CONTROLSTAB], Vector3(23, 11, 23), 0, 9, 0);
+		}
+	}
 
 	// Gameover
 	if (gameover)

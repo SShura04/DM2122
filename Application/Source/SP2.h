@@ -21,6 +21,8 @@ class SP2 : public Scene
 		GEO_AXES,
 		GEO_QUAD,
 		GEO_SHOPUI,
+		GEO_CONTROLSTAB,
+		GEO_CONTROLSCREEN,
 		GEO_SOUND_MUTE,
 		GEO_SOUND_UNMUTE,
 		GEO_GAMEOVERBACKGROUND,
@@ -77,7 +79,6 @@ class SP2 : public Scene
 		GEO_RADIO,
 		GEO_WASHERDRYER,
 
-
 		//hitboxes
 		GEO_HITBOX,
 		GEO_HITBOX2,
@@ -110,7 +111,6 @@ class SP2 : public Scene
 
 		//Inv
 		GEO_HOTBAR,
-
 
 		//text
 		GEO_TEXT,
@@ -480,6 +480,7 @@ private:
 	int item1 = 0, item2 = 0, item3 = 0;
 	bool isSufficient = false;
 	bool ShopUI_Status = false;
+	bool controlopen;
 
 	//Power ups
 	float item1Activetime = 0;
