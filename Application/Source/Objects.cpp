@@ -90,6 +90,7 @@ void Objects::AddChildobject(Objects newchild)
 void Objects::Setposition(Vector3 newposition)
 {
 	position = newposition;
+	objecthitbox.updatehitboxpos(newposition);
 }
 
 void Objects::moveposition(Vector3 movepara)
@@ -164,7 +165,6 @@ void Objects::sethitboxcollisionsize(Vector3 size)
 {
 	CollisionSize = size;
 	Vector3 tempsize = size * 0.5;
-	tempsize.y = 2;
 	objecthitbox.sethitboxcenterdimensions(tempsize, position);
 }
 

@@ -17,6 +17,7 @@ class SP2 : public Scene
 {
 	enum GEOMETRY_TYPE
 	{
+		GEO_CUBE1,
 		GEO_AXES,
 		GEO_QUAD,
 		GEO_SHOPUI,
@@ -25,10 +26,6 @@ class SP2 : public Scene
 		GEO_GAMEOVERBACKGROUND,
 		GEO_GAMEOVER,
 		GEO_GAMEOVERBUTTON,
-
-
-		GEO_NAVINODES,
-		GEO_NAVINODES2,
 		GEO_LIGHTBALL,
 
 		//skybox
@@ -47,7 +44,6 @@ class SP2 : public Scene
 		GEO_HOUSE5,
 		GEO_NPC1,
 		GEO_NPC2,
-		GEO_NPC3,
 		GEO_POLICE,
 
 		GEO_WATCH,
@@ -89,9 +85,6 @@ class SP2 : public Scene
 		//garbage
 		GEO_GARBAGE,
 
-		GEO_PHONEBODY,
-		GEO_PHONESCREEN,
-
 		//Stars
 	    GEO_STAR1,
 		GEO_STAR2,
@@ -108,19 +101,19 @@ class SP2 : public Scene
 		GEO_STAMINA_BLACK,
 		GEO_STAMINA_BAR,
 
+		// Phone
+		GEO_PHONEBODY,
+		GEO_PHONESCREEN,
+
 		//Cash
 		GEO_CASH,
 
 		//Inv
 		GEO_HOTBAR,
 
-		GEO_CUBE1,
-
 
 		//text
-		GEO_TEXT_CALIBRI,
 		GEO_TEXT,
-		GEO_TEXT_COMICSANS,
 		NUM_GEOMETRY,
 	};
 	enum UNIFORM_TYPE
@@ -161,7 +154,6 @@ class SP2 : public Scene
 		U_LIGHT1_COSINNER,
 		U_LIGHT1_EXPONENT,
 
-		//light 3	(house marker)
 		U_LIGHT2_POSITION,
 		U_LIGHT2_COLOR,
 		U_LIGHT2_POWER,
@@ -174,7 +166,6 @@ class SP2 : public Scene
 		U_LIGHT2_COSINNER,
 		U_LIGHT2_EXPONENT,
 
-		//light 4	(shop marker)
 		U_LIGHT3_POSITION,
 		U_LIGHT3_COLOR,
 		U_LIGHT3_POWER,
@@ -257,8 +248,13 @@ class SP2 : public Scene
 
 		//Npc
 		hb_NPC1,
+		hb_NPC2,
 		hb_NPC3,
-		hb_POLICE,
+		hb_POLICE1,
+		hb_POLICE2,
+		hb_POLICE3,
+		hb_POLICE4,
+		hb_POLICE5,
 
 		//End of collision
 		hb_count,
@@ -296,6 +292,7 @@ class SP2 : public Scene
 		hb_WallSHOP2,
 		hb_WallSHOP3,
 		hb_WallSHOP4,
+
 
 		// Bed collision
 		hb_WallBed,
@@ -359,9 +356,38 @@ private:
 	bool resume, escbuttonstate, triedtoopendoor, rendernodes;
 	unsigned buttonhover;
 
-	float NPClookAtPlayerAngle = 0, ShopKeeperlookAtPlayerAngle = 0, PlayerandNpcRotationSpeed = 0, PlayerandShopKeeperRotationSpeed = 0;
-	float PrevRotation = 0;
+	float ShopKeeperlookAtPlayerAngle = 0;
+	float PlayerandShopKeeperRotationSpeed = 0;
 
+	float NPC1lookAtPlayerAngle = 0, PlayerandNpc1RotationSpeed = 0;
+	float NPC2lookAtPlayerAngle = 0, PlayerandNpc2RotationSpeed = 0;
+	float NPC3lookAtPlayerAngle = 0, PlayerandNpc3RotationSpeed = 0;
+
+	// Npc movement
+	float NPCX, NPCZ;
+	bool NPC1Front = true, NPC1Back = false;
+	float PrevRotationNPC1 = 0;
+	float NPCX2, NPCZ2;
+	bool NPC2Front = true, NPC2Back = false;
+	float PrevRotationNPC2 = 0;
+	float NPCX3, NPCZ3;
+	bool NPC3Front = true, NPC3Back = false;
+	float PrevRotationNPC3 = 90;
+	bool AllowNPC1Movement = true;
+	bool AllowNPC2Movement = true;
+	bool AllowNPC3Movement = true;
+
+
+	//bin cooldowns
+	float bin1cooldown = 0;
+	float bin2cooldown = 0;
+	float bin3cooldown = 0;
+	float bin4cooldown = 0;
+	float bin5cooldown = 0;
+	float bin6cooldown = 0;
+	float bin7cooldown = 0;
+
+	float ArrowRotate = 0;
 
 	float rotateAngle, gamemovementspeed, playerscore;
 	float timesincelastbuttonpress = 0, timesincelastpunch;
@@ -370,7 +396,6 @@ private:
 	LPPOINT mousepos;
 	Vector3 camerapos;
 	bool debug;
-
 
 
 	std::ostringstream UIstringoutput;
@@ -394,18 +419,7 @@ private:
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
 	void RenderMeshOnScreen(Mesh* mesh, Vector3 size, float rotate, float x, float y);
 
-	// npc and police
-	void NPCMove(unsigned ObjectID, float& x, float& z, double dt, int choice);
-	float NPCX, NPCZ;
 
-	//bin cooldowns
-	float bin1cooldown;
-	float bin2cooldown;
-	float bin3cooldown;
-	float bin4cooldown;
-	float bin5cooldown;
-	float bin6cooldown;
-	float bin7cooldown;
 
 	float DayandNightSkyboxTransitioning = 0.5;
 
@@ -422,7 +436,6 @@ private:
 	int randomfail = 0;
 	int failshop = 0;
 	int failNPC = 0;
-	int rings = 0;
 	std::string person;
 	// TV
 	bool checkedtv = false;
@@ -455,8 +468,9 @@ private:
 	int finditemchance;
 	bool talkshopkeep;
 	bool ringfound;
-	int watches;
-	int necklace;
+	int rings = 0;
+	int watches = 0;
+	int necklace = 0;
 	bool ringscam = false;
 	bool watchscam = false;
 	bool necklacescam = false;
@@ -466,6 +480,12 @@ private:
 	int item1 = 0, item2 = 0, item3 = 0;
 	bool isSufficient = false;
 	bool ShopUI_Status = false;
+
+	//Power ups
+	float item1Activetime = 0;
+	float item2Activetime = 0;
+	bool item1_active = false;
+	bool item2_active = false;
 };
 
 #endif

@@ -25,7 +25,7 @@ public:
 	virtual void Update(double dt, POINT mousepos, bool move);
 	virtual void Reset();
 	float Position_Y = -18;
-	float ZOOM_SPEED = 7.f;
+	float ZOOM_SPEED = 6.f;
 	//unsigned gameobj;
 	//static const int totalobj = 9;
 	//Objects testingobj[totalobj];

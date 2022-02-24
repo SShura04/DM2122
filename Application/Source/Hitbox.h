@@ -20,7 +20,12 @@ public:
 	void sethitboxcenterdimensions(Vector3 hitboxdimensions, Vector3 hitboxcenterpos, Vector3 hitboxoffset = Vector3(0, 0, 0));
 	void scalehitbox(Vector3 scale);
 	void updatehitboxpos(Vector3 newposition);
+
 	bool Checkforcollision(Hitbox otherhitbox, Hitbox prevhitbox, bool *x, bool *y, bool *z);
 	bool Checkforcollision(Hitbox otherhitbox);
+
+
+	//Vector3 PlayerCollision(unsigned count, Hitbox otherhitbox);
+	//Vector3 CollisionCircleRect(float cx, float cy, float radius, float rx, float ry, float rw, float rh);
 };
 

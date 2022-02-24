@@ -33,13 +33,6 @@ void Sp2_Minigame::UseScene()
 		m_parameters[U_MATERIAL_SHININESS]);
 }
 
-//float DistanceParameter(float EnemyXPos, float EnemyZPos, float OriginalPosX, float OriginalPosZ) {
-//	float squareofxz = (pow(EnemyXPos - OriginalPosX, 2) + pow(EnemyZPos - OriginalPosZ, 2));
-//	float magnitude = sqrt(squareofxz);
-//
-//	return magnitude;
-//}
-
 void Sp2_Minigame::RenderMesh(Mesh* mesh, bool enableLight)
 {
 	Mtx44 MVP, modelView, modelView_inverse_transpose;
@@ -388,19 +381,12 @@ void Sp2_Minigame::Init()
 	EnemyHealth2 = 100;
 	EnemyHealth3 = 100;
 
-	isRead = false;
-	DialogueBoxOpen = false;
-	x = 0;
-
-	it = it2 = it3 = "";
-	ScrollingText = 0;
 	EnemyDieRotation = 0;
 	EnemyDieRotation2 = 0;
 	EnemyDieRotation3 = 0;
 
 	EarnedCoins = true;
 
-	rotateEnemyBody = 0;
 	translateY_EnemyJump = 0;
 	EnemyShockwaveScale = 0.1;
 	ShockWaveEnemyAttack = false;
@@ -410,13 +396,11 @@ void Sp2_Minigame::Init()
 	EnemyShockwaveScale2 = 0.1;
 	ShockWaveEnemyAttack2 = false;
 	AllowEnemyAttack2 = false;
-	rotateEnemyBody2 = 180;
 
 	translateY_EnemyJump3 = 0;
 	EnemyShockwaveScale3 = 0.1;
 	ShockWaveEnemyAttack3 = false;
 	AllowEnemyAttack3 = false;
-	rotateEnemyBody3 = 180;
 
 	test = 0.7f;
 	jump = true;
@@ -428,9 +412,7 @@ void Sp2_Minigame::Init()
 	jump3 = true;
 	Ground3 = false;
 	timer_gameover = 0.f;
-	isShopUIOpen = false;
 	Diamond = 0;
-	isSufficient = true;
 	EnemyRightArm_JumpAttackRotation = 0;
 	EnemyRightArm_JumpAttackRotation2 = 0;
 	EnemyRightArm_JumpAttackRotation3 = 0;
@@ -565,8 +547,6 @@ void Sp2_Minigame::Init()
 	meshList[GEO_HEALTHBACKGROUND] = MeshBuilder::GenerateQuad("healthbackground", Color(1, 1, 1), 1.f);
 	meshList[GEO_HEALTHBACKGROUND]->textureID = LoadTGA("Image//Health0.tga");
 
-	meshList[GEO_DIALOGUEUI] = MeshBuilder::GenerateQuad("dialoguebox", Color(1, 1, 1), 1.f);
-	meshList[GEO_DIALOGUEUI]->textureID = LoadTGA("Image//DialogueBox.tga");
 
 	meshList[GEO_LOG] = MeshBuilder::GenerateOBJMTL("rocks", "OBJ//log.obj", "OBJ//log.mtl");
 
@@ -910,7 +890,6 @@ void Sp2_Minigame::UpdateENV(double dt)
 			skill = false;
 			i = false;
 			j = 0;
-			rotateEnemyBody = 0;
 			ShockwaveScale = 0.1;
 			ShockwavedirectionX = 0;
 			ShockwavedirectionZ = 15;
@@ -929,10 +908,6 @@ void Sp2_Minigame::UpdateENV(double dt)
 			timer_Skill1 = 0;
 			timer_Skill2 = 0;
 			timer_Skill3 = 0;
-			DialogueBoxOpen = false;
-			GameDialogueTeleporter = false;
-			Dialogue = 1;
-			isShopUIOpen = false;
 
 			EnemyPosX = 100;
 			EnemyPosZ = -140;
@@ -945,8 +920,6 @@ void Sp2_Minigame::UpdateENV(double dt)
 			EnemyShockwaveScale2 = 0.1;
 			EnemyShockwaveScale3 = 0.1;
 
-			rotateEnemyBody2 = 180;
-			rotateEnemyBody3 = 0;
 			allowEnemyMovement = true;
 			allowEnemyMovement2 = true;
 			allowEnemyMovement3 = true;
@@ -1075,7 +1048,6 @@ void Sp2_Minigame::UpdateENV(double dt)
 
 
 	static float ttemp = 0.f;
-	RotateBlackHole += (float)(30 * dt);
 
 	if (isAlive == true) {
 		if (isAlive == true and timer_gameover < 1.5) {
@@ -1088,7 +1060,7 @@ void Sp2_Minigame::UpdateENV(double dt)
 			else if (bLButtonState && !Application::IsMousePressed(0))
 			{
 				bLButtonState = false;
-				if (allowJumpAttack == false and DialogueBoxOpen == false and skill == false and isDemon == true and allowAttack == false and allowSpinattack == false and allowReleaseofFusionWave == false and UltiSwordRevert_rotation == false) {
+				if (allowJumpAttack == false and skill == false and isDemon == true and allowAttack == false and allowSpinattack == false and allowReleaseofFusionWave == false and UltiSwordRevert_rotation == false) {
 					allowAttack = true;
 					skill = false;
 					jumpAttack_rotation = 0;
@@ -1097,7 +1069,7 @@ void Sp2_Minigame::UpdateENV(double dt)
 			}
 
 
-			if (Application::IsKeyPressed(VK_SPACE) and ttemp > 0.1 and DialogueBoxOpen == false and skill == false and allowJump == false and allowSpinattack == false and allowJumpAttack == false and UltiSwordRevert_rotation == false) {
+			if (Application::IsKeyPressed(VK_SPACE) and ttemp > 0.1 and skill == false and allowJump == false and allowSpinattack == false and allowJumpAttack == false and UltiSwordRevert_rotation == false) {
 				allowJump = true;
 				allowMovement = false;
 				jumpAttack_rotation = 0;
@@ -1110,7 +1082,7 @@ void Sp2_Minigame::UpdateENV(double dt)
 			if (!Phase1 && Application::IsKeyPressed('E'))
 			{
 				Phase1 = true;
-				if (ttemp > 0.1 and timer_Skill3 <= 1 and DialogueBoxOpen == false and allowJump == false and allowJumpAttack == false and allowSpinattack == false and allowAttack == false and isDemon == true and allowUltimateAttack == false and allowReleaseofFusionWave == false) {
+				if (ttemp > 0.1 and timer_Skill3 <= 1 and allowJump == false and allowJumpAttack == false and allowSpinattack == false and allowAttack == false and isDemon == true and allowUltimateAttack == false and allowReleaseofFusionWave == false) {
 					allowUltimateAttack = true;
 					jumpAttack_rotation = 0;
 					timer_Skill3 = 20;
@@ -1119,17 +1091,21 @@ void Sp2_Minigame::UpdateENV(double dt)
 					allowReleaseofFusionWave = false;
 					skill = true;
 					ttemp = 0;
-					PlaySound(TEXT("AlucardUlti01.wav"), NULL, SND_FILENAME | SND_ASYNC);
+					if (Application::isMuted == false) {
+						PlaySound(TEXT("AlucardUlti01.wav"), NULL, SND_FILENAME | SND_ASYNC);
+					}
 				}
 			}
 
 			if (!Phase2 && Application::IsKeyPressed('E'))
 			{
 				Phase2 = true;
-				if (ttemp > 0.2 and DialogueBoxOpen == false and allowJump == false and isDemon == true and allowUltimateAttack == true and allowReleaseofFusionWave == false and allowAttack == false and allowSpinattack == false and allowJumpAttack == false and SkillsTimer <= 400) {
+				if (ttemp > 0.2 and allowJump == false and isDemon == true and allowUltimateAttack == true and allowReleaseofFusionWave == false and allowAttack == false and allowSpinattack == false and allowJumpAttack == false and SkillsTimer <= 400) {
 					allowReleaseofFusionWave = true;
 					ttemp = 0;
-					PlaySound(TEXT("AlucardUlti02.wav"), NULL, SND_FILENAME | SND_ASYNC);
+					if (Application::isMuted == false) {
+						PlaySound(TEXT("AlucardUlti02.wav"), NULL, SND_FILENAME | SND_ASYNC);
+					}
 				}
 			}
 			else if (Phase2 && !Application::IsKeyPressed('E'))
@@ -1141,7 +1117,7 @@ void Sp2_Minigame::UpdateENV(double dt)
 
 			ttemp += dt;
 			// Movement of the body
-			if (Application::IsKeyPressed('W') and (not Application::IsKeyPressed('S')) and DialogueBoxOpen == false and skill == false and allowJump == false and allowAttack == false and allowSpinattack == false and allowReleaseofFusionWave == false) {
+			if (Application::IsKeyPressed('W') and (not Application::IsKeyPressed('S')) and skill == false and allowJump == false and allowAttack == false and allowSpinattack == false and allowReleaseofFusionWave == false) {
 				rotateBody = 180;
 				if (allowFusionWaveTransverse == false) {
 					rotateFusionWave = -270;
@@ -1192,7 +1168,7 @@ void Sp2_Minigame::UpdateENV(double dt)
 					}
 				}
 			}
-			else if (Application::IsKeyPressed('A') and not(Application::IsKeyPressed('D')) and DialogueBoxOpen == false and skill == false and allowJump == false and allowAttack == false and allowSpinattack == false and allowReleaseofFusionWave == false) {
+			else if (Application::IsKeyPressed('A') and not(Application::IsKeyPressed('D')) and skill == false and allowJump == false and allowAttack == false and allowSpinattack == false and allowReleaseofFusionWave == false) {
 				rotateBody = 270;
 				translateX -= (float)(20 * dt);
 				for (unsigned i = 0; i <= totalObj; ++i) {
@@ -1223,7 +1199,7 @@ void Sp2_Minigame::UpdateENV(double dt)
 					}
 				}
 			}
-			else if (Application::IsKeyPressed('S') and (not Application::IsKeyPressed('W')) and DialogueBoxOpen == false and skill == false and allowJump == false and allowAttack == false and allowSpinattack == false and allowReleaseofFusionWave == false) {
+			else if (Application::IsKeyPressed('S') and (not Application::IsKeyPressed('W')) and skill == false and allowJump == false and allowAttack == false and allowSpinattack == false and allowReleaseofFusionWave == false) {
 				rotateBody = 0;
 				ShockwavedirectionX = 0;
 				if (allowFusionWaveTransverse == false) {
@@ -1253,7 +1229,7 @@ void Sp2_Minigame::UpdateENV(double dt)
 					}
 				}
 			}
-			else if (Application::IsKeyPressed('D') and (not Application::IsKeyPressed('A')) and DialogueBoxOpen == false and skill == false and allowJump == false and allowAttack == false and allowSpinattack == false and allowReleaseofFusionWave == false) {
+			else if (Application::IsKeyPressed('D') and (not Application::IsKeyPressed('A')) and skill == false and allowJump == false and allowAttack == false and allowSpinattack == false and allowReleaseofFusionWave == false) {
 				rotateBody = 90;
 				ShockwavedirectionX = 15;
 				if (allowFusionWaveTransverse == false) {
@@ -1275,14 +1251,16 @@ void Sp2_Minigame::UpdateENV(double dt)
 				RotateRightLeg_Movement = 0;
 			}
 
-			if (Application::IsKeyPressed('Z') and timer_Skill2 <= 1 and DialogueBoxOpen == false and skill == false and UltiSwordRevert_rotation == false and allowReleaseofFusionWave == false and allowJump == false and isDemon == true and allowAttack == false and allowSpinattack == false) {
+			if (Application::IsKeyPressed('Z') and timer_Skill2 <= 1 and skill == false and UltiSwordRevert_rotation == false and allowReleaseofFusionWave == false and allowJump == false and isDemon == true and allowAttack == false and allowSpinattack == false) {
 				allowSpinattack = true;
 				timer_Skill2 = 5;
 				skill = false;
 				jumpAttack_rotation = 0;
-				PlaySound(TEXT("AlucardSwirling.wav"), NULL, SND_FILENAME | SND_ASYNC);
+				if (Application::isMuted == false) {
+					PlaySound(TEXT("AlucardSwirling.wav"), NULL, SND_FILENAME | SND_ASYNC);
+				}
 			}
-			if (Application::IsKeyPressed('X') and timer_Skill1 <= 1 and DialogueBoxOpen == false and skill == false and UltiSwordRevert_rotation == false and allowReleaseofFusionWave == false and allowJump == false and allowJumpAttack == false and isDemon == true and allowAttack == false and allowSpinattack == false and jumpAttack_rotation <= 0) {
+			if (Application::IsKeyPressed('X') and timer_Skill1 <= 1 and skill == false and UltiSwordRevert_rotation == false and allowReleaseofFusionWave == false and allowJump == false and allowJumpAttack == false and isDemon == true and allowAttack == false and allowSpinattack == false and jumpAttack_rotation <= 0) {
 				allowJumpAttack = true;
 				timer_Skill1 = 8;
 				allowJump = true;
@@ -1291,7 +1269,9 @@ void Sp2_Minigame::UpdateENV(double dt)
 				RotateRightArm_SwingSword = 0;
 				jumpAttack_rotation = 0;
 				skill = false;
-				PlaySound(TEXT("AlucardSmash.wav"), NULL, SND_FILENAME | SND_ASYNC);
+				if (Application::isMuted == false) {
+					PlaySound(TEXT("AlucardSmash.wav"), NULL, SND_FILENAME | SND_ASYNC);
+				}
 			}
 		}
 
@@ -2078,19 +2058,15 @@ void Sp2_Minigame::UpdateENV(double dt)
 
 			if (EnemyPosX2 >= 100) {
 				EnemyPosX2 -= EnemyXSpeed2;
-				rotateEnemyBody2 = -90;
 			}
 			if (EnemyPosX2 <= 100) {
 				EnemyPosX2 += EnemyXSpeed2;
-				rotateEnemyBody2 = -90;
 			}
 			if (EnemyPosZ2 >= 140) {
 				EnemyPosZ2 -= EnemyZSpeed2;
-				rotateEnemyBody2 = 180;
 			}
 			if (EnemyPosZ2 <= 140) {
 				EnemyPosZ2 += EnemyZSpeed2;
-				rotateEnemyBody2 = 0;
 			}
 		}
 		if (distancetravelled2 <= 0.5 and ismaximumdistance2 == true and time_detect2 <= 2 and EnemyHealth2 > 0) {
@@ -2106,10 +2082,11 @@ void Sp2_Minigame::UpdateENV(double dt)
 			if (RotateEnemyLeftArm_Movement2 >= 0) {
 				RotateEnemyLeftArm_Movement2 -= (float)(80 * dt);
 			}
+			triggerEnemy2 = false;
 			RotateEnemyLeftLeg_Movement2 = 0;
 			RotateEnemyRightLeg_Movement2 = 0;
 			time_detect2 += dt;
-			rotateEnemyBody2 = 180;
+			EnemyViewAngle2 = 180;
 			if (time_detect2 <= 0.5) {
 				EnemyHealth2 = 100;
 			}
@@ -2256,21 +2233,17 @@ void Sp2_Minigame::UpdateENV(double dt)
 				EnemyViewAngle3 = -angle3;
 			}
 
-			if (EnemyPosX3 >= 100) {
+			if (EnemyPosX3 >= -100) {
 				EnemyPosX3 -= EnemyXSpeed3;
-				rotateEnemyBody3 = -90;
 			}
-			if (EnemyPosX3 <= 100) {
+			if (EnemyPosX3 <= -100) {
 				EnemyPosX3 += EnemyXSpeed3;
-				rotateEnemyBody3 = -90;
 			}
-			if (EnemyPosZ3 >= 140) {
+			if (EnemyPosZ3 >= -140) {
 				EnemyPosZ3 -= EnemyZSpeed3;
-				rotateEnemyBody3 = 180;
 			}
-			if (EnemyPosZ3 <= 140) {
+			if (EnemyPosZ3 <= -140) {
 				EnemyPosZ3 += EnemyZSpeed3;
-				rotateEnemyBody3 = 0;
 			}
 		}
 		if (distancetravelled3 <= 0.5 and ismaximumdistance3 == true and time_detect3 <= 2 and EnemyHealth3 > 0) {
@@ -2288,8 +2261,9 @@ void Sp2_Minigame::UpdateENV(double dt)
 			}
 			RotateEnemyLeftLeg_Movement3 = 0;
 			RotateEnemyRightLeg_Movement3 = 0;
+			triggerEnemy3 = false;
 			time_detect3 += dt;
-			rotateEnemyBody3 = 0;
+			EnemyViewAngle3 = 0;
 			if (time_detect3 <= 0.5) {
 				EnemyHealth3 = 100;
 			}
@@ -2413,7 +2387,9 @@ void Sp2_Minigame::UpdateENV(double dt)
 		}
 		else {
 			isAlive = false;
-			PlaySound(TEXT("Alucard.projnext.death01.wav"), NULL, SND_FILENAME | SND_ASYNC);
+			if (Application::isMuted == false) {
+				PlaySound(TEXT("Alucard.projnext.death01.wav"), NULL, SND_FILENAME | SND_ASYNC);
+			}
 		}
 	}
 	else {
@@ -2480,12 +2456,13 @@ void Sp2_Minigame::UpdateENV(double dt)
 		if (RotateEnemyLeftArm_Movement3 >= 0) {
 			RotateEnemyLeftArm_Movement3 -= (float)(80 * dt);
 		}
-		if (EarnedCoins == true) {
+		static bool loseMoney = false;
+		if (loseMoney == false) {
 			Application::Cash -= 100;
 			if (Application::Cash < 0) {
 				Application::Cash = 0;
 			}
-			EarnedCoins = false;
+			loseMoney = true;
 		}
 		RotateRightArm_SwingSword = 0;
 		rotateAngle = 0;
@@ -2565,50 +2542,6 @@ void Sp2_Minigame::UpdateENV(double dt)
 
 	rotateSkyBox += (float)(1 * dt);
 
-	static int Dialogue = 1;
-
-	if (DialogueBoxOpen == true) {
-		if (interactableObject(translateX, translateZ, 0, -100, 10, 10) == true) {
-			GameStartsDialogue = "Looking for a missing young male. Has blonde hair, wears foreign clothes. Any information/assistance isgreatly welcomed.";
-			if (GameStartsDialogue[x] != '\0' and ScrollingText % 3 == 0) {
-				if (not Application::IsKeyPressed('F') and isRead == false) {
-					if (x < 56) {
-						it += GameStartsDialogue[x];
-					}
-					if (x >= 56 and x <= 102) {
-						it2 += GameStartsDialogue[x];
-					}
-					if (x > 102) {
-						it3 += GameStartsDialogue[x];
-					}
-					if (x >= GameStartsDialogue.length() - 1) {
-						isRead = true;
-						buttonsincelastpress = 0;
-						x = 0;
-					}
-					x++;
-				}
-				if (Application::IsKeyPressed('F') and isRead == false and buttonsincelastpress > 0.2) {
-					isRead = true;
-					it = "Looking for a missing young male. Has blonde hair, wears";
-					it2 = " foreign clothes. Any information/assistance is";
-					it3 = "greatly welcomed.";
-					buttonsincelastpress = 0;
-				}
-				if (isRead == true and Application::IsKeyPressed('F') and buttonsincelastpress > 0.2) {
-					isRead = false;
-					it = it2 = it3 = "";
-					DialogueBoxOpen = false;
-					x = 0;
-					ScrollingText = 0;
-					buttonsincelastpress = 0;
-					move = true;
-				}
-				buttonsincelastpress += dt;
-			}
-		}
-		ScrollingText++;
-	}
 
 
 	if (EnemyHealth <= 0 and allowEnemyMovement == false) {
@@ -2717,7 +2650,7 @@ void Sp2_Minigame::UpdateENV(double dt)
 		EarnedCoins = true;
 		EnemyPosX2 = 100;
 		EnemyPosZ2 = 140;
-		EnemyViewAngle2 = 0;
+		EnemyViewAngle2 = 180;
 		EnemyShockwaveScale2 = 0.1;
 	}
 
@@ -2738,6 +2671,7 @@ void Sp2_Minigame::UpdateENV(double dt)
 
 
 	if (Diamond >= 10) {
+		static bool victorymoney = false;
 		EnemyHealth = 0;
 		EnemyHealth2 = 0;
 		EnemyHealth3 = 0;
@@ -2745,9 +2679,9 @@ void Sp2_Minigame::UpdateENV(double dt)
 		time_EnemyRespawn = 0;
 		time_EnemyRespawn2 = 0;
 		time_EnemyRespawn3 = 0;
-		if (EarnedCoins == true) {
+		if (victorymoney == false) {
 			Application::Cash += 250;
-			EarnedCoins = false;
+			victorymoney = true;
 		}
 	}
 
@@ -3016,22 +2950,22 @@ void Sp2_Minigame::UpdateENV(double dt)
 
 
 
-
-	if ((int)min == 0 and (int)sec == 0) {
-		PlaySound(TEXT("Alucard.projnext.death01.wav"), NULL, SND_FILENAME | SND_ASYNC);
-		Health = 0;
-		isAlive = false;
-	}
-	if (min >= 0) {
-		sec -= dt;
-	}
-	if (sec < 0) {
-		min--;
+	if (Health > 0 and Diamond < 10) {
+		if ((int)min == 0 and (int)sec == 0) {
+			PlaySound(TEXT("Alucard.projnext.death01.wav"), NULL, SND_FILENAME | SND_ASYNC);
+			Health = 0;
+			isAlive = false;
+		}
 		if (min >= 0) {
-			sec = 60;
+			sec -= dt;
+		}
+		if (sec < 0) {
+			min--;
+			if (min >= 0) {
+				sec = 60;
+			}
 		}
 	}
-
 
 }
 
@@ -3585,15 +3519,6 @@ void Sp2_Minigame::Render()
 		modelStack.Rotate(90, 0, 1, 0);
 		modelStack.Scale(30, 50, 30);
 		RenderMesh(meshList[GEO_ROCKS_SMALL], true);
-	}
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	{
-		modelStack.Translate(-130, -4, -50);
-		modelStack.Rotate(0, 0, 1, 0);
-		modelStack.Scale(100, 80, 100);
-		RenderMesh(meshList[GEO_LARGETREES], true);
 	}
 	modelStack.PopMatrix();
 
@@ -5518,7 +5443,6 @@ void Sp2_Minigame::Render()
 	}
 
 
-
 	if (EnemyHealth3 > 80) {
 		modelStack.PushMatrix();
 		{
@@ -5651,7 +5575,7 @@ void Sp2_Minigame::Render()
 		modelStack.PushMatrix();
 		{
 			modelStack.Translate(EnemyPosX3, 20, EnemyPosZ3);
-			if (look2.x > 0) {
+			if (look3.x > 0) {
 				modelStack.Rotate(angleHori3, 0, 1, 0);
 			}
 			else {
@@ -5681,7 +5605,7 @@ void Sp2_Minigame::Render()
 		modelStack.PushMatrix();
 		{
 			modelStack.Translate(EnemyPosX3, 20, EnemyPosZ3);
-			if (look2.x > 0) {
+			if (look3.x > 0) {
 				modelStack.Rotate(angleHori3, 0, 1, 0);
 			}
 			else {
@@ -5708,7 +5632,7 @@ void Sp2_Minigame::Render()
 
 
 
-	if (isAlive == true and timer_gameover < 1.5 and DialogueBoxOpen == false) {
+	if (isAlive == true and timer_gameover < 1.5) {
 		RenderImageOnScreen(meshList[GEO_ALUSKILLS], Color(1, 1, 1), 0, 29, 8, 0, 40, 8);
 		RenderTextOnScreen(meshList[GEO_TEXT], "X               Z                E", Color(1, 1, 1), 3.5, 29.5, 1);
 
@@ -5727,17 +5651,6 @@ void Sp2_Minigame::Render()
 			}
 		}
 	}
-
-
-	if (DialogueBoxOpen == true and interactableObject(translateX, translateZ, 0, -100, 10, 10) == true) {
-		RenderImageOnScreen(meshList[GEO_DIALOGUEUI], Color(1, 1, 1), 0, 60, 15, 60, 40, 10);
-		RenderTextOnScreen(meshList[GEO_TEXT], "Missing Person Poster", Color(1, 1, 1), 2.7, 20.2, 13.5);
-		RenderTextOnScreen(meshList[GEO_TEXT], it, Color(0, 0, 0), 3, 13.5, 10);
-		RenderTextOnScreen(meshList[GEO_TEXT], it2, Color(0, 0, 0), 3, 13, 7.5);
-		RenderTextOnScreen(meshList[GEO_TEXT], it3, Color(0, 0, 0), 3, 13.5, 5);
-		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'F' to speed up", Color(1, 1, 1), 3, 30.2, 0.8);
-	}
-
 
 	std::ostringstream ss;
 	ss.str("");
@@ -5773,8 +5686,6 @@ void Sp2_Minigame::Render()
 	}
 
 
-
-
 	if (Health > 0) {
 		if ((int)sec < 10) {
 			RenderTextOnScreen(meshList[GEO_TEXT], to_string((int)min) + ":0" + to_string((int)sec), Color(1, 1, 1), 4, 38, 52);
@@ -5785,21 +5696,11 @@ void Sp2_Minigame::Render()
 	}
 
 
-	if (interactableObject(translateX, translateZ, 0, -100, 10, 10) == true) { // Missing person poster
-		if (DialogueBoxOpen == false) {
-			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'F' to read", Color(1, 1, 1), 3, 50, 30);
-		}
-		if (Application::IsKeyPressed('F') and DialogueBoxOpen == false and buttonsincelastpress > 0.2) {
-			DialogueBoxOpen = true;
-			buttonsincelastpress = 0;
-		}
-		buttonsincelastpress += 0.01;
-	}
 	else if (interactableObject(translateX, translateZ, -60, 30, 15, 15) == true) { // Lamp post
-		if (DialogueBoxOpen == false and light[0].power == 0) {
+		if (light[0].power == 0) {
 			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'F' to on", Color(1, 1, 1), 3, 50, 30);
 		}
-		else if (DialogueBoxOpen == false and light[0].power == 1) {
+		else if (light[0].power == 1) {
 			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'F' to off", Color(1, 1, 1), 3, 50, 30);
 		}
 		if (Application::IsKeyPressed('F') and buttonsincelastpress > 0.1 and light[0].power == 1) {
@@ -5813,9 +5714,6 @@ void Sp2_Minigame::Render()
 			buttonsincelastpress = 0;
 		}
 		buttonsincelastpress += 0.01;
-	}
-	else if (interactableObject(translateX, translateZ, 0, 0, 3, 3) == true and GameDialogueTeleporter == true) {
-
 	}
 	//tent
 	else if (interactableObject(translateX, translateZ, -100, 100, 30, 30) == true) {

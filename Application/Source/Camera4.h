@@ -25,12 +25,17 @@ public:
 	~Camera4();
 	virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
 	virtual Vector3 Update(double dt, POINT mousepos, bool allowmovement, bool debug, float MOVEMENTSPEED = 0.15f); //for first person
+	virtual void Update1(double dt, POINT mousepos, bool allowmovement, bool debug, float MOVEMENTSPEED = 0.15f); //for first person
 	virtual void gotoprevpos(bool *x,bool *y, bool *z);
 	virtual void gotoprevpos();
 	virtual void Update(double dt); //for azimuth
 	virtual void MoveCam(Vector3 moveparameters);
 	virtual void Settarget(Vector3 newtarget);
 	virtual void Reset();
+
+
+	Vector3 PlayerCollision(unsigned count);
+	Vector3 CollisionCircleRect(float cx, float cy, float radius, float rx, float ry, float rw, float rh);
 };
 
 #endif

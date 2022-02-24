@@ -95,7 +95,6 @@ class Sp2_Minigame : public Scene
 		GEO_GRASS,
 		GEO_PALMTREES,
 		GEO_LARGETREES,
-		GEO_DIALOGUEUI,
 		GEO_REGULARTREE,
 		GEO_TEXT,
 		GEO_ROCKS_SMALL,
@@ -232,30 +231,19 @@ private:
 	float fps;
 
 
-	float RotateBlackHole;
-	bool isTalking;
 	bool isAlive;
 	float Health;
 	bool isCollided;
 
-	bool isRead;
-	bool DialogueBoxOpen;
 	bool testcollect;
-	int x;
-	std::string GameStartsDialogue;
-	std::string it;
-	std::string it2;
-	std::string it3;
-	int ScrollingText;
+
 
 	bool is1stPersonCam;
 	bool EarnedCoins;
 	float buttonsincelastpress;
 
-	bool GameDialogueTeleporter = true;
 	bool EnemySpotted = false;
 	bool isOpenTent = true;
-	bool isSufficient;
 
 	void RenderMesh(Mesh* mesh, bool enableLight);
 	void RenderText(Mesh* mesh, std::string text, Color color);
@@ -280,7 +268,6 @@ private:
 	float test;
 	bool jump;
 	bool Ground;
-	float rotateEnemyBody;
 	float EnemyXSpeed, EnemyZSpeed;
 	bool allowEnemyMovement;
 	bool swingforwardEnemy;
@@ -301,7 +288,6 @@ private:
 	float test2;
 	bool jump2;
 	bool Ground2;
-	float rotateEnemyBody2;
 	float EnemyXSpeed2, EnemyZSpeed2;
 	bool allowEnemyMovement2;
 	bool swingforwardEnemy2;
@@ -323,7 +309,6 @@ private:
 	float test3;
 	bool jump3;
 	bool Ground3;
-	float rotateEnemyBody3;
 	float EnemyXSpeed3, EnemyZSpeed3;
 	bool allowEnemyMovement3;
 	bool swingforwardEnemy3;
@@ -352,11 +337,8 @@ private:
 	float timer_Skill2 = 0;
 	float timer_Skill3 = 0;
 
-	int Dialogue = 1;
-	float offsetTextdisplayPurchase;
-	bool isShopUIOpen;
+
 	int Diamond;
-	std::string PurchaseText;
 
 	float angle, angle2, angle3;
 	float EnemyViewAngle, EnemyViewAngle2, EnemyViewAngle3;

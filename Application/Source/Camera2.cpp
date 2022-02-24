@@ -33,26 +33,26 @@ void Camera2::ThirdPersonCam(double& dt, const Vector3& ionPos)
 	static const float CAM_ROT_SPEED = 50.0f;
 	static const float CAM_ZOOM_SPEED = 100.0f;
 
-	if (Application::IsKeyPressed(VK_LEFT))
-	{
-		float yaw = CAM_ROT_SPEED * static_cast<float>(dt);
-		Mtx44 rotation;
-		rotation.SetToRotation(yaw, 0.0f, 1.0f, 0.0f);
-		position -= ionPos;
-		position = rotation * position;
-		position += ionPos;
-		up = rotation * up;
-	}
-	if (Application::IsKeyPressed(VK_RIGHT))
-	{
-		float yaw = -CAM_ROT_SPEED * static_cast<float>(dt);
-		Mtx44 rotation;
-		rotation.SetToRotation(yaw, 0.0f, 1.0f, 0.0f);
-		position -= ionPos;
-		position = rotation * position;
-		position += ionPos;
-		up = rotation * up;
-	}
+	//if (Application::IsKeyPressed(VK_LEFT))
+	//{
+	//	float yaw = CAM_ROT_SPEED * static_cast<float>(dt);
+	//	Mtx44 rotation;
+	//	rotation.SetToRotation(yaw, 0.0f, 1.0f, 0.0f);
+	//	position -= ionPos;
+	//	position = rotation * position;
+	//	position += ionPos;
+	//	up = rotation * up;
+	//}
+	//if (Application::IsKeyPressed(VK_RIGHT))
+	//{
+	//	float yaw = -CAM_ROT_SPEED * static_cast<float>(dt);
+	//	Mtx44 rotation;
+	//	rotation.SetToRotation(yaw, 0.0f, 1.0f, 0.0f);
+	//	position -= ionPos;
+	//	position = rotation * position;
+	//	position += ionPos;
+	//	up = rotation * up;
+	//}
 
 	if (Application::IsKeyPressed('N'))
 	{

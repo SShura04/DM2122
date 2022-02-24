@@ -12,6 +12,7 @@ public:
 		gs_mainmenu,
 		gs_game,
 		gs_jigglypuffgame,
+		gs_shootingminigame,
 	};
 	Application();
 	~Application();

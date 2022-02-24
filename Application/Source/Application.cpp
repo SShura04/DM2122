@@ -11,9 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//#include "SceneAssignment.h"
-//#include "SceneAssignment2.h"
-//#include "SceneUI.h"
+#include "ShootingMinigame.h"
 #include "SP2.h"
 #include "Jigglypuff_Minigame.h"
 
@@ -27,7 +25,8 @@ unsigned Application::m_width;
 unsigned Application::m_height;
 unsigned Application::GameScene;
 float Application::Minigame_timer = 0;
-int Application::Cash = 100;
+int Application::Cash = 1000;
+
 bool Application::isMuted = false;
 bool Application::ismusicPlaying = false;
 
@@ -152,9 +151,11 @@ void Application::Run()
 	//Main Loop
 	Scene* scene1 = new SP2();
 	Scene* scene2 = new Sp2_Minigame();
+	Scene* scene3 = new shootingminigame();
 	Scene* scene = scene1;
 	scene1->Init();
 	scene2->Init();
+	scene3->Init();
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 
@@ -172,6 +173,11 @@ void Application::Run()
 			scene->UseScene();
 			scene = scene2;
 		}
+		else if (GameScene == gs_shootingminigame)
+		{
+			scene->UseScene();
+			scene = scene3;
+		}
 
 		bool quit = scene->Update(m_timer.getElapsedTime());
 		scene->Render();
@@ -188,8 +194,10 @@ void Application::Run()
 	} //Check if the ESC key had been pressed or if the window had been closed
 	scene1->Exit();
 	scene2->Exit();
+	scene3->Exit();
 	delete scene1;
 	delete scene2;
+	delete scene3;
 }
 
 void Application::Exit()

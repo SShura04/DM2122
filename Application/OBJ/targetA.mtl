@@ -1,0 +1,14 @@
+# Created by Kenney (www.kenney.nl)
+
+newmtl pink
+Ka 0.1960784 0.0196078 0.1117647
+Kd 0.9960784 0.2196078 0.4117647
+
+newmtl _defaultMat
+Ka 0.8 0.8 0.8
+Kd 1 1 1
+
+newmtl darkMetal
+Ka 0.3921569 0.4352941 0.5686275
+Kd 0.5921569 0.6352941 0.7686275
+

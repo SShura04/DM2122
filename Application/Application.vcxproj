@@ -166,6 +166,7 @@
     <ClCompile Include="Source\Objects.cpp" />
     <ClCompile Include="Source\PoliceAI.cpp" />
     <ClCompile Include="Source\shader.cpp" />
+    <ClCompile Include="Source\ShootingMinigame.cpp" />
     <ClCompile Include="Source\SP2.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
   </ItemGroup>
@@ -191,6 +192,7 @@
     <ClInclude Include="Source\PoliceAI.h" />
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\shader.hpp" />
+    <ClInclude Include="Source\ShootingMinigame.h" />
     <ClInclude Include="Source\SP2.h" />
     <ClInclude Include="Source\Utility.h" />
     <ClInclude Include="Source\Vertex.h" />

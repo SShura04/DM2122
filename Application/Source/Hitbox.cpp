@@ -131,3 +131,5 @@ bool Hitbox::Checkforcollision(Hitbox otherhitbox)
 	}
 	return false;
 }
+
+

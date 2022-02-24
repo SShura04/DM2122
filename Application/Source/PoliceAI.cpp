@@ -105,12 +105,38 @@ void PoliceAI::PoliceAIUpdate(Vector3 playerpos, Navmesh* navmesh, float dt, Obj
 			}
 		}
 	}
-
+	static bool updatedlastknownpos = false;
 
 	//if true recalculate the movement path
 	if (!canseeplayer)
 	{
-		if (movementnodes->size() == 0)
+		static unsigned num = 1;
+		if (movementnodes->size() > 0)
+		{
+			if (num > movementnodes->size())
+			{
+				//make the ai wander to the player's position
+				playerlastknownlocation = playerpos;
+				policepathfound = false;
+				policesearching = true;
+				updatedlastknownpos = true;
+				num = 1;
+				(*movementnodes).clear();
+			}
+			else
+			{
+				Vector3 movedirection = (*movementnodes)[movementnodes->size() - num]->getPosition() - worldposition;
+				if (movedirection.Length() < 0.4)
+				{
+					num++;
+				}
+				movedirection.Normalize();
+				viewdirection = movedirection;
+				movedirection = movedirection * policemovementspeed * dt;
+				worldposition = worldposition + movedirection;
+			}
+		}
+		if (movementnodes->size() == 0 || updatedlastknownpos)
 		{
 			//convert the startpositions to the grid number by finding the nearest coords
 			NavmeshNode* marker;
@@ -151,26 +177,15 @@ void PoliceAI::PoliceAIUpdate(Vector3 playerpos, Navmesh* navmesh, float dt, Obj
 			TargetNode = marker;
 			policepathfound = false;
 			policesearching = true;
+			updatedlastknownpos = false;
+			num = 1;
 		}
 		navmesh->FindPathGrid(closednodes, opennodes, movementnodes, StartNode, TargetNode, current, &policepathfound, &policesearching);
-		if (movementnodes->size() > 0 && policepathfound)
-		{
-			//move along the path
-			Vector3 movedirectiontest;
-			movedirectiontest = (*movementnodes)[movementnodes->size() - 1]->getPosition() - worldposition;
-			if (movedirectiontest.Length() <= 0.4)
-			{
-				std::vector <NavmeshNode*> ::iterator it = movementnodes->end();
-				movementnodes->erase(--it);
-			}
-			viewdirection = movedirectiontest;
-			viewdirection.Normalize();
-			movedirectiontest = movedirectiontest.Normalize() * policemovementspeed * dt;
-			worldposition = worldposition + movedirectiontest;
-		}
 	}
-	else
+	else if (canseeplayer)
 	{
+		policepathfound = false;
+		policesearching = false;
 		Vector3 movedirectiontest;
 		movedirectiontest = playerpos - worldposition;
 		movedirectiontest.y = 0;
@@ -178,14 +193,14 @@ void PoliceAI::PoliceAIUpdate(Vector3 playerpos, Navmesh* navmesh, float dt, Obj
 		viewdirection = movedirectiontest;
 		movedirectiontest = movedirectiontest * policemovementspeed * dt;
 		worldposition = worldposition + movedirectiontest;
+		updatedlastknownpos = true;
+		movementnodes->clear();
 
 		//update last known location
 		if (playerlastknownlocation.x != playerpos.x || playerlastknownlocation.z != playerpos.z)
 		{
 			playerlastknownlocation = playerpos;
 		}
-		policepathfound = false;
-		policesearching = false;
 	}
 	policeplayervector2 = viewdirection.Normalize();
 	player2policeangle = atan2(policeplayervector2.z * viewXZ.x - policeplayervector2.x * viewXZ.z, policeplayervector2.x * viewXZ.x + policeplayervector2.z * viewXZ.z) * (180 / Math::PI);
@@ -247,12 +262,12 @@ bool PoliceAI::SpawnPolice(Vector3 spawnposition, float PoliceMovementSpeed, Vec
 void PoliceAI::DespawnPolice()
 {
 	policespawned = false;
+	policeangle = 0;
 	worldposition = Vector3(100, -2, 1);
 	opennodes->clear();
 	closednodes->clear();
 	current = nullptr;
 	movementnodes->clear();
-	policeangle = 0;
 }
 
 bool PoliceAI::GetSpawnStatus()
