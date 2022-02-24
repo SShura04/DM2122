@@ -1,5 +1,5 @@
-#ifndef SCENE_UI_H
-#define SCENE_UI_H
+#ifndef SCENE_SP2_H
+#define SCENE_SP2_H
 
 #include "Scene.h"
 #include "CameraTest.h"
