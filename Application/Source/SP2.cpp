@@ -975,6 +975,16 @@ void SP2::Init()
 		}
 	}
 
+	for (unsigned idx = 0; idx < hb_total; idx++)
+	{
+		if (!objectlist[idx].getissetup())
+		{
+			continue;
+		}
+
+		objectlist[idx].sethitboxcollisionsize(Vector3(objectlist[idx].gethitboxcollisionsize().x, 2, objectlist[idx].gethitboxcollisionsize().z));
+	}
+
 	polices.push_back(new PoliceAI(90, Vector3(500, 6, 0), 40, hb_NPC1));
 	objectlist[hb_POLICE1].setrenderobject(false);
 
@@ -4907,7 +4917,7 @@ void SP2::UpdateENV(double dt)
 			if (finditemchance == 1)
 			{
 				GD_PrintLine1 = "Oh a ring!";
-				GD_PrintLine2 = "I can try to convince the pawn shop to buy this from me.";
+				GD_PrintLine2 = "I can try to convince someone to buy this from me.";
 				GD_PrintLine3 = "";
 				Dialogue = 2;
 				timesincelastbuttonpress = 0;
@@ -4917,7 +4927,7 @@ void SP2::UpdateENV(double dt)
 			{
 				GD_PrintLine1 = "Oh an old watch!";
 				GD_PrintLine2 = "It's still ticking...";
-				GD_PrintLine3 = "I can try to convince the pawn shop to buy this from me.";
+				GD_PrintLine3 = "I can try to convince someone to buy this from me.";
 				Dialogue = 2;
 				timesincelastbuttonpress = 0;
 				watches++;
@@ -4925,7 +4935,7 @@ void SP2::UpdateENV(double dt)
 			if (finditemchance >= 3)
 			{
 				GD_PrintLine1 = "A beautiful necklace!";
-				GD_PrintLine2 = "I can try to convince the pawn shop to buy this from me.";
+				GD_PrintLine2 = "I can try to convince someone to buy this from me.";
 				GD_PrintLine3 = "";
 				Dialogue = 2;
 				timesincelastbuttonpress = 0;
@@ -4970,7 +4980,7 @@ void SP2::UpdateENV(double dt)
 			if (finditemchance == 1)
 			{
 				GD_PrintLine1 = "Oh a ring!";
-				GD_PrintLine2 = "I can try to convince the pawn shop to buy this from me.";
+				GD_PrintLine2 = "I can try to convince someone to buy this from me.";
 				GD_PrintLine3 = "";
 				Dialogue = 2;
 				timesincelastbuttonpress = 0;
@@ -4980,7 +4990,7 @@ void SP2::UpdateENV(double dt)
 			{
 				GD_PrintLine1 = "Oh an old watch!";
 				GD_PrintLine2 = "It's still ticking...";
-				GD_PrintLine3 = "I can try to convince the pawn shop to buy this from me.";
+				GD_PrintLine3 = "I can try to convince someone to buy this from me.";
 				Dialogue = 2;
 				timesincelastbuttonpress = 0;
 				watches++;
@@ -4988,7 +4998,7 @@ void SP2::UpdateENV(double dt)
 			if (finditemchance >= 3)
 			{
 				GD_PrintLine1 = "A beautiful necklace!";
-				GD_PrintLine2 = "I can try to convince the pawn shop to buy this from me.";
+				GD_PrintLine2 = "I can try to convince someone to buy this from me.";
 				GD_PrintLine3 = "";
 				Dialogue = 2;
 				timesincelastbuttonpress = 0;
@@ -5033,7 +5043,7 @@ void SP2::UpdateENV(double dt)
 			if (finditemchance == 1)
 			{
 				GD_PrintLine1 = "Oh a ring!";
-				GD_PrintLine2 = "I can try to convince the pawn shop to buy this from me.";
+				GD_PrintLine2 = "I can try to convince someone to buy this from me.";
 				GD_PrintLine3 = "";
 				Dialogue = 2;
 				timesincelastbuttonpress = 0;
@@ -5043,7 +5053,7 @@ void SP2::UpdateENV(double dt)
 			{
 				GD_PrintLine1 = "Oh an old watch!";
 				GD_PrintLine2 = "It's still ticking...";
-				GD_PrintLine3 = "I can try to convince the pawn shop to buy this from me.";
+				GD_PrintLine3 = "I can try to convince someone to buy this from me.";
 				Dialogue = 2;
 				timesincelastbuttonpress = 0;
 				watches++;
@@ -5051,7 +5061,7 @@ void SP2::UpdateENV(double dt)
 			if (finditemchance >= 3)
 			{
 				GD_PrintLine1 = "A beautiful necklace!";
-				GD_PrintLine2 = "I can try to convince the pawn shop to buy this from me.";
+				GD_PrintLine2 = "I can try to convince someone to buy this from me.";
 				GD_PrintLine3 = "";
 				Dialogue = 2;
 				timesincelastbuttonpress = 0;
@@ -5096,7 +5106,7 @@ void SP2::UpdateENV(double dt)
 			if (finditemchance == 1)
 			{
 				GD_PrintLine1 = "Oh a ring!";
-				GD_PrintLine2 = "I can try to convince the pawn shop to buy this from me.";
+				GD_PrintLine2 = "I can try to convince someone to buy this from me.";
 				GD_PrintLine3 = "";
 				Dialogue = 2;
 				timesincelastbuttonpress = 0;
@@ -5106,7 +5116,7 @@ void SP2::UpdateENV(double dt)
 			{
 				GD_PrintLine1 = "Oh an old watch!";
 				GD_PrintLine2 = "It's still ticking...";
-				GD_PrintLine3 = "I can try to convince the pawn shop to buy this from me.";
+				GD_PrintLine3 = "I can try to convince someone to buy this from me.";
 				Dialogue = 2;
 				timesincelastbuttonpress = 0;
 				watches++;
@@ -5114,7 +5124,7 @@ void SP2::UpdateENV(double dt)
 			if (finditemchance >= 3)
 			{
 				GD_PrintLine1 = "A beautiful necklace!";
-				GD_PrintLine2 = "I can try to convince the pawn shop to buy this from me.";
+				GD_PrintLine2 = "I can try to convince someone to buy this from me.";
 				GD_PrintLine3 = "";
 				Dialogue = 2;
 				timesincelastbuttonpress = 0;
@@ -5159,7 +5169,7 @@ void SP2::UpdateENV(double dt)
 			if (finditemchance == 1)
 			{
 				GD_PrintLine1 = " Oh a ring!";
-				GD_PrintLine2 = " I can try to convince the pawn shop to buy this from me.";
+				GD_PrintLine2 = " I can try to convince someone to buy this from me.";
 				GD_PrintLine3 = "";
 				Dialogue = 2;
 				timesincelastbuttonpress = 0;
@@ -5169,7 +5179,7 @@ void SP2::UpdateENV(double dt)
 			{
 				GD_PrintLine1 = " Oh an old watch!";
 				GD_PrintLine2 = " It's still ticking...";
-				GD_PrintLine3 = " I can try to convince the pawn shop to buy this from me.";
+				GD_PrintLine3 = " I can try to convince someone to buy this from me.";
 				Dialogue = 2;
 				timesincelastbuttonpress = 0;
 				watches++;
@@ -5177,7 +5187,7 @@ void SP2::UpdateENV(double dt)
 			if (finditemchance >= 3)
 			{
 				GD_PrintLine1 = " A beautiful necklace!";
-				GD_PrintLine2 = " I can try to convince the pawn shop to buy this from me.";
+				GD_PrintLine2 = " I can try to convince someone to buy this from me.";
 				GD_PrintLine3 = "";
 				Dialogue = 2;
 				timesincelastbuttonpress = 0;
@@ -5223,7 +5233,7 @@ void SP2::UpdateENV(double dt)
 			if (finditemchance == 1)
 			{
 				GD_PrintLine1 = " Oh a ring!";
-				GD_PrintLine2 = " I can try to convince the pawn shop to buy this from me.";
+				GD_PrintLine2 = " I can try to convince someone to buy this from me.";
 				GD_PrintLine3 = "";
 				Dialogue = 2;
 				timesincelastbuttonpress = 0;
@@ -5233,7 +5243,7 @@ void SP2::UpdateENV(double dt)
 			{
 				GD_PrintLine1 = " Oh an old watch!";
 				GD_PrintLine2 = " It's still ticking...";
-				GD_PrintLine3 = " I can try to convince the pawn shop to buy this from me.";
+				GD_PrintLine3 = " I can try to convince someone to buy this from me.";
 				Dialogue = 2;
 				timesincelastbuttonpress = 0;
 				watches++;
@@ -5241,7 +5251,7 @@ void SP2::UpdateENV(double dt)
 			if (finditemchance >= 3)
 			{
 				GD_PrintLine1 = " A beautiful necklace!";
-				GD_PrintLine2 = " I can try to convince the pawn shop to buy this from me.";
+				GD_PrintLine2 = " I can try to convince someone to buy this from me.";
 				GD_PrintLine3 = "";
 				Dialogue = 2;
 				timesincelastbuttonpress = 0;
@@ -5287,7 +5297,7 @@ void SP2::UpdateENV(double dt)
 			if (finditemchance == 1)
 			{
 				GD_PrintLine1 = " Oh a ring!";
-				GD_PrintLine2 = " I can try to convince the pawn shop to buy this from me.";
+				GD_PrintLine2 = " I can try to convince someone to buy this from me.";
 				GD_PrintLine3 = "";
 				Dialogue = 2;
 				timesincelastbuttonpress = 0;
@@ -5297,7 +5307,7 @@ void SP2::UpdateENV(double dt)
 			{
 				GD_PrintLine1 = " Oh an old watch!";
 				GD_PrintLine2 = " It's still ticking...";
-				GD_PrintLine3 = " I can try to convince the pawn shop to buy this from me.";
+				GD_PrintLine3 = " I can try to convince someone to buy this from me.";
 				Dialogue = 2;
 				timesincelastbuttonpress = 0;
 				watches++;
@@ -5305,7 +5315,7 @@ void SP2::UpdateENV(double dt)
 			if (finditemchance >= 3)
 			{
 				GD_PrintLine1 = " A beautiful necklace!";
-				GD_PrintLine2 = " I can try to convince the pawn shop to buy this from me.";
+				GD_PrintLine2 = " I can try to convince someone to buy this from me.";
 				GD_PrintLine3 = "";
 				Dialogue = 2;
 				timesincelastbuttonpress = 0;
